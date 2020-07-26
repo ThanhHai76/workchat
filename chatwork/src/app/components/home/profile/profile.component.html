@@ -1,0 +1,294 @@
+<!-- Profile  -->
+<div class="text-center border rounded-0 shadow-sm profile-box">
+    <div style="text-align: left;">
+      <ul class="nav">
+        <li class="col">
+          <h3>Profile</h3>
+        </li>
+        <li class="col"></li>
+        <li class="col"></li>
+        <li class="col"></li>
+        <li class="col"></li>
+  
+        <li class="col">
+          <!-- Button trigger modal -->
+          <i class="fa fa-pencil" data-toggle="modal" data-target="#exampleModalCenter" aria-hidden="true"></i>
+  
+        </li>
+        <li class="col">
+          <i class="fa fa-times" (click)="off()" aria-hidden="true"></i>
+        </li>
+      </ul>
+    </div>
+  
+    <div>
+      <img class="rounded-circle" id="img-profile" src="./../../../../assets/images/th.jpg" />
+    </div>
+    <div style="height: 80px; margin-top: 20px;">
+      <h4>{{ username }}</h4>
+      <p style="font-size: 12px;">Profile Description</p>
+  
+      <ul class="nav nav-tabs justify-content-center">
+        <li class="nav-item">
+          <a class="{{ isTab ? 'nav-link active' : 'nav-link' }}" href="#" (click)="changeAction()">About</a>
+        </li>
+        <li class="nav-item">
+          <a class="{{ isTab ? 'nav-link' : 'nav-link active' }}" href="#" (click)="changeAction()">Media</a>
+        </li>
+      </ul>
+    </div>
+  
+    <div id="about">
+      <div></div>
+      <div>
+        <p>Apollo University, Delhi, India Test</p>
+      </div>
+  
+      <ul class="list-group">
+        <h6>Email</h6>
+        <li class="list-group-item text-muted">{{ email }}</li>
+        <h6>Gender</h6>
+        <li class="list-group-item small text-muted">{{ gender }}</li>
+        <h6>Phone</h6>
+        <li class="list-group-item small text-muted">{{ phone }}</li>
+        <h6>Address</h6>
+        <li class="list-group-item small text-muted">{{ address }}</li>
+      </ul>
+    </div>
+  
+    <div id="media">
+      <div>
+        <ul class="nav">
+          <li class="col">Recent Files</li>
+          <li class="col">
+            <i class="fa fa-upload" aria-hidden="true"></i>Upload
+          </li>
+        </ul>
+      </div>
+  
+      <div>
+        <ul class="list-group">
+          <li class="list-group-item">
+            <i class="fa fa-file" aria-hidden="true"></i> <label>Report</label>
+          </li>
+          <li class="list-group-item">
+            <i class="fa fa-file-image-o" aria-hidden="true"></i>
+            <label>Image</label>
+          </li>
+          <li class="list-group-item">
+            <i class="fa fa-file-word-o" aria-hidden="true"></i>
+            <label>Word</label>
+          </li>
+          <li class="list-group-item">
+            <i class="fa fa-file-excel-o" aria-hidden="true"></i>
+            <label>Excel</label>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  
+  
+  <!-- Edit Profile -->
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalCenterTitle">
+            <i class="fa fa-pencil" aria-hidden="true"></i>Edit Profile</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item">
+              <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home"
+                aria-selected="true">Personal</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="profile-tab" data-toggle="tab" href="#about-tab"  role="tab" aria-controls="profile"
+                aria-selected="false">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact"
+                aria-selected="false">Social Links</a>
+            </li>
+          </ul>
+   
+          <div class="tab-content" id="myTabContent">
+  
+            <!-- Personal Content-->
+            <div class="tab-pane active" id="home" role="tabpanel" aria-labelledby="home-tab">
+              <form class="form-group" (formGroup)="updateForm"  (ngSubmit)="Update()">
+                <!-- [formGroup]="UpdateForm"  -->
+                <!-- Error message -->
+                <div *ngIf="errorMsg" class="alert alert-danger" role="alert"> 
+                  {{ errorMsg }} 
+                </div>
+  
+                <div class="u-form-group">
+                  <h6>Fullname</h6>
+                  <div class="input-group mb-3">
+                    <input type="text" formControlName="name" (ngModel) ="name" class="form-control" placeholder='' 
+                      aria-label="Fullname">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" id="addon-wrapping"><i class="fa fa-user"
+                          aria-hidden="true"></i></span>
+                    </div>
+                  </div> 
+                </div>
+                <div class="u-form-group">
+                  <h6>Avatar</h6>
+                  <div class="input-group mb-3">
+                    <div>
+                      <img src="./../../../../assets/images/th.jpg" alt="user" class="rounded-circle" id="img-small">
+                    </div>
+                    <input type="text" formControlName="avatar" (ngModel) ="avatar" class="form-control" placeholder="Choose File"
+                      aria-label="">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">Browse</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="u-form-group">
+                  <h6>City</h6>
+                  <div class="input-group mb-3">
+                    <input type="text" formControlName="address" (ngModel) ="add" class="form-control" placeholder={{address}}
+                      aria-label="City">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" id="addon-wrapping"><i class="fa fa-bullseye"
+                          aria-hidden="true"></i></span>
+                    </div>
+                  </div>
+                </div>
+                <div class="u-form-group">
+                  <h6>Phone</h6>
+                  <div class="input-group mb-3">
+                    <input type="text" formControlName="phone" (ngModel) ="number" class="form-control" placeholder={{phone}}>
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" id="addon-wrapping"><i class="fa fa-phone"
+                          aria-hidden="true"></i></span>
+                    </div>
+                  </div>
+                </div>
+  
+                <div class="u-form-group">
+                  <h6>Website</h6>
+                  <div class="input-group mb-3">
+                    <input type="text" formControlName="website" (ngModel) ="website" class="form-control" placeholder="http://">
+                  </div>
+                </div>
+  
+                  <button type="submit" (click)="Update()" class="btn btn-primary">Save</button>
+                  <!-- [disabled]="!UpdateForm.valid" -->
+                
+              </form>
+            </div>
+
+  
+            <!-- About Content-->
+            <div class="tab-pane fade" id="about-tab" role="tabpanel" aria-labelledby="profile-tab">
+              <form>
+                <label> a few words that describe you</label>
+                <input type="text" class="form-control" style="height: 60px !important; margin-bottom: 10px;">
+                <input type="checkbox"> View profile
+                <button type="submit" class="btn btn-primary">Save</button>
+              </form>
+  
+            </div>
+  
+            <!-- Social Link Content -->
+            <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+  
+              <div class="input-group mb-3">
+                <input type="text" formControlName="name" class="form-control" placeholder="Username"
+                  aria-label="Fullname">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="addon-wrapping">
+                    <i class="fa fa-facebook-square" aria-hidden="true"></i>
+                  </span>
+                </div>
+              </div> 
+  
+              <div class="input-group mb-3">
+                <input type="text" formControlName="name" class="form-control" placeholder="Username"
+                  aria-label="Fullname">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="addon-wrapping">
+                    <i class="fa fa-twitter-square" aria-hidden="true"></i>
+                  </span>
+                </div>
+              </div>
+              
+              <div class="input-group mb-3">
+                <input type="text" formControlName="name" class="form-control" placeholder="Username"
+                  aria-label="Fullname">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="addon-wrapping">
+                    <i class="fa fa-instagram" aria-hidden="true"></i>
+                  </span>
+                </div>
+              </div>
+  
+              <div class="input-group mb-3">
+                <input type="text" formControlName="name" class="form-control" placeholder="Username"
+                  aria-label="Fullname">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="addon-wrapping">
+                    <i class="fa fa-linkedin" aria-hidden="true"></i>
+                  </span>
+                </div>
+              </div>
+  
+              <div class="input-group mb-3">
+                <input type="text" formControlName="name" class="form-control" placeholder="Username"
+                  aria-label="Fullname">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="addon-wrapping">
+                    <i class="fa fa-futbol-o" aria-hidden="true"></i>
+                  </span>
+                </div>
+              </div>
+  
+              <div class="input-group mb-3">
+                <input type="text" formControlName="name" class="form-control" placeholder="Username"
+                  aria-label="Fullname">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="addon-wrapping">
+                    <i class="fa fa-youtube" aria-hidden="true"></i>
+                  </span>
+                </div>
+              </div>
+  
+              <div class="input-group mb-3">
+                <input type="text" formControlName="name" class="form-control" placeholder="Username"
+                  aria-label="Fullname">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="addon-wrapping">
+                    <i class="fa fa-google-plus-square" aria-hidden="true"></i>
+                  </span>
+                </div>
+              </div>
+  
+              <div class="input-group mb-3">
+                <input type="text" formControlName="name" class="form-control" placeholder="Username"
+                  aria-label="Fullname">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="addon-wrapping">
+                    <i class="fa fa-phone-square" aria-hidden="true"></i>
+                  </span>
+                </div>
+              </div>
+  
+              <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+          </div>
+        </div>
+  
+  
+      </div>
+    </div>
+  </div>

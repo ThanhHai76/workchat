@@ -1,0 +1,150 @@
+header.main-header {
+  background-color: #26a69a;
+  padding: 0.5rem 0 0.5rem 1rem;
+  z-index: 9999;
+}
+
+header.main-header #logo {
+  margin: -25px;
+  width: 450px;
+  height: 60px;
+  max-width: 70%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -moz-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  padding-left: 5px;
+}
+
+header.main-header #logo img {
+  height: 50px;
+}
+
+header.main-header .header-right {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -moz-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+header figure.avatar {
+  display: inline-block;
+  margin-bottom: 0;
+  height: 2.3rem;
+  width: 2.3rem;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+}
+
+header figure.avatar > a > img,
+header figure.avatar > img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+  object-fit: cover;
+}
+
+header .navbar-toggler {
+  border: none;
+}
+
+header a.nav-link:hover {
+  font-weight: 500;
+}
+
+header .header-right span:hover {
+  font-weight: 500;
+}
+
+@media (min-width: 992px) {
+  header .nav-item {
+    padding: 0 20px;
+  }
+}
+
+@media (max-width: 992px) {
+  #navbarSupportedContent {
+    margin-top: 25px;
+  }
+}
+
+.text-small {
+  font-size: 0.9rem;
+}
+
+.rounded-lg {
+  border-radius: 0.5rem;
+}
+
+.fa-phone,
+.fa-video-camera {
+  color: white;
+}
+
+ #overlay {
+  margin-top: 60px;
+  position: fixed;
+  display: none;
+  width: 75%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 99 ;
+  cursor: pointer;
+}
+#overlay2 {
+  position: fixed;
+  display: none;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 99;
+  cursor: pointer;
+}
+#profile{
+  margin-top: 60px;
+  position: fixed;
+  display: none;
+  z-index: 9999 ;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+}
+
+#img-profile {
+  /*position: absolute;*/
+  margin-top: -30px;
+  margin-left: auto;
+  margin-right: auto;
+  /*width: 50%;*/
+  width: 100px;
+  height: 100px;
+  background-color: rgb(255, 255, 255);
+  padding: 2px;
+}
+.fa-times-circle{
+  color: #fd397a;
+  display: inline-block;
+  margin-bottom: 0;
+  font-size: 70px;
+}
+#phone-call, #video-camera{
+  margin-top: 15px;
+  background-color: #0abb87;
+  font-size: 30px;
+  color: white;
+}
+
+

@@ -1,0 +1,135 @@
+<div id="profile">
+  <app-profile  [username]="username" [userId]="userId" [email]="email" [gender]="gender" [address]="address"
+  [phone]="phone">
+  </app-profile>
+  <!-- -->
+</div>
+
+<div id="overlay" (click)="off()"></div> 
+<div id="overlay2" (click)="off()"></div>
+<header class="main-header">
+  <nav class="navbar navbar-expand-lg navbar-light w-100">
+    <div id="logo">
+      <a href="#">
+        <img src="../../../assets/images/logo_hz.png" alt="logo">
+      </a>
+    </div>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mx-auto">
+        <li class="nav-item active">
+          <a class="nav-link text-white" href="#" (click)="profile()">Profile<span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link text-white" href="#" (click)="on()">Friends</a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link text-white" href="#" (click)="on()">Favorites</a>
+        </li>
+      </ul>
+
+      <ul class="navbar-nav mx-auto">
+        <li class="nav-item active">
+          <a class="nav-link text-white" href="#">
+            <i class="fa fa-video-camera" data-toggle="modal" data-target="#ModalCenter-Video" aria-hidden="true"></i>
+          </a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link text-white" href="#">
+            <i class="fa fa-phone" data-toggle="modal" data-target="#ModalCenter"
+              aria-hidden="true"></i>
+          </a>
+        </li>
+      </ul>
+
+      <div class="header-right">
+        <div class="dropdown ml-auto">
+          <a href="#" data-toggle="dropdown">
+            <span class="mr-2 d-none d-sm-inline-block text-white">{{username}}</span>
+            <figure class="avatar">
+              <img src="../../../assets/images/th.jpg" class="rounded-circle" alt="image">
+            </figure>
+          </a>
+          <div class="dropdown-menu dropdown-menu-right">
+            <a href="#" class="dropdown-item" data-navigation-target="contact-information"
+              (click)="profile()">Profile</a>
+            <a href="#" class="dropdown-item" data-toggle="modal" data-target="#settingModal">Settings</a>
+            <div class="dropdown-divider"></div>
+            <a href="#" (click)="logout()" class="dropdown-item text-danger">Logout</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+
+
+
+<div class="row rounded-lg overflow shadow">
+  <app-chat-list [username]="username" [userId]="userId"></app-chat-list>
+  <!--  --> 
+  <app-conversation></app-conversation>
+</div>
+
+<!-- Call Box -->
+<div class="modal fade" id="ModalCenter" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+      </div>
+
+      <div class="text-center modal-body">
+        <div>
+          <img class="rounded-circle" id="img-profile" src="./../../../assets/images/th.jpg" />
+        </div>
+        <div><h4>Thanh Hai <span style="color: #26a69a;">Calling</span>  </h4> </div>
+        <div>
+          <ul class="nav justify-content-center">
+            <li class="nav-item">
+              <a class="nav-link" href="#"><i class="fa fa-times-circle" aria-hidden="true"></i></a>
+            </li>
+            <li class="nav-item">
+              <a id="phone-call" class="nav-link rounded-circle" href="#"><i  class="fa fa-phone " aria-hidden="true"></i></a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Video Call -->
+<div class="modal fade" id="ModalCenter-Video" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle-Video"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+      </div>
+
+      <div class="text-center modal-body">
+        <div>
+          <img class="rounded-circle" id="img-profile" src="./../../../assets/images/th.jpg" />
+        </div>
+        <div><h4>Thanh Hai <span style="color: #26a69a;">Video Calling</span> </h4> </div>
+        <div>
+          <ul class="nav justify-content-center">
+            <li class="nav-item">
+              <a class="nav-link" href="#"><i class="fa fa-times-circle" aria-hidden="true"></i></a>
+            </li>
+            <li class="nav-item">
+              <a id="video-camera" class="nav-link rounded-circle" href="#"><i  class="fa fa-video-camera" aria-hidden="true"></i></a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
