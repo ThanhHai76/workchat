@@ -7,8 +7,6 @@ import { User } from './../../commons/interfaces/user';
   providedIn: 'root'
 })
 export class DataShareService {
-	public userId: string = null;
-	public userName: string = null;
 
 	private user = new BehaviorSubject(null);
 	selectedUser: Observable<User> = this.user.asObservable();
@@ -20,17 +18,4 @@ export class DataShareService {
 		this.user.next(message);
 	}
 
-	getUserId(): string {
-		if (this.userId  === null) {
-			this.userId = localStorage.getItem('userid');
-		}
-		return this.userId;
-	}
-
-	getUserName(): string {
-		if (this.userName === null) {
-			this.userName = localStorage.getItem('username');
-		}
-		return this.userName;
-	}
 }

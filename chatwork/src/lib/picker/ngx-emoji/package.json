@@ -1,0 +1,13 @@
+{
+  "name": "@ctrl/ngx-emoji-mart/ngx-emoji",
+  "author": "scttcper",
+  "repository": "scttcper/ngx-emoji-mart",
+  "license": "MIT",
+  "sideEffects": [ "*.css" ],
+  "ngPackage": {
+    "lib": {
+      "entryFile": "index.ts"
+    },
+    "dest": "../../../../dist/emoji"
+  }
+}

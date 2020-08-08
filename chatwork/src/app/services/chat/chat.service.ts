@@ -8,10 +8,11 @@ import { environment } from './../../../environments/environment';
 /* importing interfaces starts */
 import { AuthRequest } from './../../commons/interfaces/auth-request';
 import { Auth } from './../../commons/interfaces/auth';
-import { UserSessionCheck } from './../../commons/interfaces/user-session-check';
 import { MessageRequest } from './../../commons/interfaces/message-request';
 import { MessagesResponse } from './../../commons/interfaces/messages-response';
 import { map } from 'rxjs/operators';
+import { ApiService } from '../api/api.service';
+import { Common } from 'src/app/commons/common';
 /* importing interfaces ends */
 
 @Injectable({
@@ -27,63 +28,26 @@ export class ChatService {
 	};
 
 	constructor(
+		private apiService: ApiService,
 		private http: HttpClient,
 		public router: Router
 	) { }
 
-
-	login(params: AuthRequest): Observable<Auth> {
-		return this.http.post(`${this.BASE_URL}login`, JSON.stringify(params), this.httpOptions).pipe(
-			map(
-				(response: Auth) => {
-					return response;
-				},
-				(error) => {
-					throw error;
-				}
-			)
-		);
-	}
-
-	register(params: AuthRequest): Observable<Auth> {
-		return this.http.post(`${this.BASE_URL}register`, JSON.stringify(params), this.httpOptions).pipe(
-			map(
-				(response: Auth) => {
-					return response;
-				},
-				(error) => {
-					throw error;
-				}
-			)
-		);
-	}
-
-	userSessionCheck(): Observable<boolean> {
-		const userId = localStorage.getItem('userid');
-		return new Observable(observer => {
-			if (userId !== null && userId !== undefined) {
-				this.http.post(`${this.BASE_URL}userSessionCheck`, JSON.stringify({ userId: userId }), this.httpOptions)
-				.subscribe(
-					(response: UserSessionCheck) => {
-						if (response.error) {
-							this.router.navigate(['/']);
-							return false;
-						}
-						localStorage.setItem('username', response.username);
-						observer.next(true);
-					}, (error) => {
-						this.router.navigate(['/']);
-						observer.next(false);
-					});
-			} else {
-				this.router.navigate(['/']);
-				observer.next(false);
-			}
-		});
-	}
+	// getMessages(params: MessageRequest): Observable<MessagesResponse> {
+	// 	return this.http.post(`${this.BASE_URL}api/getMessages`, JSON.stringify(params), this.httpOptions).pipe(
+	// 		map(
+	// 			(response: MessagesResponse) => {
+	// 				return response;
+	// 			},
+	// 			(error) => {
+	// 				throw error;
+	// 			}
+	// 		)
+	// 	);
+	// }
 
 	getMessages(params: MessageRequest): Observable<MessagesResponse> {
-		return this.http.post(`${this.BASE_URL}getMessages`, JSON.stringify(params), this.httpOptions).pipe(
+		return this.apiService.sendPostRequest(Common.API.getMsg,JSON.stringify(params)).pipe(
 			map(
 				(response: MessagesResponse) => {
 					return response;

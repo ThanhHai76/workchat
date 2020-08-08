@@ -1,0 +1,29 @@
+#phone-call, #video-camera{
+    margin-top: 15px;
+    background-color: #0abb87;
+    font-size: 30px;
+    color: white;
+  }
+
+  .fa-times-circle{
+    color: #fd397a;
+    display: inline-block;
+    margin-bottom: 0;
+    font-size: 70px;
+  }
+
+  #img-profile {
+    /*position: absolute;*/
+    margin-top: -30px;
+    margin-left: auto;
+    margin-right: auto;
+    /*width: 50%;*/
+    width: 100px;
+    height: 100px;
+    background-color: rgb(255, 255, 255);
+    padding: 2px;
+  }
+
+  .modal-header{
+    border-bottom: none;
+  }

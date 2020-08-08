@@ -1,0 +1,20 @@
+.modal-content {
+  margin-top: 35px !important;
+}
+
+.btn-primary {
+  float: right !important;
+  margin-top: 40px;
+  background-color: #26a69a !important;
+  border-radius: 10px;
+}
+.custom-control{
+  padding: 10px 30px 10px;
+}
+.btn-secondary{
+  color: #06988a;
+  background-color: #c8c8c8 !important;
+}
+.custom-control-input:checked~.custom-control-label::before{
+  background-color: #26a69a !important;
+}

@@ -31,6 +31,9 @@
       <div *ngIf="errorMsg" class="alert alert-danger" role="alert">
         {{ errorMsg }}
       </div>
+      <div *ngIf="successMsg" class="alert alert-info" role="alert">
+        {{ successMsg }}
+      </div>
 
       <div class="u-form-group">
         <input formControlName="email" type="email" placeholder="Email" id="login_email" />
@@ -64,6 +67,9 @@
       <!-- Error message -->
       <div *ngIf="errorMsg" class="alert alert-danger" role="alert">
         {{ errorMsg }}
+      </div>
+      <div *ngIf="successMsg" class="alert alert-info" role="alert">
+        {{ successMsg }}
       </div>
 
       <div class="u-form-group">

@@ -44,16 +44,5 @@ export class AuthService {
     localStorage.removeItem(Common.KEYS.token);
   }
 
-  public getEmail(): string {
-    return localStorage.getItem(Common.KEYS.email);
-  }
-
-  public setEmail(email: string) {
-    localStorage.setItem(Common.KEYS.email, email);
-  }
-
-  public removeEmail(){
-    localStorage.removeItem(Common.KEYS.email);
-  }
 
 }

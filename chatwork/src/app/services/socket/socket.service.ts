@@ -51,11 +51,11 @@ export class SocketService {
 
     return new Observable((observer) => {
       this.socket.on('chat-list-response', (data: ChatListResponse) => {
-        observer.next(data);
+        observer.next(data);//Observer got a next value
       });
-      // return () => {
-      //   this.socket.disconnect();
-      // };
+      return () => {
+        this.socket.disconnect();
+      };
     });
   }
 

@@ -3,6 +3,9 @@ const Users = require("../models/users");
 const config = require("../config/config");
 const jwt = require("jsonwebtoken");
 
+const chatController = require("./chatController");
+const CONSTANTS = require("./../config/constants");
+
 // Handle index actions
 exports.index = function (req, res) {
   Users.get(function (err, users) {
@@ -36,12 +39,13 @@ exports.new = function (req, res) {
       users.avatar = "";
       users.website = "";
       users.socketId = "";
-      users.status = ""; 
+      users.status = "";
       // save the users and check for errors
       users.save(function (err) {
         if (err) res.json(err);
         res.json({
           message: "New users created!",
+          status: 200,
           data: users,
         });
       });
@@ -66,7 +70,7 @@ exports.login = function (req, res) {
         if (isMatch) {
           const payload = { username: user.email };
           const jwtToken = jwt.sign(payload, config.jwtSecret, {
-            expiresIn: 1 * 30,
+            expiresIn: 1 * 1200,
           });
           const jsonResponse = { status: 200, token: jwtToken };
           user.token = jwtToken;
@@ -93,7 +97,7 @@ exports.login = function (req, res) {
 // Logout
 exports.logout = function (req, res) {
   try {
-    Users.findOne({ email: req.user.email }, function (err, user) {
+    Users.findById(req.params.id, function (err, user) {
       // console.log(req.user.email);
       if (err) res.status(500).send(err);
       if (user) {
@@ -115,6 +119,27 @@ exports.logout = function (req, res) {
 };
 
 // Handle view users info
+exports.getUsersProfile = function (req, res) {
+  Users.findById(req.body.id, function (err, users) {
+    // console.log(req.user.email);
+    if (err) res.send(err);
+    if (!users) {
+      return res.status(500).send(err);
+    } else {
+      res.json({
+        name: users.name,
+        email: users.email,
+        phone: users.phone,
+        avatar: users.avatar,
+        address: users.address,
+        website: users.website,
+        about: users.about
+      });
+    }
+  });
+};
+
+// Handle view users info
 exports.getUserByEmail = function (req, res) {
   Users.findOne({ email: req.user.email }, function (err, users) {
     // console.log(req.user.email);
@@ -130,12 +155,12 @@ exports.getUserByEmail = function (req, res) {
         gender: users.gender,
         phone: users.phone,
         address: users.address,
+        website: users.website,
+        about: users.about
       });
     }
   });
 };
-
-
 
 // Handle view users info
 exports.view = function (req, res) {
@@ -154,68 +179,42 @@ exports.view = function (req, res) {
 
 // Handle update users info
 exports.update = function (req, res) {
-  Users.findById(req.params.id, function (err, users) {
-    console.log(req.params.id);
-    if (err) {
-      res.status(500).send(err);
-    } else {
-      users.name = req.body.name ? req.body.name : users.name;
-      users.email = req.body.email ? req.body.email : users.email;
-      users.password = req.body.password ? req.body.password : users.password;
-      users.gender = req.body.gender ? req.body.gender : users.gender;
-      users.phone = req.body.phone ? req.body.phone : users.phone;
-      users.date_of_birth = req.body.date_of_birth
-        ? req.body.date_of_birth
-        : users.date_of_birth;
-      users.address = req.body.address ? req.body.address : users.address;
-      users.avatar = req.body.avatar ? req.body.avatar : users.avatar;
-      users.website = req.body.website ? req.body.website : users.website;
-      // save the users and check for errors
-      users.save(function (err) {
-        if (err) {
-          res.status(500).send(err);
-        } else {
-          res.json({
-            status: 200,
-            message: "Users Info updated",
-            data: users,
-          });
-        }
-      });
-    }
-  });
-};
-
-exports.updateInfo = function (req, res) {
-  Users.findOne({ email: req.user.email }, function (err, users) {
-    console.log( req.user.email);
-    if (err) res.status(500).send(err);
-    if (!users) {
-      return res.status(500).send(err);
-    } else {
-      users.name = req.body.name ? req.body.name : users.name;
-
-      // console.log(req.body.name);
-
-      users.phone = req.body.phone ? req.body.phone : users.phone;
-
-      users.address = req.body.address ? req.body.address : users.address;
-      users.avatar = req.body.avatar ? req.body.avatar : users.avatar;
-      users.website = req.body.website ? req.body.website : users.website;
-      // save the users and check for errors
-      users.save(function (err) {
-        if (err) {
-          res.status(500).send(err);
-        } else {
-          res.json({
-            status: 200,
-            message: "Users Info updated",
-            data: users,
-          });
-        }
-      });
-    }
-  });
+  try {
+    Users.findById(req.body.id, function (err, users) {
+      // console.log(req.body.id);
+      if (err) res.status(500).send(err);
+      if (!users) {
+        return res.status(500).send(err);
+      } else {
+        users.name = req.body.name ? req.body.name : users.name;
+        users.email = req.body.email ? req.body.email : users.email;
+        users.password = req.body.password ? req.body.password : users.password;
+        users.gender = req.body.gender ? req.body.gender : users.gender;
+        users.phone = req.body.phone ? req.body.phone : users.phone;
+        users.date_of_birth = req.body.date_of_birth
+          ? req.body.date_of_birth
+          : users.date_of_birth;
+        users.address = req.body.address ? req.body.address : users.address;
+        users.avatar = req.body.avatar ? req.body.avatar : users.avatar;
+        users.website = req.body.website ? req.body.website : users.website;
+        users.about = req.body.about ? req.body.about : users.about;
+        // save the users and check for errors
+        users.save(function (err) {
+          if (err) {
+            res.status(500).send(err);
+          } else {
+            res.json({
+              status: 200,
+              message: "Users Info updated",
+              data: users,
+            });
+          }
+        });
+      }
+    });
+  } catch (error) {
+    res.status(500).send(error);
+  }
 };
 
 // Handle delete users
@@ -237,4 +236,30 @@ exports.delete = function (req, res) {
   );
 };
 
-
+// Handle get messages
+exports.getMessagesHandler = async function (request, response) {
+  let senderId = request.body.senderId;
+  let receiverId = request.body.receiverId;
+  if (senderId == "") {
+    response.status(CONSTANTS.SERVER_ERROR_HTTP_CODE).json({
+      error: true,
+      message: CONSTANTS.USERID_NOT_FOUND,
+    });
+  } else {
+    try {
+      const messagesResponse = await chatController.getMessages({
+        senderId: senderId,
+        receiverId: receiverId,
+      });
+      response.status(CONSTANTS.SERVER_OK_HTTP_CODE).json({
+        error: false,
+        messages: messagesResponse,
+      });
+    } catch (error) {
+      response.status(CONSTANTS.SERVER_NOT_ALLOWED_HTTP_CODE).json({
+        error: true,
+        messages: CONSTANTS.USER_NOT_LOGGED_IN,
+      });
+    }
+  }
+};

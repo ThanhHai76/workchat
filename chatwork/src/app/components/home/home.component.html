@@ -1,12 +1,12 @@
-<div id="profile">
-  <app-profile  [username]="username" [userId]="userId" [email]="email" [gender]="gender" [address]="address"
-  [phone]="phone">
-  </app-profile>
-  <!-- -->
-</div>
+<!-- <div id="profile"> -->
+<app-profile style="overflow-y: hidden !important;" class="modal right fade" id="myModalProfile" [username]="username" [userId]="userId" [email]="email"
+   [address]="address" [about]="about" [phone]="phone" [website]="website">
+</app-profile>
+<!-- -->
+<!-- </div> -->
 
-<div id="overlay" (click)="off()"></div> 
-<div id="overlay2" (click)="off()"></div>
+<!-- <div id="overlay" (click)="off()"></div> -->
+<!-- Header  -->
 <header class="main-header">
   <nav class="navbar navbar-expand-lg navbar-light w-100">
     <div id="logo">
@@ -23,13 +23,14 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mx-auto">
         <li class="nav-item active">
-          <a class="nav-link text-white" href="#" (click)="profile()">Profile<span class="sr-only">(current)</span></a>
+          <a class="nav-link text-white" href="#" data-toggle="modal" data-target="#myModalProfile">Profile<span
+              class="sr-only">(current)</span></a>
         </li>
         <li class="nav-item active">
-          <a class="nav-link text-white" href="#" (click)="on()">Friends</a>
+          <a class="nav-link text-white" href="#" data-toggle="modal" data-target="#myModalFriend">Friends</a>
         </li>
         <li class="nav-item active">
-          <a class="nav-link text-white" href="#" (click)="on()">Favorites</a>
+          <a class="nav-link text-white" href="#" data-toggle="modal" data-target="#myModalFavorites">Favorites</a>
         </li>
       </ul>
 
@@ -41,8 +42,7 @@
         </li>
         <li class="nav-item active">
           <a class="nav-link text-white" href="#">
-            <i class="fa fa-phone" data-toggle="modal" data-target="#ModalCenter"
-              aria-hidden="true"></i>
+            <i class="fa fa-phone" data-toggle="modal" data-target="#ModalCenter" aria-hidden="true"></i>
           </a>
         </li>
       </ul>
@@ -56,9 +56,9 @@
             </figure>
           </a>
           <div class="dropdown-menu dropdown-menu-right">
-            <a href="#" class="dropdown-item" data-navigation-target="contact-information"
-              (click)="profile()">Profile</a>
-            <a href="#" class="dropdown-item" data-toggle="modal" data-target="#settingModal">Settings</a>
+            <a href="#" class="dropdown-item" data-navigation-target="contact-information" data-toggle="modal"
+              data-target="#myModalProfile">Profile</a>
+            <a href="#" class="dropdown-item" data-toggle="modal" data-target="#ModalCenterSetting">Settings</a>
             <div class="dropdown-divider"></div>
             <a href="#" (click)="logout()" class="dropdown-item text-danger">Logout</a>
           </div>
@@ -68,68 +68,14 @@
   </nav>
 </header>
 
-
-
-<div class="row rounded-lg overflow shadow">
+<!-- Components  -->
+<div class="row h-100 w-100">
   <app-chat-list [username]="username" [userId]="userId"></app-chat-list>
-  <!--  --> 
-  <app-conversation></app-conversation>
+  <app-conversation [username]="username" [userId]="userId"></app-conversation>
 </div>
 
-<!-- Call Box -->
-<div class="modal fade" id="ModalCenter" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle"
-  aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-      </div>
+<app-friends></app-friends>
+<app-favorites></app-favorites>
+<app-call></app-call> 
+<app-setting></app-setting>
 
-      <div class="text-center modal-body">
-        <div>
-          <img class="rounded-circle" id="img-profile" src="./../../../assets/images/th.jpg" />
-        </div>
-        <div><h4>Thanh Hai <span style="color: #26a69a;">Calling</span>  </h4> </div>
-        <div>
-          <ul class="nav justify-content-center">
-            <li class="nav-item">
-              <a class="nav-link" href="#"><i class="fa fa-times-circle" aria-hidden="true"></i></a>
-            </li>
-            <li class="nav-item">
-              <a id="phone-call" class="nav-link rounded-circle" href="#"><i  class="fa fa-phone " aria-hidden="true"></i></a>
-            </li>
-          </ul>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</div>
-
-<!-- Video Call -->
-<div class="modal fade" id="ModalCenter-Video" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle-Video"
-  aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-      </div>
-
-      <div class="text-center modal-body">
-        <div>
-          <img class="rounded-circle" id="img-profile" src="./../../../assets/images/th.jpg" />
-        </div>
-        <div><h4>Thanh Hai <span style="color: #26a69a;">Video Calling</span> </h4> </div>
-        <div>
-          <ul class="nav justify-content-center">
-            <li class="nav-item">
-              <a class="nav-link" href="#"><i class="fa fa-times-circle" aria-hidden="true"></i></a>
-            </li>
-            <li class="nav-item">
-              <a id="video-camera" class="nav-link rounded-circle" href="#"><i  class="fa fa-video-camera" aria-hidden="true"></i></a>
-            </li>
-          </ul>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</div>

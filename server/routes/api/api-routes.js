@@ -16,7 +16,7 @@ apiRouter.route("/login").post(userController.login);
 // apiRouter.post('/logout', authController.isAuthenticated, userController.logout);
 
 apiRouter
-  .route("/logout")
+  .route("/logout/:id")
   .post(authController.isAuthenticated, userController.logout);
 
 apiRouter
@@ -25,8 +25,11 @@ apiRouter
 
 apiRouter
   .route("/update")
-  .patch(authController.isAuthenticated, userController.updateInfo)
-  .put(authController.isAuthenticated, userController.updateInfo);
+  .post(authController.isAuthenticated, userController.update);
+
+apiRouter
+  .route("/usersP")
+  .post(authController.isAuthenticated, userController.getUsersProfile);
 
 apiRouter
   .route("/user")
@@ -39,5 +42,9 @@ apiRouter
   .patch(authController.isAuthenticated, userController.update)
   .put(authController.isAuthenticated, userController.update);
 // .delete(authController.isAuthenticated, userController.delete);
+
+apiRouter
+  .route("/getMessages")
+  .post(authController.isAuthenticated, userController.getMessagesHandler);
 
 module.exports = apiRouter;

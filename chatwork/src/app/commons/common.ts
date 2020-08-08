@@ -23,10 +23,11 @@ export class Common {
   public static API = {
     login: '/api/login',
     signup: '/api/signup',
-    userUpdate: '/api/user/',
     update: '/api/update',
     profile: '/api/profile',
     userList: '/api/user',
-    logout: '/api/logout'
+    logout: '/api/logout/',
+    getMsg: '/api/getMessages',
+    usersProfile: '/api/usersP',
   };
 }

@@ -22,6 +22,7 @@ const UserSchema = new Schema({
     address: String,
     avatar: String,
     website: String,
+    about: String,
     token: String,
     socketId: String,
     status: String,

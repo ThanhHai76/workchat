@@ -17,8 +17,13 @@ import { HomeModule } from './components/home/home.module';
 import { RegisterModule } from './components/register/register.module';
 import { LoginModule } from './components/login/login.module';
 import { ResetPasswordModule } from './components/reset-password/reset-password.module';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms'; 
+import { ReactiveFormsModule } from '@angular/forms';
+import { NgxPopper } from 'angular-popper';
 
+import { PickerModule } from '@ctrl/ngx-emoji-mart';
+import  {  NgxEmojiPickerModule  }  from  'ngx-emoji-picker';
+import { EmojiModule } from '@ctrl/ngx-emoji-mart/ngx-emoji';
 
 @NgModule({
   declarations: [
@@ -34,7 +39,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     FontAwesomeModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgxPopper,
+    PickerModule,
+    NgxEmojiPickerModule.forRoot(),
+    EmojiModule
   ],
   providers: [
     AuthGuardService,

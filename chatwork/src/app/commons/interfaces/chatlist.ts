@@ -1,5 +1,5 @@
 export interface Chatlist {
 	id: string;
-	online: string;
+	status: string;
 	username: string;
 }

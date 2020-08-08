@@ -1,0 +1,29 @@
+#img-small {
+  /*position: absolute;*/
+  margin-bottom: -11px;
+  margin-left: auto;
+  margin-right: auto;
+  /*width: 50%;*/
+  width: 50px !important;
+  height: 50px !important;
+  background-color: rgb(255, 255, 255);
+  padding: 2px;
+}
+
+.modal-content {
+  margin-top: 35px !important;
+}
+
+.btn-primary {
+  float: right !important;
+  margin-top: 40px;
+  background-color: #26a69a !important;
+  border-radius: 10px;
+}
+
+.help-block {
+  text-align: left;
+  color: #DF4A32;
+  font-size: 12px;
+  padding: 5px 0 10px;
+}

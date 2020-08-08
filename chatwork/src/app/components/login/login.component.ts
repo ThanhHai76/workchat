@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   loginForm: FormGroup;
   signUpForm: FormGroup;
   errorMsg: string;
-  public overlayDisplay = false;
+  successMsg: string;
 
   public userId: string = null;
   public username: string = null;
@@ -56,7 +56,6 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.isLogin = true;
     this.initLoginForm();
     this.initSignUpForm();
-    this.overlayDisplay = false;
   }
 
   ngOnDestroy() {
@@ -132,9 +131,8 @@ export class LoginComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe((data: CustomeResponse) => {
         if (data.status === ApiStatus.SUCCESS) {
-          // Save token and redirect to Home
-          // this.authService.setToken(data.token);
           this.router.navigate([Common.PATHS.login]);
+          this.successMsg = data.message; 
         } else {
           // Show error message
           this.errorMsg = data.message;
@@ -164,7 +162,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   private initSignUpForm() {
     this.signUpForm = new FormGroup(
       {
-        name: new FormControl('', [Validators.required]),
+        name: new FormControl('', [Validators.required, Validators.minLength(8)]),
         email: new FormControl('', [Validators.required, Validators.email]),
         password: new FormControl('', [
           Validators.required,

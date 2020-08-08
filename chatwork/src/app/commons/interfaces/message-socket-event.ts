@@ -1,5 +1,7 @@
 export interface MessageSocketEvent {
-	fromUserId: string;
+	senderId: string;
+	username: string;
 	message: string;
-	toUserId: string;
+	receiverId: string;
+	sendtime: number;
 }

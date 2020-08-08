@@ -1,0 +1,217 @@
+<!-- Edit Profile -->
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalCenterTitle">
+          <i class="fa fa-pencil" aria-hidden="true"></i>Edit Profile</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+          <li class="nav-item">
+            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home"
+              aria-selected="true">Personal</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#about-tab" role="tab" aria-controls="profile"
+              aria-selected="false">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact"
+              aria-selected="false">Social Links</a>
+          </li>
+        </ul>
+
+        <div class="tab-content" id="myTabContent">
+
+          <!-- Personal Content-->
+          <div class="tab-pane active" id="home" role="tabpanel" aria-labelledby="home-tab">
+            <form [formGroup]="PersonalForm" class="form-group" (ngSubmit)="UpdatePersonal()">
+              <div *ngIf="successMsg" class="alert alert-info" role="alert">
+                {{ successMsg }}
+              </div>
+              <div *ngIf="errorMsg" class="alert alert-danger" role="alert">{{errorMsg}}</div>
+
+              <div class="u-form-group">
+                <h6>Fullname</h6>
+                <div class="input-group mb-3">
+                  <input type="text" formControlName="name" class="form-control" value={{username}}
+                    aria-label="Fullname" required>
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" id="addon-wrapping"><i class="fa fa-user"
+                        aria-hidden="true"></i></span>
+                  </div>
+                </div>
+                <div *ngIf="PersonalFormControls.name.invalid" class="help-block">
+                  <div>Invalid username</div>
+                </div>
+              </div>
+
+              <div class="u-form-group">
+                <h6>Avatar</h6>
+                <div class="input-group mb-3">
+                  <div>
+                    <img src="./../../../../../assets/images/th.jpg" alt="user" class="rounded-circle" id="img-small">
+                  </div>
+                  <div class="custom-file">
+                    <input type="file" name="file" accept="image/x-png,image/gif,image/jpeg" formControlName="avatar"
+                      class="custom-file-input" id="inputGroupFile">
+                    <label class="custom-file-label" for="inputGroupFile">Choose file</label>
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="u-form-group">
+                <h6>City</h6>
+                <div class="input-group mb-3">
+                  <input type="text" formControlName="address" class="form-control" value={{address}} aria-label="City"
+                    required>
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" id="addon-wrapping"><i class="fa fa-bullseye"
+                        aria-hidden="true"></i></span>
+                  </div>
+                </div>
+                <div *ngIf="PersonalFormControls.address.invalid" class="help-block">
+                  <div>Invalid city</div>
+                </div>
+              </div>
+
+              <div class="u-form-group">
+                <h6>Phone</h6>
+                <div class="input-group mb-3">
+                  <input type="text" formControlName="phone" class="form-control" value={{phone}} required>
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" id="addon-wrapping"><i class="fa fa-phone"
+                        aria-hidden="true"></i></span>
+                  </div>
+                </div>
+                <div *ngIf="PersonalFormControls.phone.invalid" class="help-block">
+                  <div>Invalid phone number</div>
+                </div>
+              </div>
+
+              <div class="u-form-group">
+                <h6>Website</h6>
+                <div class="input-group mb-3">
+                  <input type="text" formControlName="website" class="form-control" value={{website}} required>
+                </div>
+              </div>
+
+              <button type="submit" class="btn btn-primary"
+                [disabled]="PersonalFormControls.phone.invalid || PersonalFormControls.name.invalid || PersonalFormControls.address.invalid">Save</button>
+
+            </form>
+          </div>
+
+          <!-- About Content-->
+          <div class="tab-pane fade" id="about-tab" role="tabpanel" aria-labelledby="profile-tab">
+            <form [formGroup]="AboutForm" (ngSubmit)="UpdateAbout()">
+              <div *ngIf="successMsgAbout" class="alert alert-info" role="alert">
+                {{ successMsgAbout }}
+              </div>
+              <div *ngIf="errorMsg" class="alert alert-danger" role="alert">{{errorMsg}}</div>
+              <label> Write a few words that describe you</label>
+              <textarea style="margin-bottom: 20px;" class="form-control" formControlName="about" value={{about}}
+                aria-label="With textarea"></textarea>
+              <input type="checkbox"> View profile
+              <button type="submit" class="btn btn-primary">Save</button>
+            </form>
+          </div>
+
+          <!-- Social Link Content -->
+          <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+
+            <div class="input-group mb-3">
+              <input type="text" formControlName="name" class="form-control" placeholder="Username"
+                aria-label="Fullname">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="addon-wrapping">
+                  <i class="fa fa-facebook" aria-hidden="true"></i>
+                </span>
+              </div>
+            </div>
+
+            <div class="input-group mb-3">
+              <input type="text" formControlName="name" class="form-control" placeholder="Username"
+                aria-label="Fullname">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="addon-wrapping">
+                  <i class="fa fa-twitter" aria-hidden="true"></i>
+                </span>
+              </div>
+            </div>
+
+            <div class="input-group mb-3">
+              <input type="text" formControlName="name" class="form-control" placeholder="Username"
+                aria-label="Fullname">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="addon-wrapping">
+                  <i class="fa fa-instagram" aria-hidden="true"></i>
+                </span>
+              </div>
+            </div>
+
+            <div class="input-group mb-3">
+              <input type="text" formControlName="name" class="form-control" placeholder="Username"
+                aria-label="Fullname">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="addon-wrapping">
+                  <i class="fa fa-linkedin" aria-hidden="true"></i>
+                </span>
+              </div>
+            </div>
+
+            <div class="input-group mb-3">
+              <input type="text" formControlName="name" class="form-control" placeholder="Username"
+                aria-label="Fullname">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="addon-wrapping">
+                  <i class="fa fa-globe" aria-hidden="true"></i>
+                </span>
+              </div>
+            </div>
+
+            <div class="input-group mb-3">
+              <input type="text" formControlName="name" class="form-control" placeholder="Username"
+                aria-label="Fullname">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="addon-wrapping">
+                  <i class="fa fa-youtube" aria-hidden="true"></i>
+                </span>
+              </div>
+            </div>
+
+            <div class="input-group mb-3">
+              <input type="text" formControlName="name" class="form-control" placeholder="Username"
+                aria-label="Fullname">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="addon-wrapping">
+                  <i class="fa fa-google-plus-square" aria-hidden="true"></i>
+                </span>
+              </div>
+            </div>
+
+            <div class="input-group mb-3">
+              <input type="text" formControlName="name" class="form-control" placeholder="Username"
+                aria-label="Fullname">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="addon-wrapping">
+                  <i class="fa fa-phone-square" aria-hidden="true"></i>
+                </span>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Save</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

@@ -3,11 +3,29 @@
   color: black !important;
 }
 
-.chat-box {
-  height: 480px;
-  width: 920px;
-  background-color: #dddddd;
-  overflow-y: scroll;
+.conv{
+  width: 100% !important;
+}
+
+@media (min-width: 992px) {
+  .chat-box {
+    height: 480px;
+    width: 100%;
+    background-color: #dddddd;
+    overflow-y: scroll;
+    padding: 10px !important;
+  }
+
+  .form-control {
+    border: 1px solid #dddddd !important;
+    margin: 20px 0px;
+    padding: 10px !important;
+    width: 640px !important;
+  }
+}
+
+@media (max-width: 992px) {
+
 }
 
 .rounded-lg {
@@ -28,11 +46,6 @@
   background-color: #c8f5f1 !important;
 }
 
-.form-control {
-  border: 1px solid #dddddd !important;
-  margin: 20px 0px;
-  padding: 10px !important;
-}
 
 .btn-light,
 .btn-info {
@@ -40,7 +53,28 @@
   height: 50px;
   width: 50px;
 }
-
 .fa-check {
   color: #83cfdb;
+}
+.msg {
+	clear: both;
+  float: left;
+ 
+}
+.align-right {
+  clear: both;
+  float: right !important;
+}
+.namemsg{
+  padding: 0px 10px 0px 10px ;
+}
+.dropup .dropdown-toggle::after{
+  display: none;
+}
+
+.emoji-mart{
+  z-index: 9999;
+  position: fixed;
+  margin-left: 10px;
+  margin-top: -420px !important;
 }

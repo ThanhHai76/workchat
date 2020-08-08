@@ -14,6 +14,7 @@ import { takeUntil, first } from 'rxjs/operators';
 import { ApiService } from 'src/app/services/api/api.service';
 import { CustomeResponse } from 'src/app/commons/interfaces/custome-response';
 import { Subject } from 'rxjs';
+import { ProfileResponse } from 'src/app/commons/interfaces/profile-response';
 
 @Component({
   selector: 'app-chat-list',
@@ -23,6 +24,14 @@ import { Subject } from 'rxjs';
 export class ChatListComponent implements OnInit{
   @Input() username: string;
   @Input() userId: string;
+
+  public nameusers: string;
+  public email: string;
+  public phone: string;
+  public avatar: string;
+  public address: string;
+  public website: string;
+  public about: string;
 
   destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -57,12 +66,12 @@ export class ChatListComponent implements OnInit{
   }
 
   renderChatList(chatListResponse: ChatListResponse): void {
-    alert(chatListResponse.chatList[0].id);
-    if (chatListResponse.error === false) {
+    // alert(chatListResponse.error);
+    if (!chatListResponse.error) {
       if (chatListResponse.singleUser) {
         if (this.chatListUsers.length > 0) {
-          this.chatListUsers = this.chatListUsers.filter(function (obj: User) {
-            return obj.id !== chatListResponse.chatList[0].id;
+          this.chatListUsers = this.chatListUsers.filter((obj: User) => {//Phương thức filter() dùng để tạo một mảng mới với tất cả các phần tử thỏa điều kiện của một hàm test
+            return obj.id !== chatListResponse.chatList[0].id;            // return true và giữ nguyên mảng cũ không bị ảnh hưởng.
           });
         }
 
@@ -92,9 +101,31 @@ export class ChatListComponent implements OnInit{
     }
     return this.selectedUserId === userId ? true : false;
   }
-
+  
   selectedUser(user: User): void {
+    // alert("da chon");
     this.selectedUserId = user.id;
     this.dataShareService.changeSelectedUser(user);
   }
+
+  ProfileUsers(){
+    const dataBody = {
+      id: this.selectedUserId,
+    };
+    //get Profile
+    this.apiService
+      .sendPostRequest(Common.API.usersProfile, dataBody)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((dataResponse: ProfileResponse) => {
+        this.nameusers = dataResponse.name;
+        this.email = dataResponse.email;
+        this.phone = dataResponse.phone;
+        // this.avatar = dataResponse.avatar;
+        this.address = dataResponse.address;
+        this.website = dataResponse.website;
+        this.about = dataResponse.about;
+      });
+  }
+
+
 }

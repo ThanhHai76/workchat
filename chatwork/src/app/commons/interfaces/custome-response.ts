@@ -12,4 +12,5 @@ export interface CustomeResponse {
   gender?: any;
   phone?: any;
   address?: any;
+  website?: any; 
 }
