@@ -1,6 +1,26 @@
+/* ------------------ */
+.modal.right .modal-dialog {
+  float: right !important;
+  width: 25%;
+  -webkit-transform: translate3d(0%, 0, 0);
+  -ms-transform: translate3d(0%, 0, 0);
+  -o-transform: translate3d(0%, 0, 0);
+  transform: translate3d(0%, 0, 0);
+}
+
+.modal.right .modal-content{
+  overflow-y: auto;
+  margin-top: 40px;
+  height: 100%;
+  border-bottom: none;
+}
+
+.modal-open .modal {
+  overflow-y: hidden !important;
+}
+
 #img-profile {
   /*position: absolute;*/
-  margin-top: -30px;
   margin-left: auto;
   margin-right: auto;
   /*width: 50%;*/
@@ -10,110 +30,65 @@
   padding: 2px;
 }
 
-#img-small {
-  /*position: absolute;*/
-  margin-bottom: -11px;
-  margin-left: auto;
-  margin-right: auto;
-  /*width: 50%;*/
-  width: 50px !important;
-  height: 50px !important;
-  background-color: rgb(255, 255, 255);
-  padding: 2px;
-}
-
-.profile-box {
-  float: right;
-  background-color: #ffffff;
-  width: 25%;
-  height: 100%;
-  overflow: scroll;
-  z-index: 99;
-}
-.profile-bg {
-  height: 50px;
-  background-color: rgba(54, 162, 177, 0);
-}
-.nav {
-  margin: 20px 10px;
-}
-.list-group-item {
-  text-align: left;
-}
-#about {
-  padding: 40px 20px !important;
-  text-align: left;
-  display: none;
-  font-size: 12px;
-}
-/* #about-tab{display: none;} */
-#media {
-  padding: 20px 20px !important;
-  font-size: 12px;
-}
 .list-group-item label {
   padding: 0px 10px;
   color: #409cff;
 }
 
-.btn-primary {
-  float: right !important;
-  margin-top: 50px;
-}
-
-.fa-times{
+.fa-times {
   background-color: #fd397a !important ;
   color: white !important;
-  font-size: 20px !important;
+  border: none;
+  border-radius: 5px;
+  height: 30px;
+  width: 40px;
   padding: 5px;
 }
-.fa-times:hover{
-  font-size: 22px !important;
+.fa-times:hover {
+ height: 32px !important;
 }
 
-.fa-pencil{
+.fa-pencil {
+  margin-left: 120px;
   border: 1px solid #ddd !important;
+  border-radius: 5px;
   padding: 5px !important;
-  font-size: 15px !important;
+  height: 30px;
+  width: 40px;
+  text-align: center;
 }
-.fa-pencil:hover{
-  font-size: 20px !important;
-}
-.modal-content{
-   margin-top: 35px !important;
- }
-
- /* ----- Modal Right ------ */
-
- .modal.right .modal-dialog {
-  float: right !important;
-  width: 25%;
-  -webkit-transform: translate3d(0%, 0, 0);
-      -ms-transform: translate3d(0%, 0, 0);
-       -o-transform: translate3d(0%, 0, 0);
-          transform: translate3d(0%, 0, 0);
+.fa-pencil:hover {
+  height: 32px !important;
+  font-size: 20px;
 }
 
-.modal.right .modal-content {
-  overflow-y: auto;
-  margin-top: 30px;
-  height: 800px;
+
+#about, #media{
+    padding: 10px 10px !important;
+    font-size: 16px;
+}
+.nav {
+  margin: 10px 10px 30px;
+}
+.nav-tabs {
+  border-bottom: none;
+}
+.nav-tabs .nav-link{
+  border: none;
+  
+}
+.nav-tabs .nav-link.active{
+  color: #409cff;
+  border-bottom: 2px solid #409cff;
+}
+.nav-tabs .nav-link{
+  color: #212529;
+}
+.list-group-item{
+  border: none;
+  border-bottom: 1px solid #ddd;
 }
 
-.modal.right .modal-body {
-  padding: 15px 15px 20px;
+#fb-root >div>.modal-backdrop.show{
+  opacity: 0;
 }
-
-      
-/*Right*/
-.modal.right.fade .modal-dialog {
-  /* right: -320px; */
-  -webkit-transition: opacity 0.3s linear, right 0.3s ease-out;
-     -moz-transition: opacity 0.3s linear, right 0.3s ease-out;
-       -o-transition: opacity 0.3s linear, right 0.3s ease-out;
-          transition: opacity 0.3s linear, right 0.3s ease-out;
-}
-
-.modal.right.fade.in .modal-dialog {
-  right: 0;
-} 

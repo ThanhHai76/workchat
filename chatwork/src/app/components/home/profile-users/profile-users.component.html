@@ -1,0 +1,49 @@
+
+<!-- Modal Right Profile -->
+<div class="modal right fade" style=" overflow-y: scroll" id="myModalProfileUsers" tabindex="-1" role="dialog"
+  aria-labelledby="myModalLabel2">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header my-2">
+        <h4 class="modal-weight" style="padding-left: 10px;">Profile Users</h4>
+
+        <button type="button" class="fa fa-times" data-dismiss="modal" aria-label="Close">
+        </button>
+      </div>
+
+      <div class="modal-body">
+
+        <div class="text-center">
+          <img class="rounded-circle" id="img-profile" [src]="avatar"/>
+          <!-- [src]="avatarUrl || avatar" -->
+          <h4>{{nameusers}}</h4>
+          <p style="font-size: 12px;">Last seen : Today</p>
+        </div>
+
+
+        <div class="tab-content" id="myTabContent">
+
+          <!-- About -->
+          <div class="tab-pane active" id="about" role="tabpanel" aria-labelledby="about-tab">
+            <div>
+              <p>{{about}}</p>
+            </div>
+
+            <ul class="list-group">
+              <h6>Email</h6>
+              <li class="list-group text-muted">{{ email }}</li><br>
+              <h6>Phone</h6>
+              <li class="list-group text-muted">{{ phone }}</li><br>
+              <h6>City</h6>
+              <li class="list-group text-muted">{{ address }}</li><br>
+              <h6>Website</h6>
+              <li class="list-group text-muted">{{ website }}</li><br>
+            </ul>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

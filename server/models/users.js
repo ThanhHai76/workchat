@@ -12,17 +12,17 @@ const UserSchema = new Schema({
         type: String,
         required: true
     },
-    password:{
-        type: String,
-        required: true
-    },
+    password: String,
     gender: String,
     phone: String,
     date_of_birth: Date,
     address: String,
     avatar: String,
     website: String,
+    about: String, 
     token: String,
+    social_id: String,
+    social_provider: String,
     socketId: String,
     status: String,
     created_date: {

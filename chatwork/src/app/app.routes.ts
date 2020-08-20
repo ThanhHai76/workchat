@@ -28,12 +28,12 @@ export const ROUTES: Routes = [
   {
     path: Common.PATHS.home,
     component: HomeComponent,
-    canActivate: [AuthGuard] 
+    canActivate: [AuthGuard]
   },
   // {
   //   path: Common.PATHS.profile,
   //   component: ProfileComponent,
-  //   // canActivate: [AuthGuard]
+  //   canActivate: [AuthGuard]
   // },
   {
     path: Common.PATHS.resetPassword,

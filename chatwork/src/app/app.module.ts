@@ -14,12 +14,19 @@ import { AppComponent } from './app.component';
 import { ROUTES } from './app.routes';
 
 import { HomeModule } from './components/home/home.module';
+// import { ProfileModule } from './components/profile/profile.module';
 import { RegisterModule } from './components/register/register.module';
 import { LoginModule } from './components/login/login.module';
 import { ResetPasswordModule } from './components/reset-password/reset-password.module';
+
+import { SocialLoginModule, SocialAuthServiceConfig } from 'angularx-social-login';
+import {
+  GoogleLoginProvider,
+  FacebookLoginProvider,
+} from 'angularx-social-login';
+
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
-
+import { NgxPopper } from 'angular-popper';
 @NgModule({
   declarations: [
     AppComponent
@@ -30,11 +37,15 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     HomeModule,
     LoginModule,
     RegisterModule,
+    // ProfileModule,
+    // SharedModule,
     ResetPasswordModule,
     FontAwesomeModule,
     HttpClientModule,
-    FormsModule,
-    ReactiveFormsModule
+    SocialLoginModule,
+    FormsModule, 
+    ReactiveFormsModule,
+    NgxPopper
   ],
   providers: [
     AuthGuardService,
@@ -42,7 +53,23 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     RoleGuardService,
     { provide: JWT_OPTIONS, useValue: JWT_OPTIONS },
     JwtHelperService,
-    ApiService
+    ApiService,
+    {
+      provide: 'SocialAuthServiceConfig',
+      useValue: {
+        autoLogin: false,
+        providers: [
+          {
+            id: FacebookLoginProvider.PROVIDER_ID,
+            provider: new FacebookLoginProvider('2965647346823367'),
+          },
+          {
+            id: GoogleLoginProvider.PROVIDER_ID,
+            provider: new GoogleLoginProvider('159957289052-k9qaa2dp92avv931ae5vuo9va7upfelp.apps.googleusercontent.com'),
+          },
+        ],
+      } as SocialAuthServiceConfig,
+    }
   ],
   bootstrap: [AppComponent]
 })

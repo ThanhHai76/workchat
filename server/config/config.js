@@ -1,5 +1,6 @@
 module.exports = {
-    'jwtSecret': 'authecation',
-    'dbHost': 'mongodb://127.0.0.1:27017/chatwork'
-    // 'dbHost': 'mongodb+srv://vietpb:123@123A123a@cluster0-lh487.gcp.mongodb.net/chatwork?authSource=admin&replicaSet=Cluster0-shard-0&readPreference=primary&appname=MongoDB%20Compass%20Community&ssl=true'
+    'jwtSecret': 'authencation',
+    // 'dbUri': 'mongodb://localhost/chat_work',
+    'dbUri' : 'mongodb+srv://thanhhai:thanhhai7698@cluster0.j1yl5.mongodb.net/chatwork?retryWrites=true&w=majority',
+    // 'dbUri': 'mongodb+srv://viet220994:123@123A123a@cluster0.g9zok.gcp.mongodb.net/chatwork?retryWrites=true&w=majority',
 };

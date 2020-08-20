@@ -1,10 +1,7 @@
-<div id="overlay">
-</div>
-
 <div class="row main-area">
   <div class="login-box">
     <div class="col-12">
-      <img class="logo" src="../../../assets/images/logo_hz.png" alt="" />
+      <img class="logo" src="../../../assets/images/logo_hz.png" alt="">
     </div>
 
     <!-- Tab -->
@@ -15,11 +12,11 @@
 
     <!-- Login with social network -->
     <div class="social-login">
-      <a href="#" class="login-facebook">
+      <a (click)="signInWithFB()" class="login-facebook cursor-pointer" title="Signin with Facebook">
         <i class="fa fa-facebook fa-lg"></i>
         Facebook
       </a>
-      <a href="#" class="login-google">
+      <a (click)="signInWithGoogle()" class="login-google cursor-pointer" title="Signin with Google">
         <i class="fa fa-google-plus fa-lg"></i>
         Google
       </a>
@@ -28,31 +25,25 @@
     <!-- Login form -->
     <form [formGroup]="loginForm" class="email-login" [hidden]="!isLogin" (ngSubmit)="login()">
       <!-- Error message -->
-      <div *ngIf="errorMsg" class="alert alert-danger" role="alert">
-        {{ errorMsg }}
-      </div>
+      <div *ngIf="errorMsg" class="alert alert-danger" role="alert">{{errorMsg}}</div>
 
       <div class="u-form-group">
         <input formControlName="email" type="email" placeholder="Email" id="login_email" />
-        <div *ngIf="formLoginControls.email.errors" class="help-block">
-          <div *ngIf="formLoginControls.email.errors.required">
-            This field is required
-          </div>
-          <div *ngIf="formLoginControls.email.errors.email">
-            Invalid email address
-          </div>
+        <div *ngIf="formLoginControls.email.errors" class="row help-block ml-2">
+          <div *ngIf="formLoginControls.email.errors.required">Email is required &</div>
+          <div class="ml-1" *ngIf="formLoginControls.email.invalid">Invalid email address</div>        
         </div>
       </div>
       <div class="u-form-group">
         <input formControlName="password" type="password" placeholder="Password" id="login-pass" />
-        <div *ngIf="formLoginControls.password.errors" class="help-block">
-          <div *ngIf="formLoginControls.password.errors.required">
-            This field is required
+        <div *ngIf="formLoginControls.password.errors" class="row help-block ml-2">
+          <div *ngIf="formLoginControls.password.errors.required">Password is required &</div>
+          <div class="ml-1" *ngIf="formLoginControls.password.invalid">Least 8 alphanumeric characters
           </div>
         </div>
       </div>
       <div class="u-form-group">
-        <button type="submit" class="btn btn-success">Log in</button>
+        <button [disabled]="!loginForm.valid" type="submit" class="btn btn-success">Log in</button>
       </div>
       <div class="u-form-group">
         <a [routerLink]="['/reset-password']" class="forgot-password">Forgot password?</a>
@@ -62,38 +53,33 @@
     <!-- Sign Up form -->
     <form [formGroup]="signUpForm" class="email-signup" [hidden]="isLogin" (ngSubmit)="signUp()">
       <!-- Error message -->
-      <div *ngIf="errorMsg" class="alert alert-danger" role="alert">
-        {{ errorMsg }}
+      <div *ngIf="errorMsg" class="alert alert-danger" role="alert">{{errorMsg}}</div>
+      <div *ngIf="successMsg" class="alert alert-info" role="alert">
+        {{ successMsg }}
       </div>
 
       <div class="u-form-group">
         <input formControlName="name" type="text" placeholder="Username" />
-        <div *ngIf="formSignUpControls.name.errors" class="help-block">
+        <div *ngIf="formSignUpControls.name.errors" class="row help-block ml-2">
           <div *ngIf="formSignUpControls.name.errors.required">
-            This field is required
+            Username is required &
           </div>
+          <div class="ml-1" *ngIf="formSignUpControls.name.invalid">Least 6 characters</div>
         </div>
       </div>
 
       <div class="u-form-group">
         <input formControlName="email" type="email" placeholder="Email" />
-        <div *ngIf="formSignUpControls.email.errors" class="help-block">
-          <div *ngIf="formSignUpControls.email.errors.required">
-            This field is required
-          </div>
-          <div *ngIf="formSignUpControls.email.errors.email">
-            Invalid email address
-          </div>
+        <div *ngIf="formSignUpControls.email.errors" class="row help-block ml-2">
+          <div *ngIf="formSignUpControls.email.errors.required">Email is required &</div>
+          <div class="ml-1" *ngIf="formSignUpControls.email.invalid">Invalid email address</div>        
         </div>
       </div>
       <div class="u-form-group">
         <input formControlName="password" type="password" placeholder="Password" />
-        <div *ngIf="formSignUpControls.password.errors" class="help-block">
-          <div *ngIf="formSignUpControls.password.errors.required">
-            This field is required
-          </div>
-          <div *ngIf="formSignUpControls.password.errors.minLength">
-            Password requires at least 8 alphanumeric characters
+        <div *ngIf="formSignUpControls.password.errors" class="row help-block ml-2">
+          <div *ngIf="formSignUpControls.password.errors.required">Password is required &</div>
+          <div class="ml-1" *ngIf="formSignUpControls.password.invalid">Least 8 alphanumeric characters
           </div>
         </div>
       </div>
@@ -101,8 +87,9 @@
         <input formControlName="confirm" type="password" placeholder="Confirm Password" />
       </div>
       <div class="u-form-group">
-        <button type="submit" class="btn btn-success">Sign Up</button>
+        <button [disabled]="!signUpForm.valid" type="submit" class="btn btn-success">Sign Up</button>
       </div>
     </form>
+
   </div>
 </div>

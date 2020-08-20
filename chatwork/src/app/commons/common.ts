@@ -4,7 +4,8 @@ export class Common {
     profile: 'profile',
     login: 'login',
     register: 'register',
-    resetPassword: 'reset-password'
+    resetPassword: 'reset-password',
+    domain:'https://localhost:8888'
   };
 
   public static KEYS = {
@@ -13,20 +14,23 @@ export class Common {
     email: 'email',
     password: 'password',
     confirm: 'confirm',
-
-    avatar: 'avatar',
-    address: 'address',
-    phone: 'phone',
-    website: 'website'
+    profile: 'profile',
   };
 
   public static API = {
     login: '/api/login',
     signup: '/api/signup',
-    userUpdate: '/api/user/',
-    update: '/api/update',
-    profile: '/api/profile',
     userList: '/api/user',
-    logout: '/api/logout'
+    usersProfile: '/api/users',
+    facebookLogin: '/api/social-signin/facebook',
+    googleLogin: '/api/social-signin/google',
+    logout: '/api/logout',
+    update: '/api/update',
+    updateSocialUser: '/api/updateSocialUser',
+    updateSocial: '/api/updateSocial',
+    profile: '/api/profile',
+    getMsg: '/api/getMessages',
+    upload: '/api/upload',
+    getAvatar:'/api/getAvatar',
   };
 }

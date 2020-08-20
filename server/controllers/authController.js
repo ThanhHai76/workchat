@@ -1,9 +1,8 @@
 const Users = require('../models/users');
 const config = require('../config/config');
-const jwt = require('jsonwebtoken');//JWT: JSON Web Token, chuoi token : header.payload.signature
+const jwt = require('jsonwebtoken');
 
 exports.isAuthenticated = function (req, res, next) {
-    // console.log(req.headers);
     if (req.headers &&
         req.headers.authorization &&
         req.headers.authorization.split(' ')[0] === 'JWT') {
@@ -15,7 +14,7 @@ exports.isAuthenticated = function (req, res, next) {
             } else {
                 // find
                 Users.findOne({
-                    'email': payload.username,
+                    'email': payload.email,
                     'token': jwtToken
                 }, function (err, user) {
                     if (user) {

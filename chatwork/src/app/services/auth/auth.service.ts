@@ -2,17 +2,18 @@
 import { Injectable } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { HttpHeaders } from '@angular/common/http';
+
+import { SocialUser } from 'angularx-social-login';
+
 // Commons
 import { Common } from './../../commons/common';
-import { ApiService } from '../api/api.service';
-import { CustomeResponse } from 'src/app/commons/interfaces/custome-response';
 
 @Injectable()
 export class AuthService {
 
-  constructor(
-    public jwtHelper: JwtHelperService
-  ) {}
+  private profile: SocialUser;
+  public isNotRefresh: boolean;
+  constructor(public jwtHelper: JwtHelperService) { }
 
   public isAuthenticated(): boolean {
     const token = this.getToken();
@@ -32,6 +33,14 @@ export class AuthService {
     return headers;
   }
 
+  public authHeaderUploadFile(){
+    let headers = new HttpHeaders();
+    // headers = headers.append('Content-Type', 'multipart/form-data');
+    headers = headers.append('Authorization', 'JWT ' + this.getToken());
+    return headers;
+  }
+
+
   public setToken(token: string) {
     localStorage.setItem(Common.KEYS.token, token);
   }
@@ -42,18 +51,18 @@ export class AuthService {
 
   public removeToken() {
     localStorage.removeItem(Common.KEYS.token);
+    localStorage.removeItem(Common.KEYS.profile);
   }
 
-  public getEmail(): string {
-    return localStorage.getItem(Common.KEYS.email);
+  public setProfile(profile: SocialUser) {
+    localStorage.setItem(Common.KEYS.profile, JSON.stringify(profile));
+    this.profile = profile;
   }
 
-  public setEmail(email: string) {
-    localStorage.setItem(Common.KEYS.email, email);
+  public getProfile(): SocialUser {
+    if (!this.profile) {
+      this.profile = JSON.parse(localStorage.getItem(Common.KEYS.profile));
+    }
+    return this.profile;
   }
-
-  public removeEmail(){
-    localStorage.removeItem(Common.KEYS.email);
-  }
-
 }

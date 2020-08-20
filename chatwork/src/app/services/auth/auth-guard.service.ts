@@ -10,12 +10,10 @@ import { Common } from './../../commons/common';
 
 @Injectable()
 export class AuthGuardService implements CanActivate {
-  private authService: AuthService
   constructor(public auth: AuthService, public router: Router) { }
   canActivate(): boolean {
     if (!this.auth.isAuthenticated()) {
       this.router.navigate([Common.PATHS.login]);
-      this.authService.removeToken();
       return false;
     }
     return true;

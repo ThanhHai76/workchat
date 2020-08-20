@@ -11,7 +11,7 @@ import { Common } from './../../commons/common';
 
 @Injectable()
 export class RoleGuardService implements CanActivate {
-  constructor(public auth: AuthService, public router: Router) {}
+  constructor(public auth: AuthService, public router: Router) { }
 
   canActivate(route: ActivatedRouteSnapshot): boolean {
     // this will be passed from the route config
@@ -26,7 +26,10 @@ export class RoleGuardService implements CanActivate {
 
     // decode the token to get its payload
     const tokenPayload = decode(token);
-    if (!this.auth.isAuthenticated() || tokenPayload.role !== expectedRole) {
+    if (
+      !this.auth.isAuthenticated() ||
+      tokenPayload.role !== expectedRole
+    ) {
       this.router.navigate([Common.PATHS.login]);
       return false;
     }

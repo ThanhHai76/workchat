@@ -7,7 +7,6 @@ import { environment } from './../../../environments/environment';
 
 /* importing interfaces starts */
 import { Auth } from './../../commons/interfaces/auth';
-import { ChatListResponse } from './../../commons/interfaces/chat-list-response';
 import { MessageSocketEvent } from './../../commons/interfaces/message-socket-event';
 import { Message } from './../../commons/interfaces/message';
 /* importing interfaces ends */
@@ -46,18 +45,6 @@ export class SocketService {
   /*
    * Method to receive chat-list-response event.
    */
-  getChatList(userId: string): Observable<ChatListResponse> {
-    this.socket.emit('chat-list',  { userId: userId });
-
-    return new Observable((observer) => {
-      this.socket.on('chat-list-response', (data: ChatListResponse) => {
-        observer.next(data);
-      });
-      // return () => {
-      //   this.socket.disconnect();
-      // };
-    });
-  }
 
   /*
    * Method to emit the add-messages event.
