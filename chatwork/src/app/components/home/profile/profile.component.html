@@ -35,7 +35,7 @@
 
           <!-- About -->
           <div class="tab-pane active" id="about" role="tabpanel" aria-labelledby="about-tab">
-            <div>
+            <div *ngIf="viewAbout===true">
               <p>{{about}}</p>
             </div>
 
@@ -92,6 +92,6 @@
   </div>
 </div>
 
-<app-edit [username]="username" [userId]="userId" [about]="about" [avatarUrl]="avatar" [address]="address"
+<app-edit [username]="username" [userId]="userId" [about]="about" [aboutRefresh]="AboutRefresh" [avatarUrl]="avatar" [address]="address"
   [phone]="phone" [website]="website" [socialAvatar]="socialAvatar" [facebook]="facebook" [google]="google"
-  [youtube]="youtube"></app-edit>
+  [youtube]="youtube" (OnCheckViewProfile)="ViewProfile($event)" (OnAboutContent)="ViewAboutContent($event)"></app-edit>

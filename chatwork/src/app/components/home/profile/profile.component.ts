@@ -20,7 +20,7 @@ import { AuthService } from 'src/app/services/auth/auth.service';
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css'],
 })
-export class ProfileComponent implements OnInit {
+export class ProfileComponent implements OnInit, OnDestroy {
   @Input() username: string;
   @Input() userId: string;
   @Input() phone: string;
@@ -34,10 +34,11 @@ export class ProfileComponent implements OnInit {
   @Input() youtube: string;
 
   user: SocialUser;
-
   mySubscription: any;
 
   public image: Blob = null;
+  public viewAbout: boolean = true;
+  public AboutRefresh: string;
   imageUrl;
 
   errorMsg: string;
@@ -51,16 +52,27 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit() {
     this.user = this.authService.getProfile();
-    // alert(this.userId);
-    if (!this.user) {
-      this.apiService
-        .sendGetRequest(Common.API.profile)
-        .pipe(takeUntil(this.destroy$))
-        .subscribe((dataResponse: CustomeResponse) => {
-          this.avatar = dataResponse.data.avatar;
-          // this.getAvatar();
-        });
-    }
+    this.apiService
+      .sendGetRequest(Common.API.profile)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((dataResponse: CustomeResponse) => {
+        this.avatar = dataResponse.data.avatar;
+        this.AboutRefresh = dataResponse.data.about;
+      });
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next(true);
+    // Unsubscribe from the subject
+    this.destroy$.unsubscribe();
+  }
+
+  ViewProfile(checkbox: any) {
+    if (checkbox === true) this.viewAbout = true;
+    else this.viewAbout = false;
+  }
+  ViewAboutContent(about: string) {
+    this.about = about;
   }
 
   // getAvatar() {

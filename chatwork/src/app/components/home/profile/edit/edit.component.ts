@@ -1,4 +1,14 @@
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  Input,
+  Output,
+  EventEmitter,
+  OnChanges,
+  AfterContentChecked,
+  AfterContentInit,
+} from '@angular/core';
 import { ApiService } from 'src/app/services/api/api.service';
 
 import { takeUntil, first } from 'rxjs/operators';
@@ -17,7 +27,7 @@ import { AuthService } from 'src/app/services/auth/auth.service';
   templateUrl: './edit.component.html',
   styleUrls: ['./edit.component.css'],
 })
-export class EditComponent implements OnInit {
+export class EditComponent implements OnInit, OnDestroy {
   @Input() username: string;
   @Input() userId: string;
   @Input() email: string;
@@ -30,6 +40,10 @@ export class EditComponent implements OnInit {
   @Input() facebook: string;
   @Input() google: string;
   @Input() youtube: string;
+  @Input() aboutRefresh: string;
+
+  @Output() OnCheckViewProfile = new EventEmitter();
+  @Output() OnAboutContent = new EventEmitter();
 
   isTab: boolean;
   errorMsg: string;
@@ -38,8 +52,8 @@ export class EditComponent implements OnInit {
   successMsgSocial: string;
 
   images: File = null;
+  ischecked: boolean;
   // imageUrl: string = this.avatarUrl;
-
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   PersonalForm: FormGroup;
@@ -65,6 +79,8 @@ export class EditComponent implements OnInit {
     // Unsubscribe from the subject
     this.destroy$.unsubscribe();
   }
+
+  
 
   selectImage(event) {
     if (event.target.files.length > 0) {
@@ -123,7 +139,6 @@ export class EditComponent implements OnInit {
       //Social users
       const dataBody = {
         id: this.userId,
-        name: this.PersonalForm.get('name').value,
         address: this.PersonalForm.get('address').value,
         phone: this.PersonalForm.get('phone').value,
         website: this.PersonalForm.get('website').value,
@@ -167,6 +182,7 @@ export class EditComponent implements OnInit {
           }
         });
     } else {
+      //Social Users
       this.apiService
         .sendPostRequestAuth(Common.API.updateSocialUser, dataBody)
         .pipe(takeUntil(this.destroy$))
@@ -198,31 +214,33 @@ export class EditComponent implements OnInit {
       whatsapp: this.SocialForm.get('whatsapp').value,
     };
     if (!this.userSocial) {
-    this.apiService
-      .sendPostRequestAuth(Common.API.updateSocial, dataBody)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((data: CustomeResponse) => {
-        if (data.status === ApiStatus.SUCCESS) {
-          this.successMsgSocial = data.message;
-          alert(data.message);
-        } else {
-          // Show error message
-          this.errorMsg = data.message;
-        }
-      });
-    }else{
+      //normal users
       this.apiService
-      .sendPostRequestAuth(Common.API.updateSocialUser, dataBody)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((data: CustomeResponse) => {
-        if (data.status === ApiStatus.SUCCESS) {
-          this.successMsgSocial = data.message;
-          alert(data.message);
-        } else {
-          // Show error message
-          this.errorMsg = data.message;
-        }
-      });
+        .sendPostRequestAuth(Common.API.updateSocialLink, dataBody)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((data: CustomeResponse) => {
+          if (data.status === ApiStatus.SUCCESS) {
+            this.successMsgSocial = data.message;
+            alert(data.message);
+          } else {
+            // Show error message
+            this.errorMsg = data.message;
+          }
+        });
+    } else {
+      //Social users
+      this.apiService
+        .sendPostRequestAuth(Common.API.updateSocialLink_SocialUser, dataBody)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((data: CustomeResponse) => {
+          if (data.status === ApiStatus.SUCCESS) {
+            this.successMsgSocial = data.message;
+            alert(data.message);
+          } else {
+            // Show error message
+            this.errorMsg = data.message;
+          }
+        });
     }
   }
 
@@ -244,6 +262,7 @@ export class EditComponent implements OnInit {
   private initAboutForm() {
     this.AboutForm = new FormGroup({
       about: new FormControl('', [Validators.minLength(20)]),
+      checkbox: new FormControl('', [Validators.required]),
     });
   }
 
@@ -269,14 +288,23 @@ export class EditComponent implements OnInit {
     });
   }
 
+  checkCheckBoxvalue(about: string) {
+    let checkbox = this.AboutForm.get('checkbox').value;
+    this.OnCheckViewProfile.emit(checkbox);
+    if (checkbox === '') this.OnAboutContent.emit(this.aboutRefresh);
+    else this.OnAboutContent.emit(about);
+  }
+  refresh() {
+    this.about = this.aboutRefresh;
+    this.OnAboutContent.emit(this.aboutRefresh);
+  }
+
   public get PersonalFormControls() {
     return this.PersonalForm.controls;
   }
-
   public get AboutFormControls() {
     return this.AboutForm.controls;
   }
-
   public get SocialFormControls() {
     return this.SocialForm.controls;
   }

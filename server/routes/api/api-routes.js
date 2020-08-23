@@ -30,9 +30,10 @@ apiRouter.route("/login").post(userController.login);
 apiRouter.route("/signup").post(userController.new);
 
 apiRouter.route("/profile").get(authController.isAuthenticated, userController.getUserProfile);
+apiRouter.route("/users").post(authController.isAuthenticated, userController.view);//Profile users
 apiRouter.route("/update").post(authController.isAuthenticated, userController.update);
-apiRouter.route("/users").post(authController.isAuthenticated, userController.view);
-apiRouter.route("/updateSocial").post(authController.isAuthenticated, userController.updateSocialLink);
+apiRouter.route("/updateSocialLink").post(authController.isAuthenticated, userController.updateSocialLink);
+apiRouter.route("/updateSocialLink_SocialUser").post(authController.isAuthenticated, userController.updateSocialLink_SocialUser);
 apiRouter.route("/updateSocialUser").post(authController.isAuthenticated, userController.updateSocialUser);
 
 apiRouter.route("/upload").post(authController.isAuthenticated,upload.single('file'), userController.uploadFile);

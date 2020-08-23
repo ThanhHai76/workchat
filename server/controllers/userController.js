@@ -33,7 +33,7 @@ exports.new = function (req, res) {
       users.phone = "";
       users.date_of_birth = "";
       users.address = "";
-      users.avatar = "";
+      users.avatar = "https://localhost:8888/static/uploads/users.jpg";
       users.website = "";
       users.about = "";
       users.socketId = "";
@@ -70,7 +70,7 @@ exports.view = function (req, res) {
 // Handle view users info
 exports.getUserProfile = function (req, res) {
   Users.findOne(req.user._id, function (err, users) {
-    console.log(req.user.email);
+    // console.log(req.user.email);
     if (err) res.send(err);
     if (!users) {
       return res.status(500).send(err);
@@ -113,7 +113,7 @@ exports.update = function (req, res) {
         } else {
           res.json({
             status: 200,
-            message: "Users Info updated",
+            message: "User Info updated",
             data: users,
           });
         }
@@ -122,41 +122,70 @@ exports.update = function (req, res) {
   });
 };
 
-//-------------------------------------
+//--------------- Social ----------------------------
 const { ObjectId } = require("bson");
-const users = require("../models/users");
 var MongoClient = require("mongodb").MongoClient;
 var url = config.dbUri;
-//Update Social Link ----------------
+//Update Social Link for normal users ---------------
 exports.updateSocialLink = function (req, res) {
-  Users.findById(req.body.id, function (err, users) {
-    const data = {
-      $set: {
-        social_link: {
-          facebook: req.body.facebook,
-          youtube: req.body.youtube,
-          google: req.body.google,
-          instagram: req.body.instagram,
-          twitter: req.body.twitter,
-          linkedin: req.body.linkedin,
-          globe: req.body.globe,
-          whatsapp: req.body.whatsapp,
-        },
+  const data_SocialLink = {
+    $set: {
+      social_link: {
+        facebook: req.body.facebook,
+        youtube: req.body.youtube,
+        google: req.body.google,
+        instagram: req.body.instagram,
+        twitter: req.body.twitter,
+        linkedin: req.body.linkedin,
+        globe: req.body.globe,
+        whatsapp: req.body.whatsapp,
       },
-    };
-    MongoClient.connect(url, function (err, db) {
-      var dbo = db.db("chatwork");
-      let query = { _id: ObjectId(req.body.id) };
-      dbo.collection("users").updateOne(query, data, (err) => {
-        if (err) {
-          res.status(500).send(err);
-        } else {
-          res.json({
-            status: 200,
-            message: "User Social Link updated",
-          });
-        }
-      });
+    },
+  };
+  MongoClient.connect(url, function (err, db) {
+    var dbo = db.db("chatwork");
+    let query = { _id: ObjectId(req.body.id) };
+    dbo.collection("users").updateOne(query, data_SocialLink, (err) => {
+      if (err) {
+        res.status(500).send(err);
+      } else {
+        res.json({
+          status: 200,
+          message: "User Social Link updated",
+        });
+      }
+    });
+  });
+};
+
+//Update Social Link for social users
+exports.updateSocialLink_SocialUser = function (req, res) {
+  const data_SocialLink = {
+    $set: {
+      social_link: {
+        facebook: req.body.facebook,
+        youtube: req.body.youtube,
+        google: req.body.google,
+        instagram: req.body.instagram,
+        twitter: req.body.twitter,
+        linkedin: req.body.linkedin,
+        globe: req.body.globe,
+        whatsapp: req.body.whatsapp,
+      },
+    },
+  };
+  MongoClient.connect(url, function (err, db) {
+    var dbo = db.db("chatwork");
+    let query = { social_id: req.body.id };
+    dbo.collection("users").update(query, data_SocialLink, (err) => {
+      if (err) {
+        res.status(500).send(err);
+      } else {
+        res.json({
+          status: 200,
+          message: "User Social Link updated",
+        });
+      }
     });
   });
 };
@@ -170,18 +199,9 @@ exports.updateSocialUser = function (req, res) {
         phone: req.body.phone ? req.body.phone : users.phone,
         website: req.body.website ? req.body.website : users.website,
         about: req.body.about ? req.body.about : users.about,
-        social_link: {
-          facebook: req.body.facebook,
-          youtube: req.body.youtube,
-          google: req.body.google,
-          instagram: req.body.instagram,
-          twitter: req.body.twitter,
-          linkedin: req.body.linkedin,
-          globe: req.body.globe,
-          whatsapp: req.body.whatsapp,
-        },
       },
     };
+    // console.log(users);
     MongoClient.connect(url, function (err, db) {
       var dbo = db.db("chatwork");
       let query = { social_id: req.body.id };
@@ -191,13 +211,14 @@ exports.updateSocialUser = function (req, res) {
         } else {
           res.json({
             status: 200,
-            message: "User Social Link updated",
+            message: "User Info updated",
           });
         }
       });
     });
   });
 };
+//--------------------------------------------------
 
 // Handle delete users
 exports.delete = function (req, res) {

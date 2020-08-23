@@ -20,16 +20,17 @@ export class Common {
   public static API = {
     login: '/api/login',
     signup: '/api/signup',
-    userList: '/api/user',
-    usersProfile: '/api/users',
+    userList: '/api/userList',
     facebookLogin: '/api/social-signin/facebook',
     googleLogin: '/api/social-signin/google',
     logout: '/api/logout',
+    //------------------------
+    profile: '/api/profile',
+    usersProfile: '/api/users',
     update: '/api/update',
     updateSocialUser: '/api/updateSocialUser',
-    updateSocial: '/api/updateSocial',
-    profile: '/api/profile',
-    getMsg: '/api/getMessages',
+    updateSocialLink: '/api/updateSocialLink',
+    updateSocialLink_SocialUser: '/api/updateSocialLink_SocialUser',
     upload: '/api/upload',
     getAvatar:'/api/getAvatar',
   };
