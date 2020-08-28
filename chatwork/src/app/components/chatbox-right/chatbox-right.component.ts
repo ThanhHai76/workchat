@@ -127,22 +127,22 @@ export class ChatboxRightComponent implements OnInit {
   }
 
   sendMessage(message) {
-    // if (message === '' || message === undefined || message === null) {
-    //   alert(`Message can't be empty.`);
-    // } else if (this.userId === '') {
-    //   this.router.navigate([Common.PATHS.home]);
-    // } else if (this.selectedUser.id === '') {
-    //   alert(`Select a user to chat.`);
-    // } else {
-    //   this.sendAndUpdateMessages({
-    //     senderId: this.userId,
-    //     username: this.username,
-    //     message: message.trim(),
-    //     receiverId: this.selectedUser.id,
-    //     sendtime: this.today,
-    //   });
-    //   this.messageEmoji = "";
-    // }
+    if (message === '' || message === undefined || message === null) {
+      alert(`Message can't be empty.`);
+    } else if (this.userId === '') {
+      this.router.navigate([Common.PATHS.home]);
+    } else if (this.selectedUser.id === '') {
+      alert(`Select a user to chat.`);
+    } else {
+      this.sendAndUpdateMessages({
+        senderId: this.userId,
+        username: this.username,
+        message: message.trim(),
+        receiverId: this.selectedUser.id,
+        sendtime: this.today,
+      });
+      this.messageEmoji = "";
+    }
   }
 
   sendAndUpdateMessages(message: Message) {
