@@ -158,41 +158,9 @@ exports.updateSocialLink = function (req, res) {
   });
 };
 
-//Update Social Link for social users
-exports.updateSocialLink_SocialUser = function (req, res) {
-  const data_SocialLink = {
-    $set: {
-      social_link: {
-        facebook: req.body.facebook,
-        youtube: req.body.youtube,
-        google: req.body.google,
-        instagram: req.body.instagram,
-        twitter: req.body.twitter,
-        linkedin: req.body.linkedin,
-        globe: req.body.globe,
-        whatsapp: req.body.whatsapp,
-      },
-    },
-  };
-  MongoClient.connect(url, function (err, db) {
-    var dbo = db.db("chatwork");
-    let query = { social_id: req.body.id };
-    dbo.collection("users").update(query, data_SocialLink, (err) => {
-      if (err) {
-        res.status(500).send(err);
-      } else {
-        res.json({
-          status: 200,
-          message: "User Social Link updated",
-        });
-      }
-    });
-  });
-};
-
 //Update Info for Social Accounts
 exports.updateSocialUser = function (req, res) {
-  Users.findOne({ social_id: req.body.id }, function (err, users) {
+  Users.findOne({ _id: req.body.id }, function (err, users) {
     const data = {
       $set: {
         address: req.body.address ? req.body.address : users.address,
@@ -326,5 +294,4 @@ exports.uploadFile = (req, res, next) => {
       message: "Avatar updated",
     });
   }
-  // res.send(file);
 };

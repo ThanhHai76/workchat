@@ -48,35 +48,33 @@ if (!db) {
 //Socket.io
 
 const chatController = require("./controllers/chatController");
-const CONSTANTS = require("./config/constants");
-
-io.use((socket, next) => {
-  try {
-    chatController.addSocketId({
-      userId: socket.request._query["userId"],
-      socketId: socket.id,
-    });
-    next();
-  } catch (error) {
-    // Error
-    console.error(error);
-  }
-});
 
 io.on("connection", (socket) => {
   console.log("Socket connected: " + socket.id);
+  
+  socket.on("connection",(data)=>{
+    try {
+      chatController.addSocketId({
+        userId: data.userId,
+        socketId: socket.id,
+      });
+    } catch (error) {
+      // Error
+      console.error(error);
+    }
+  })
 
   //disconnect
-  socket.on("disconnect", function () {
+  socket.on("disconnect", function (data) {
     console.log("Socket disconnected: " + socket.id);
     chatController.disconnected(socket.id);
     /**
      * sending the disconnected user to all socket users.
      */
-    socket.broadcast.emit("chat-list-response", {
+    socket.broadcast.emit("chat-left-response", {
       error: false,
       userDisconnected: true,
-      userid: socket.request._query["userId"],
+      userid: data.userId,
     });
   });
 
@@ -85,17 +83,19 @@ io.on("connection", (socket) => {
    */
   socket.on("logout", (data) => {
     console.log(data.userId + " logout");
+    chatController.disconnected(socket.id);
+
+    const userId = data.userId;
     try {
-      const userId = data.userId;
       chatController.logout(userId);
       io.to(socket.id).emit("logout-response", {
         //sending to individual socketid (private message)
         error: false,
-        message: CONSTANTS.USER_LOGGED_OUT,
+        message: "User logged out",
         userId: userId,
       });
 
-      socket.broadcast.emit("chat-list-response", {
+      socket.broadcast.emit("chat-left-response", {
         // sending to all clients except sender
         error: false,
         userDisconnected: true,
@@ -104,14 +104,91 @@ io.on("connection", (socket) => {
     } catch (error) {
       io.to(socket.id).emit("logout-response", {
         error: true,
-        message: CONSTANTS.SERVER_ERROR_MESSAGE,
+        message: "Server error messages",
         userId: userId,
       });
     }
   });
 
-});
+   //   /* Get the user's Chat list	*/
+  socket.on("chat-left", async (data) => {
+    console.log("chat-left " + data.userId);
+    if (data.userId == "") {
+      io.emit("chat-left-response", {
+        //sending to all connected clients
+        error: true,
+        message: "User not found",
+      });
+    } else {
+      try {
+        const [UserInfoResponse, chatlistResponse] = await Promise.all([
+          chatController.getUserInfo({
+            userId: data.userId,
+            socketId: false,
+          }),
+          chatController.getChatlist(socket.id, data.userId),
+        ]);
+        io.to(socket.id).emit("chat-left-response", {
+          //sending to individual socketid (private message)
+          error: false,
+          singleUser: false,
+          chatList: chatlistResponse,
+        });
+        // console.log(chatController.getChatlist(socket.id));
+        socket.broadcast.emit("chat-left-response", {
+          //sending to all clients except sender
+          error: false,
+          singleUser: true,
+          chatList: UserInfoResponse,
+        });
+      } catch (error) {
+        io.to(socket.id).emit("chat-left-response", {
+          error: true,
+          chatList: [],
+        });
+      }
+    }
+  });
 
+    /**
+   * send the messages to the user
+   */
+  socket.on('add-message', async (data) => {
+    if (data.message === "") {
+      io.to(socket.id).emit('add-message-response', {
+        error: true,
+        message: 'Message not found',
+      });
+    } else if (data.senderId === "") {
+      io.to(socket.id).emit('add-message-response', {
+        error: true,
+        message: 'Error message, no sender',
+      });
+    } else if (data.receiverId === "") {
+      io.to(socket.id).emit('add-message-response', {
+        error: true,
+        message: 'Select a user to chat',
+      });
+    } else {
+      try {
+        const [receiverSocketId, messageResult] = await Promise.all([
+          chatController.getUserInfo({
+            userId: data.receiverId,
+            socketId: true,
+          }),
+          chatController.insertMessages(data),
+        ]);
+        io.to(receiverSocketId).emit('add-message-response', data);
+      } catch (error) {
+        io.to(socket.id).emit('add-message-response', {
+          error: true,
+          message: 'Could not store message, server error',
+        });
+      }
+    }
+  });
+
+});
 
 
 //---------------------------

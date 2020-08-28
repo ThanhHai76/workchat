@@ -27,6 +27,14 @@ import {
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxPopper } from 'angular-popper';
+import { SocketService } from './services/socket/socket.service';
+import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+import { environment } from 'src/environments/environment';
+import { DataService } from './services/data/data.service';
+import { SharedModule } from './components/shared.module';
+import { ProfileModule } from './components/profile/profile.module';
+
+const config: SocketIoConfig = { url: environment.socketUrl, options: {} };
 @NgModule({
   declarations: [
     AppComponent
@@ -37,19 +45,22 @@ import { NgxPopper } from 'angular-popper';
     HomeModule,
     LoginModule,
     RegisterModule,
-    // ProfileModule,
-    // SharedModule,
+    ProfileModule,
+    SharedModule,
     ResetPasswordModule,
     FontAwesomeModule,
     HttpClientModule,
     SocialLoginModule,
     FormsModule, 
     ReactiveFormsModule,
-    NgxPopper
+    NgxPopper,
+    SocketIoModule.forRoot(config)
   ],
   providers: [
     AuthGuardService,
     AuthService,
+    SocketService,
+    DataService,
     RoleGuardService,
     { provide: JWT_OPTIONS, useValue: JWT_OPTIONS },
     JwtHelperService,

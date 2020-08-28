@@ -1,37 +1,33 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import * as io from 'socket.io-client';
-
-import { environment } from './../../../environments/environment';
-
 /* importing interfaces starts */
 import { Auth } from './../../commons/interfaces/auth';
-import { MessageSocketEvent } from './../../commons/interfaces/message-socket-event';
-import { Message } from './../../commons/interfaces/message';
+import { Socket } from 'ngx-socket-io';
+import { ChatLeftResponse } from 'src/app/commons/interfaces/chat-left-response';
+import { Message } from 'src/app/commons/interfaces/message';
+import { MessageSocketEvent } from 'src/app/commons/interfaces/message-socket-event';
 /* importing interfaces ends */
 
 @Injectable({
   providedIn: 'root',
 })
 export class SocketService {
-  private BASE_URL = environment.socketUrl;
-  private socket;
 
-  constructor() {}
-
+  constructor( private socket : Socket) {}
   /*
    * Method to connect the users to socket
    */
   connectSocket(userId: string): void {
-    this.socket = io(this.BASE_URL, { query: `userId=${userId}` });
+    this.socket.emit('connection',{userId: userId})
   }
 
   /*
    * Method to emit the logout event.
    */
-  logout(userId: { userId: string }): Observable<Auth> {
-    this.socket.emit('logout', userId);
+  logout(userId: string): Observable<Auth> {
+    this.socket.emit('logout', {userId: userId});
+    this.socket.emit('disconnect', {userId: userId});
     return new Observable((observer) => {
       this.socket.on('logout-response', (data: Auth) => {
         observer.next(data);
@@ -41,12 +37,23 @@ export class SocketService {
       };
     });
   }
-
-  /*
+ /*
    * Method to receive chat-list-response event.
    */
+  getChatList(userId: string): Observable<ChatLeftResponse> {
+    this.socket.emit('chat-left',  { userId: userId });
 
-  /*
+    return new Observable((observer) => {
+      this.socket.on('chat-left-response', (data: ChatLeftResponse) => {
+        observer.next(data);//Observer got a next value
+      });
+      return () => {
+        this.socket.disconnect();
+      };
+    });
+  }
+
+    /*
    * Method to emit the add-messages event.
    */
   sendMessage(message: MessageSocketEvent): void {

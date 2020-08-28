@@ -11,6 +11,6 @@ import { RouterModule } from '@angular/router';
     ReactiveFormsModule,
     RouterModule
   ],
-  declarations: [LoginComponent]
+  declarations: []
 })
 export class LoginModule { }

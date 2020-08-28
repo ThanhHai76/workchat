@@ -1,39 +1,50 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
-import { LoginComponent } from './login/login.component';
-import { RegisterComponent } from './register/register.component';
-import { FormsModule } from '@angular/forms';
-import { ProfileComponent } from './home/profile/profile.component';
 import { HomeComponent } from './home/home.component';
-import { ChatLeftComponent } from './home/chat-left/chat-left.component';
-import { ChatLeftModule } from './home/chat-left/chat-left.module';
-import { ProfileUsersComponent } from './home/profile-users/profile-users.component';
-import { EditComponent } from './home/profile/edit/edit.component';
-import { NewchatComponent } from './home/newchat/newchat.component';
+import { ProfileComponent } from './profile/profile.component';
+import { LoginComponent } from './login/login.component';
+import { EditProfileComponent } from './edit-profile/edit-profile.component';
+import { ChatLeftComponent } from './chat-left/chat-left.component';
+import { NewchatComponent } from './newchat/newchat.component';
+import { ProfileUsersComponent } from './profile-users/profile-users.component';
+import { RouterModule } from '@angular/router';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ChatboxRightComponent } from './chatbox-right/chatbox-right.component';
+import { PickerModule } from '@ctrl/ngx-emoji-mart';
+import { EmojiModule } from '@ctrl/ngx-emoji-mart/ngx-emoji';
+import { NgxPopper } from 'angular-popper';
+import { GhButtonModule } from '@ctrl/ngx-github-buttons';
 
 @NgModule({
   declarations: [
     HomeComponent,
-    ProfileUsersComponent,
-    ChatLeftComponent,
+    LoginComponent,
     ProfileComponent,
-    EditComponent,
-    NewchatComponent
+    EditProfileComponent,
+    ChatLeftComponent,
+    NewchatComponent,
+    ProfileUsersComponent,
+    ChatboxRightComponent,
   ],
   imports: [
     CommonModule,
     RouterModule,
     FormsModule,
+    ReactiveFormsModule,
+    PickerModule,
+    EmojiModule,
+    NgxPopper,
+    // GhButtonModule
   ],
   exports: [
     HomeComponent,
-    ChatLeftComponent,
-    ProfileUsersComponent,
+    LoginComponent,
     ProfileComponent,
-    EditComponent,
-    NewchatComponent
+    EditProfileComponent,
+    ChatLeftComponent,
+    NewchatComponent,
+    ProfileUsersComponent,
+    ChatboxRightComponent,
   ],
-  providers: [Location]
 })
-export class SharedModule { }
+export class SharedModule {}

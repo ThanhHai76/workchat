@@ -30,8 +30,8 @@ export class Common {
     update: '/api/update',
     updateSocialUser: '/api/updateSocialUser',
     updateSocialLink: '/api/updateSocialLink',
-    updateSocialLink_SocialUser: '/api/updateSocialLink_SocialUser',
     upload: '/api/upload',
     getAvatar:'/api/getAvatar',
+    getMsg: '/api/getMessages',
   };
 }

@@ -1,0 +1,111 @@
+/* ----- Modal Right ------ */
+
+.modal.right .modal-dialog {
+    float: right !important;
+    width: 25%;
+    -webkit-transform: translate3d(0%, 0, 0);
+    -ms-transform: translate3d(0%, 0, 0);
+    -o-transform: translate3d(0%, 0, 0);
+    transform: translate3d(0%, 0, 0);
+  }
+  
+  .modal.right .modal-content {
+    overflow-y: auto;
+    margin-top: 40px;
+    padding: 10px;
+    height: 100%;
+    font-size: 14px;
+  }
+  
+  .modal.right .modal-body {
+    padding: 20px 10px 0px 10px;
+  }
+  
+  /*Right*/
+  .modal.right.fade .modal-dialog {
+    /* right: -320px; */
+    -webkit-transition: opacity 0.3s linear, right 0.3s ease-out;
+    -moz-transition: opacity 0.3s linear, right 0.3s ease-out;
+    -o-transition: opacity 0.3s linear, right 0.3s ease-out;
+    transition: opacity 0.3s linear, right 0.3s ease-out;
+  }
+  
+  .modal.right.fade.in .modal-dialog {
+    right: 0;
+  }
+
+
+  .fa-times{
+    background-color: #fd397a !important ;
+    color: white !important;
+    border-radius: 5px;
+    border: none !important;
+    height: 30px;
+    width: 40px;
+    padding: 5px;
+  }
+  .fa-users{
+    background-color: white;
+    border-radius: 5px;
+    border: none !important;
+    height: 30px;
+    width: 40px;
+    padding: 5px;
+  }
+  .fa-times:hover,.fa-users:hover {
+   height: 32px !important;
+  }
+
+  /* --------------------------- */
+  #dropdownMenuButton::after {
+    display: none;
+  }
+  #dropdownMenuButton {
+    color: black;
+  }
+  #dropdownMenuButton:hover {
+    color: #26a69a;
+  }
+  
+  /* ------ Status -----*/
+  
+  .list-group div {
+    /* padding: 10px 11px;
+        margin-bottom: 10px; */
+    text-transform: capitalize;
+    background: rgba(215, 234, 255, 0.28);
+  }
+  
+  .select {
+    box-shadow: 0 6px 30px rgba(0, 0, 0, 0.1);
+    background: rgba(153, 202, 255, 0.49);
+    border: 0px !important;
+    /* height: 50px !important;
+        font-size: 14px !important; */
+  }
+  
+  .active {
+    height: 10px;
+    width: 10px;
+    border-radius: 10px;
+    background-color: #26a69a;
+    /* float: right; */
+    margin-top: 0.5vh;
+  }
+  
+  .offline {
+    height: 10px;
+    width: 10px;
+    border-radius: 10px;
+    background-color: #fd397a;
+    /* float: right; */
+    margin-top: 0.5vh;
+  }
+
+  .search-input {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 10px !important;
+    width: 100%;
+  }

@@ -1,4 +1,5 @@
 export interface MessageRequest {
-	userId: string;
-	toUserId: string;
+	senderId: string;
+	username: string;
+	receiverId: string;
 }

@@ -25,12 +25,25 @@
         </li>
       </ul>
 
+      <ul class="navbar-nav mx-auto">
+        <li class="nav-item active">
+          <a class="nav-link text-white" href="#">
+            <i class="fa fa-video-camera" data-toggle="modal" data-target="#ModalCenter-Video" aria-hidden="true"></i>
+          </a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link text-white" href="#">
+            <i class="fa fa-phone" data-toggle="modal" data-target="#ModalCenter" aria-hidden="true"></i>
+          </a>
+        </li>
+      </ul>
+      
       <div class="header-right">
         <div class="dropdown ml-auto">
           <a href="#" data-toggle="dropdown">
-            <span class="mr-2 d-none d-sm-inline-block text-white">{{user ? user.name : username }} </span>
+            <span class="mr-2 d-none d-sm-inline-block text-white">{{profile ? profile.name : ''}} </span>
             <figure class="avatar">
-              <img [src]="user ? user.photoUrl : avatar" class="rounded-circle" alt="image">
+              <img [src]="profile ? profile.avatar : '../../../assets/images/users.jpg'" class="rounded-circle" alt="image">
               <!-- '../../../assets/images/th.jpg' -->
             </figure>
           </a>
@@ -47,10 +60,9 @@
   </nav>
 </header>
 
-<app-profile [username]="username" [userId]="user ? user.id : userId" [about]="about" [avatar]="avatar"
-  [socialAvatar]="user? user.photoUrl : avatar" [address]="address" [phone]="phone" [website]="website" [facebook]="facebook"
-  [google]="google" [youtube]="youtube"></app-profile>
+<app-profile [userId]="userId" [profile]="profile"></app-profile>
+
 <div class="row h-100 w-100">
-  <!-- [userId]="user ? user.id : userId" [email]="email" -->
-  <app-chat-left></app-chat-left>
+  <app-chat-left [userId]="userId"></app-chat-left>
+  <app-chatbox-right [username]="username" [userId]="userId"></app-chatbox-right>
 </div>

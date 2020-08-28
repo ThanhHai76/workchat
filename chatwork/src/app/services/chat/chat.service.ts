@@ -6,6 +6,8 @@ import { Observable } from 'rxjs';
 import { environment } from './../../../environments/environment';
 
 /* importing interfaces starts */
+import { MessageRequest } from './../../commons/interfaces/message-request';
+import { MessagesResponse } from './../../commons/interfaces/messages-response';
 import { map } from 'rxjs/operators';
 import { ApiService } from '../api/api.service';
 import { Common } from 'src/app/commons/common';
@@ -29,29 +31,16 @@ export class ChatService {
 		public router: Router
 	) { }
 
-	// getMessages(params: MessageRequest): Observable<MessagesResponse> {
-	// 	return this.http.post(`${this.BASE_URL}api/getMessages`, JSON.stringify(params), this.httpOptions).pipe(
-	// 		map(
-	// 			(response: MessagesResponse) => {
-	// 				return response;
-	// 			},
-	// 			(error) => {
-	// 				throw error;
-	// 			}
-	// 		)
-	// 	);
-	// }
-
-	// getMessages(params: MessageRequest): Observable<MessagesResponse> {
-	// 	return this.apiService.sendPostRequest(Common.API.getMsg,JSON.stringify(params)).pipe(
-	// 		map(
-	// 			(response: MessagesResponse) => {
-	// 				return response;
-	// 			},
-	// 			(error) => {
-	// 				throw error;
-	// 			}
-	// 		)
-	// 	);
-	// }
+	getMessages(params: MessageRequest): Observable<MessagesResponse> {
+		return this.apiService.sendPostRequestAuth(Common.API.getMsg,JSON.stringify(params)).pipe(
+			map(
+				(response: MessagesResponse) => {
+					return response;
+				},
+				(error) => {
+					throw error;
+				}
+			)
+		);
+	}
 }
