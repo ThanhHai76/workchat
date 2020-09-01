@@ -49,10 +49,6 @@ export class ApiService {
     return this.httpClient.post(url, requesData, { headers: this.authService.authHeaders() }).pipe(catchError(this.handleError));
   }
 
-  // public sendPostRequestGetFile(url: string, requesData: any) {
-  //   return this.httpClient.post(url, requesData, {responseType : 'blob', headers: this.authService.authHeaders() }).pipe(catchError(this.handleError));
-  // }
-
   public sendPostRequestFile(url: string, formData: any) {
     return this.httpClient.post(url, formData,  { headers: this.authService.authHeaderUploadFile() } ).pipe(catchError(this.handleError));
   }

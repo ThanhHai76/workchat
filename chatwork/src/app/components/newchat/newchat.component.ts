@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { User } from 'src/app/commons/model/user.model';
 
 @Component({
   selector: 'app-newchat',
@@ -6,18 +7,9 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
   styleUrls: ['./newchat.component.css']
 })
 export class NewchatComponent implements OnInit {
+  @Input() profileUsers: User;
   @Input() chatLists;
-
   @Input() selectedUserId: string;
-
-  @Input() nameusers: string;
-  @Input() email: string;
-  @Input() phone: string;
-  @Input() avatar: string;
-  @Input() avatarUrl: string;
-  @Input() address: string;
-  @Input() website: string;
-  @Input() about: string;
 
   @Output() OnSelectedUser = new EventEmitter();
   @Output() OnProfileUsers = new EventEmitter();

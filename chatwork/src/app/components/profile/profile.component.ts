@@ -15,6 +15,7 @@ import { CustomeResponse } from 'src/app/commons/interfaces/custome-response';
 import { SocialUser } from 'angularx-social-login';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { User } from 'src/app/commons/model/user.model';
+import { DataService } from 'src/app/services/data/data.service';
 
 @Component({
   selector: 'app-profile',
@@ -23,7 +24,7 @@ import { User } from 'src/app/commons/model/user.model';
 })
 export class ProfileComponent implements OnInit, OnDestroy {
   @Input() userId: string;
-  @Input() profile:User;
+  profile:User;
   user: SocialUser;
   mySubscription: any;
 
@@ -38,10 +39,14 @@ export class ProfileComponent implements OnInit, OnDestroy {
     private apiService: ApiService,
     private router: Router,
     private authService: AuthService,
+    private dataService: DataService
   ) {}
 
   ngOnInit() {
     this.user = this.authService.getProfile();
+    this.dataService.profile$.subscribe((profile) => {
+      this.profile = profile;
+    });
   }
 
   ngOnDestroy() {

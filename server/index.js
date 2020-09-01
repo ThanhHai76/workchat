@@ -48,6 +48,7 @@ if (!db) {
 //Socket.io
 
 const chatController = require("./controllers/chatController");
+const userController = require("./controllers/userController");
 
 io.on("connection", (socket) => {
   console.log("Socket connected: " + socket.id);
@@ -110,52 +111,13 @@ io.on("connection", (socket) => {
     }
   });
 
-   //   /* Get the user's Chat list	*/
-  socket.on("chat-left", async (data) => {
-    console.log("chat-left " + data.userId);
-    if (data.userId == "") {
-      io.emit("chat-left-response", {
-        //sending to all connected clients
-        error: true,
-        message: "User not found",
-      });
-    } else {
-      try {
-        const [UserInfoResponse, chatlistResponse] = await Promise.all([
-          chatController.getUserInfo({
-            userId: data.userId,
-            socketId: false,
-          }),
-          chatController.getChatlist(socket.id, data.userId),
-        ]);
-        io.to(socket.id).emit("chat-left-response", {
-          //sending to individual socketid (private message)
-          error: false,
-          singleUser: false,
-          chatList: chatlistResponse,
-        });
-        // console.log(chatController.getChatlist(socket.id));
-        socket.broadcast.emit("chat-left-response", {
-          //sending to all clients except sender
-          error: false,
-          singleUser: true,
-          chatList: UserInfoResponse,
-        });
-      } catch (error) {
-        io.to(socket.id).emit("chat-left-response", {
-          error: true,
-          chatList: [],
-        });
-      }
-    }
-  });
-
     /**
    * send the messages to the user
    */
   socket.on('add-message', async (data) => {
     if (data.message === "") {
       io.to(socket.id).emit('add-message-response', {
+         //sending to individual socketid (private message)
         error: true,
         message: 'Message not found',
       });
@@ -178,6 +140,7 @@ io.on("connection", (socket) => {
           }),
           chatController.insertMessages(data),
         ]);
+        // userController.insertNewestMessages(data.receiverId, data.message);
         io.to(receiverSocketId).emit('add-message-response', data);
       } catch (error) {
         io.to(socket.id).emit('add-message-response', {

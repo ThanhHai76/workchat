@@ -38,7 +38,7 @@
               <div *ngIf="errorMsg" class="alert alert-danger" role="alert">{{errorMsg}}</div>
 
               <div *ngIf="!userSocial" class="u-form-group">
-                <h6>Fullname</h6>
+                <h6>Username</h6>
                 <div class="input-group mb-3">
                   <input type="text" formControlName="name" class="form-control" [value]="profile ? profile.name : ''"
                     aria-label="Fullname">
@@ -56,7 +56,7 @@
                 <h6>Avatar</h6>
                 <div class="input-group mb-3">
                   <div>
-                    <img [src]="profile ? profile.avatar : avatar" alt="user" class="rounded-circle" id="img-small">
+                    <img [src]="avatar" alt="user" class="rounded-circle" id="img-small">
                   </div>
                   <div class="custom-file">
                     <input type="file" name="file" accept="image/x-png,image/gif,image/jpeg" formControlName="avatar"
@@ -70,9 +70,41 @@
               </div>
 
               <div class="u-form-group">
+                <h6>Date of birth</h6>
+                <div class="input-group mb-3">
+                  <input type="text" formControlName="date_of_birth" [value]="profile ? (profile.date_of_birth | date) : ''" class="form-control mb-3" placeholder="Datepicker"
+                    bsDatepicker />
+                  <div class="input-group-prepend" style="height:38px;">
+                    <span class="input-group-text" id="addon-wrapping"><i class="fa fa-birthday-cake"
+                        aria-hidden="true"></i></span>
+                  </div>
+                </div>
+                <div *ngIf="PersonalFormControls.date_of_birth.invalid" class="help-block">
+                  <div>Invalid date</div>
+                </div>
+              </div>
+
+              <div class="u-form-group">
+                <h6>Gender</h6>
+                <div class="input-group mb-3">
+                  <select (change)="SelectOption($event)" class="custom-select">
+                    <option selected>{{profile ? profile.gender : ''}}</option>
+                    <option value="1">Men</option>
+                    <option value="2">Women</option>
+                    <option value="3">LGBT</option>
+                  </select>
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" id="addon-wrapping">
+                      <i class="fa fa-mars-stroke" aria-hidden="true"></i></span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="u-form-group">
                 <h6>City</h6>
                 <div class="input-group mb-3">
-                  <input type="text" formControlName="address" class="form-control" [value]="profile ? profile.address : ''" aria-label="City">
+                  <input type="text" formControlName="address" class="form-control"
+                    [value]="profile ? profile.address : ''" aria-label="City">
                   <div class="input-group-prepend">
                     <span class="input-group-text" id="addon-wrapping"><i class="fa fa-bullseye"
                         aria-hidden="true"></i></span>
@@ -86,7 +118,8 @@
               <div class="u-form-group">
                 <h6>Phone</h6>
                 <div class="input-group mb-3">
-                  <input type="text" formControlName="phone" class="form-control" [value]="profile ? profile.phone : ''">
+                  <input type="text" formControlName="phone" class="form-control"
+                    [value]="profile ? profile.phone : ''">
                   <div class="input-group-prepend">
                     <span class="input-group-text" id="addon-wrapping"><i class="fa fa-phone"
                         aria-hidden="true"></i></span>
@@ -100,7 +133,8 @@
               <div class="u-form-group">
                 <h6>Website</h6>
                 <div class="input-group mb-3">
-                  <input type="text" formControlName="website" class="form-control" [value]="profile ? profile.website : ''">
+                  <input type="text" formControlName="website" class="form-control"
+                    [value]="profile ? profile.website : ''">
                 </div>
                 <div *ngIf="PersonalFormControls.website.invalid" class="help-block">
                   <div>Invalid website address</div>
@@ -113,14 +147,15 @@
           </div>
 
           <!-- About Content-->
-          <div class="tab-pane fade" id="about-content" role="tabpanel" aria-labelledby="profile-tab">
+          <div ng-app="" class="tab-pane fade" id="about-content" role="tabpanel" aria-labelledby="profile-tab">
             <form [formGroup]="AboutForm" (ngSubmit)="UpdateAbout()">
               <div *ngIf="successMsgAbout" class="alert alert-info" role="alert">
                 {{ successMsgAbout }}
               </div>
               <div *ngIf="errorMsg" class="alert alert-danger" role="alert">{{errorMsg}}</div>
               <label> Write a few words that describe you</label>
-              <textarea style="margin-bottom: 20px;" class="form-control" formControlName="about" [value]="profile ? profile.about : about" (input)="checkCheckBoxvalue(AboutForm.get('about').value)"
+              <textarea style="margin-bottom: 20px;" class="form-control" formControlName="about"
+                [value]="profile ? profile.about : about" (input)="checkCheckBoxvalue(AboutForm.get('about').value)"
                 aria-label="With textarea"></textarea>
               <div *ngIf="AboutFormControls.about.invalid" class="help-block">
                 <div>The Description at least 20 characters</div>
@@ -128,9 +163,10 @@
               <div class="ng-hide" ng-show="viewProfile">
                 <p class="alert alert-info">Your about is showing in profile view</p>
               </div>
-              <input type="checkbox" ng-model="viewProfile" formControlName="checkbox" (change)="checkCheckBoxvalue(AboutForm.get('about').value)" > Preview profile
+              <input type="checkbox" ng-model="viewProfile" formControlName="checkbox"
+                (change)="checkCheckBoxvalue(AboutForm.get('about').value)"> Preview profile
               <input type="button" value="Refresh" (click)="refresh()">
-              
+
               <button [disabled]="!AboutForm.valid" type="submit" class="btn btn-primary">Save</button>
             </form>
           </div>

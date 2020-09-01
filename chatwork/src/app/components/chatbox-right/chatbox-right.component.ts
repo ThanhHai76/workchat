@@ -13,30 +13,10 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ChatService } from 'src/app/services/chat/chat.service';
 import { SocketService } from 'src/app/services/socket/socket.service';
 import { DataService } from 'src/app/services/data/data.service';
-import { Users } from 'src/app/commons/interfaces/users';
 import { Message } from 'src/app/commons/interfaces/message';
 import { MessagesResponse } from 'src/app/commons/interfaces/messages-response';
-
-const CUSTOM_EMOJIS = [
-  {
-    name: 'Party Parrot',
-    shortNames: ['parrot'],
-    keywords: ['party'],
-    imageUrl: './assets/images/parrot.gif',
-  },
-  {
-    name: 'Octocat',
-    shortNames: ['octocat'],
-    keywords: ['github'],
-    imageUrl: 'https://github.githubassets.com/images/icons/emoji/octocat.png',
-  },
-  {
-    name: 'Squirrel',
-    shortNames: ['shipit', 'squirrel'],
-    keywords: ['github'],
-    imageUrl: 'https://github.githubassets.com/images/icons/emoji/shipit.png',
-  },
-];
+import { User } from 'src/app/commons/model/user.model';
+import { ListUsers } from 'src/app/commons/interfaces/list-users';
 
 
 @Component({
@@ -46,18 +26,19 @@ const CUSTOM_EMOJIS = [
 })
 export class ChatboxRightComponent implements OnInit {
   public messageLoading = true;
+  public selectedUser: ListUsers = null;
+  public messages: Message[] = [];
+  @Input() profile: User;
   @Input() username: string;
   @Input() userId: string;
-  public selectedUser: Users = null;
-  public messages: Message[] = [];
   today: number = Date.now();
 
   destroy$: Subject<boolean> = new Subject<boolean>();
+
   darkMode: undefined | boolean = !!(
     typeof matchMedia === 'function' &&
-    matchMedia('(prefers-color-scheme: dark)').matches
+    matchMedia('(prefers-color-scheme: white)').matches
   );
-  CUSTOM_EMOJIS = CUSTOM_EMOJIS;
 
   messageEmoji = '';
   MsgForm : FormGroup;
@@ -73,7 +54,6 @@ export class ChatboxRightComponent implements OnInit {
   ]
   set = 'twitter';
 
-  //   public messageForm: FormGroup;
   @ViewChild('messageThread') private messageContainer: ElementRef;
 
   constructor(
@@ -87,18 +67,16 @@ export class ChatboxRightComponent implements OnInit {
   ngOnInit() {
     this.listenForMessages();
     this.initMsgForm();
-    this.dataService.selectedUser.subscribe((selectedUser: Users) => {
+    this.dataService.selectedUser$.subscribe((selectedUser: ListUsers) => {
       if (selectedUser !== null) {
         this.selectedUser = selectedUser;
-        this.getMessages(this.selectedUser.id);
+        this.getMessages(this.selectedUser._id);
       }
     });
   }
 
   getMessages(receiverId: string) {
     this.messageLoading = true;
-    // this.apiService
-    //.sendPostRequest(Common.API.getMsg,{ senderId: this.userId,username:this.username, receiverId: receiverId })
     this.chatService
       .getMessages({
         senderId: this.userId,
@@ -118,7 +96,7 @@ export class ChatboxRightComponent implements OnInit {
       .subscribe((socketResponse: Message) => {
         if (
           this.selectedUser !== null &&
-          this.selectedUser.id === socketResponse.senderId
+          this.selectedUser._id === socketResponse.senderId
         ) {
           this.messages = [...this.messages, socketResponse];
           this.scrollMessageContainer();
@@ -127,22 +105,22 @@ export class ChatboxRightComponent implements OnInit {
   }
 
   sendMessage(message) {
-    // if (message === '' || message === undefined || message === null) {
-    //   alert(`Message can't be empty.`);
-    // } else if (this.userId === '') {
-    //   this.router.navigate([Common.PATHS.home]);
-    // } else if (this.selectedUser.id === '') {
-    //   alert(`Select a user to chat.`);
-    // } else {
-    //   this.sendAndUpdateMessages({
-    //     senderId: this.userId,
-    //     username: this.username,
-    //     message: message.trim(),
-    //     receiverId: this.selectedUser.id,
-    //     sendtime: this.today,
-    //   });
-    //   this.messageEmoji = "";
-    // }
+    if (message === '' || message === undefined || message === null) {
+      alert(`Message can't be empty.`);
+    } else if (this.userId === '') {
+      this.router.navigate([Common.PATHS.home]);
+    } else if (this.selectedUser._id === '') {
+      alert(`Select a user to chat.`);
+    } else {
+      this.sendAndUpdateMessages({
+        senderId: this.userId,
+        username: this.username,
+        message: message.trim(),
+        receiverId: this.selectedUser._id,
+        sendtime: this.today,
+      });
+      this.messageEmoji = "";
+    }
   }
 
   sendAndUpdateMessages(message: Message) {
@@ -178,9 +156,9 @@ export class ChatboxRightComponent implements OnInit {
   }
 
   addEmoji(event) {
-    console.log(this.messageEmoji)
+    // console.log(this.messageEmoji)
     const { messageEmoji } = this;
-    console.log(messageEmoji);
+    // console.log(messageEmoji);
     console.log(`${event.emoji.native}`)
     const text = `${messageEmoji}${event.emoji.native}`;
 
@@ -197,11 +175,4 @@ export class ChatboxRightComponent implements OnInit {
     });
   }
   
-  onFocus() {
-    console.log('focus');
-    this.showEmojiPicker = false;
-  }
-  onBlur() {
-    console.log('onblur')
-  }
 }

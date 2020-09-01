@@ -1,7 +1,7 @@
 /*requiring mongodb node modules */
 const mongodb = require("mongodb");
 const assert = require("assert");
-const config = require("../config/config");
+const config = require("./config");
 var url = config.dbUri;
 
 const ObjectID = mongodb.ObjectID;

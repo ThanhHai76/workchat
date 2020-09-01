@@ -4,6 +4,8 @@ export class User {
         public userId: string,
         public email: string,
         public phone: string,
+        public date_of_birth: string,
+        public gender: string,
         public avatar: string,
         public address: string,
         public website: string,

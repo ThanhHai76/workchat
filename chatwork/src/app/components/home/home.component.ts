@@ -30,6 +30,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   public userId: string;
   public username: string;
   public about: string;
+  public avatar: string;
 
   errorMsg: string;
   mySubscription: any;
@@ -42,19 +43,20 @@ export class HomeComponent implements OnInit, OnDestroy {
     private socketService: SocketService,
     private dataService: DataService
   ) {
-    this.router.routeReuseStrategy.shouldReuseRoute = function () {
-      return false;
-    };
-    this.mySubscription = this.router.events.subscribe((event) => {
-      if (event instanceof NavigationEnd) {
-        // Trick the Router into believing it's last link wasn't previously loaded
-        this.router.navigated = false;
-      }
-    });
+    // this.router.routeReuseStrategy.shouldReuseRoute = function () {
+    //   return false;
+    // };
+    // this.mySubscription = this.router.events.subscribe((event) => {
+    //   if (event instanceof NavigationEnd) {
+    //     // Trick the Router into believing it's last link wasn't previously loaded
+    //     this.router.navigated = false;
+    //   }
+    // });
    }
 
    ngOnInit() {
     this.user = this.authService.getProfile();
+    this.dataService.profile$.subscribe((profile)=>(this.profile = profile))
     this.getProfile();
   }
 
@@ -67,9 +69,11 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.userId = dataResponse.data._id;
         this.username = dataResponse.data.name;
         this.about = dataResponse.data.about;
+        this.avatar = dataResponse.data.avatar;
 
         this.dataService.setProfile(this.profile);
         this.dataService.setAbout(this.about);
+        this.dataService.setAvatar(this.avatar);
   
         //socket connection
         this.establishSocketConnection();

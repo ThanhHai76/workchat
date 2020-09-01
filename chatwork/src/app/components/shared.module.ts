@@ -13,7 +13,8 @@ import { ChatboxRightComponent } from './chatbox-right/chatbox-right.component';
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
 import { EmojiModule } from '@ctrl/ngx-emoji-mart/ngx-emoji';
 import { NgxPopper } from 'angular-popper';
-import { GhButtonModule } from '@ctrl/ngx-github-buttons';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { GhButtonModule } from '@ctrl/ngx-github-buttons';
     PickerModule,
     EmojiModule,
     NgxPopper,
-    // GhButtonModule
+    BrowserAnimationsModule,
+    BsDatepickerModule.forRoot()
   ],
   exports: [
     HomeComponent,

@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 /* importing interfaces starts */
 import { Auth } from './../../commons/interfaces/auth';
 import { Socket } from 'ngx-socket-io';
-import { ChatLeftResponse } from 'src/app/commons/interfaces/chat-left-response';
 import { Message } from 'src/app/commons/interfaces/message';
 import { MessageSocketEvent } from 'src/app/commons/interfaces/message-socket-event';
 /* importing interfaces ends */
@@ -31,21 +30,6 @@ export class SocketService {
     return new Observable((observer) => {
       this.socket.on('logout-response', (data: Auth) => {
         observer.next(data);
-      });
-      return () => {
-        this.socket.disconnect();
-      };
-    });
-  }
- /*
-   * Method to receive chat-list-response event.
-   */
-  getChatList(userId: string): Observable<ChatLeftResponse> {
-    this.socket.emit('chat-left',  { userId: userId });
-
-    return new Observable((observer) => {
-      this.socket.on('chat-left-response', (data: ChatLeftResponse) => {
-        observer.next(data);//Observer got a next value
       });
       return () => {
         this.socket.disconnect();

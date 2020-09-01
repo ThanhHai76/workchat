@@ -14,7 +14,6 @@ import { AppComponent } from './app.component';
 import { ROUTES } from './app.routes';
 
 import { HomeModule } from './components/home/home.module';
-// import { ProfileModule } from './components/profile/profile.module';
 import { RegisterModule } from './components/register/register.module';
 import { LoginModule } from './components/login/login.module';
 import { ResetPasswordModule } from './components/reset-password/reset-password.module';
@@ -33,6 +32,10 @@ import { environment } from 'src/environments/environment';
 import { DataService } from './services/data/data.service';
 import { SharedModule } from './components/shared.module';
 import { ProfileModule } from './components/profile/profile.module';
+
+// Datepicker module
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 const config: SocketIoConfig = { url: environment.socketUrl, options: {} };
 @NgModule({
@@ -54,7 +57,9 @@ const config: SocketIoConfig = { url: environment.socketUrl, options: {} };
     FormsModule, 
     ReactiveFormsModule,
     NgxPopper,
-    SocketIoModule.forRoot(config)
+    SocketIoModule.forRoot(config),
+    BrowserAnimationsModule,
+    BsDatepickerModule.forRoot()
   ],
   providers: [
     AuthGuardService,
@@ -72,7 +77,7 @@ const config: SocketIoConfig = { url: environment.socketUrl, options: {} };
         providers: [
           {
             id: FacebookLoginProvider.PROVIDER_ID,
-            provider: new FacebookLoginProvider('2965647346823367'),
+            provider: new FacebookLoginProvider('1360703950756235'),//2965647346823367
           },
           {
             id: GoogleLoginProvider.PROVIDER_ID,

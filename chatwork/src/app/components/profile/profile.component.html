@@ -42,6 +42,10 @@
             <ul class="list-group">
               <h6>Phone</h6>
               <li class="list-group text-muted">{{ profile ? profile.phone : '' }}</li><br>
+              <h6>Date of birth</h6>
+              <li class="list-group text-muted">{{ profile ? (profile.date_of_birth | date:'fullDate') : '' }}</li><br>
+              <h6>Gender</h6>
+              <li class="list-group text-muted">{{ profile ? profile.gender : '' }}</li><br>
               <h6>City</h6>
               <li class="list-group text-muted">{{ profile ? profile.address : '' }}</li><br>
               <h6>Website</h6>
@@ -90,5 +94,5 @@
   </div>
 </div>
 
-<app-edit-profile [userId]="userId" [profile]="profile" (OnCheckViewProfile)="ViewProfile($event)"
+<app-edit-profile [userId]="userId" (OnCheckViewProfile)="ViewProfile($event)"
   (OnAboutContent)="ViewAboutContent($event)"></app-edit-profile>

@@ -4,6 +4,7 @@ import { ApiService } from 'src/app/services/api/api.service';
 import { Common } from 'src/app/commons/common';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { User } from 'src/app/commons/model/user.model';
 
 @Component({
   selector: 'app-profile-users',
@@ -12,14 +13,7 @@ import { takeUntil } from 'rxjs/operators';
 })
 export class ProfileUsersComponent implements OnInit {
   @Input() selectedUserId: string;
-
-  @Input() nameusers: string;
-  @Input() email: string;
-  @Input() phone: string;
-  @Input() avatar: string;
-  @Input() address: string;
-  @Input() website: string;
-  @Input() about: string;
+  @Input() profileUsers: User;
 
   destroy$: Subject<boolean> = new Subject<boolean>();
 

@@ -10,32 +10,35 @@
   @media (min-width: 992px) {
     .chat-box {
       height: 470px;
-      width: 100%;
       background-color: #dddddd;
       overflow-y: scroll;
       padding: 10px !important;
     }
-  
-    .form-control {
-      border: 1px solid #dddddd !important;
-      margin: 10px 0px;
-      padding: 10px !important;
-      width: 640px !important;
-    }
   }
   
   @media (max-width: 992px) {
-  
   }
   
   .rounded-lg {
     border-radius: 0.5rem;
   }
+
+  .rounded-circle{
+    margin-top: 20px;
+  }
   
   .bg-light {
+    width: 100%;
     margin-bottom: 0px !important;
     background-color: #ffffff !important;
     border: 1px solid #dddddd !important;
+  }
+
+  .form-control {
+    border: 1px solid #dddddd !important;
+    margin: 15px 0px;
+    padding: 10px !important;
+    width: 570px;
   }
   
   .text-muted {
@@ -45,7 +48,6 @@
   .bg-primary {
     background-color: #c8f5f1 !important;
   }
-  
   
   .btn-light,
   .btn-info {
@@ -59,7 +61,6 @@
   .msg {
       clear: both;
     float: left;
-   
   }
   .align-right {
     clear: both;
@@ -75,6 +76,6 @@
   .emoji-mart{
     z-index: 9999;
     position: fixed;
-    margin-left: 10px;
+    margin-left: 5px;
     margin-top: -420px !important;
   }

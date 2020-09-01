@@ -90,7 +90,7 @@ exports.update = function (req, res) {
     if (err) {
       res.status(500).send(err);
     } else {
-      console.log(req.body.facebook);
+      // console.log(req.body.facebook);
       users.name = req.body.name ? req.body.name : users.name;
       users.email = req.body.email ? req.body.email : users.email;
       users.password = req.body.password ? req.body.password : users.password;
@@ -160,9 +160,14 @@ exports.updateSocialLink = function (req, res) {
 
 //Update Info for Social Accounts
 exports.updateSocialUser = function (req, res) {
-  Users.findOne({ _id: req.body.id }, function (err, users) {
+  Users.findById(req.body.id, function (err, users) {
+    // console.log(req.body.id);
     const data = {
       $set: {
+        date_of_birth: req.body.date_of_birth
+          ? req.body.date_of_birth
+          : users.date_of_birth,
+        gender: req.body.gender ? req.body.gender : users.gender,
         address: req.body.address ? req.body.address : users.address,
         phone: req.body.phone ? req.body.phone : users.phone,
         website: req.body.website ? req.body.website : users.website,
@@ -172,14 +177,21 @@ exports.updateSocialUser = function (req, res) {
     // console.log(users);
     MongoClient.connect(url, function (err, db) {
       var dbo = db.db("chatwork");
-      let query = { social_id: req.body.id };
+      let query = { _id: ObjectId(req.body.id) };
       dbo.collection("users").updateOne(query, data, (err) => {
         if (err) {
           res.status(500).send(err);
         } else {
-          res.json({
-            status: 200,
-            message: "User Info updated",
+          Users.findById(req.body.id, function (err, users) {
+            if (err) {
+              res.status(500).send(err);
+            } else {
+              res.json({
+                status: 200,
+                message: "User Info updated",
+                data: users,
+              });
+            }
           });
         }
       });
@@ -261,7 +273,7 @@ exports.socialSignin = function (req, res) {
 // Logout
 exports.logout = function (req, res) {
   try {
-    Users.findOne({ email: req.user.email }, function (err, user) {
+    Users.findOne({ _id: req.user._id }, function (err, user) {
       if (err) res.status(500).send(err);
       if (user) {
         user.token = "";
@@ -283,7 +295,7 @@ exports.logout = function (req, res) {
 
 exports.uploadFile = (req, res, next) => {
   const file = req.file;
-  console.log(file.filename);
+  // console.log(file.filename);
   if (!file) {
     const err = new Error("No File");
     res.status(500).send(err);
@@ -294,4 +306,26 @@ exports.uploadFile = (req, res, next) => {
       message: "Avatar updated",
     });
   }
+};
+
+exports.insertNewestMessages = function (receiverId, message) {
+  const data = {
+    $set: {
+      newestMessage: message,
+    },
+  };
+  MongoClient.connect(url, function (err, db) {
+    try {
+      var dbo = db.db("chatwork");
+      let query = { _id: ObjectId(receiverId) };
+      dbo.collection("users").update(query, data, (err, result) => {
+        db.close();
+        if (err) {
+          console.log(err);
+        }
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  });
 };

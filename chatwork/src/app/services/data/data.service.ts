@@ -1,41 +1,38 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { Users } from 'src/app/commons/interfaces/users';
 import { User } from 'src/app/commons/model/user.model';
+import { ListUsers } from 'src/app/commons/interfaces/list-users';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
-  private profile: User;
+  public profileSubject : BehaviorSubject<User> = new BehaviorSubject<User>(null);
   public aboutSubject : BehaviorSubject<string> = new BehaviorSubject<string>('');
-  public userIdSubject : BehaviorSubject <string> = new BehaviorSubject <string>('');
-  private user = new BehaviorSubject(null);
+  public avatarSubject : BehaviorSubject<string> = new BehaviorSubject<string>('');
+  private userSubject = new BehaviorSubject(null);
 
+  profile$ : Observable<User> = this.profileSubject.asObservable()
   about$ : Observable<string> = this.aboutSubject.asObservable()
-  userId$ : Observable<string> = this.userIdSubject.asObservable()
-  selectedUser: Observable<Users> = this.user.asObservable();
+  avatar$ : Observable<string> = this.avatarSubject.asObservable()
+  selectedUser$: Observable<ListUsers> = this.userSubject.asObservable();
   
   constructor() { }
-  
+
   setAbout(about: string){
     this.aboutSubject.next(about);
   }
 
-  setUserId(userId: string){
-    this.userIdSubject.next(userId);
+  setAvatar(avatar: string){
+    this.avatarSubject.next(avatar);
   }
 
-  changeSelectedUser(message: Users) {
-		this.user.next(message);
+  changeSelectedUser(selectUser: ListUsers) {
+		this.userSubject.next(selectUser);
   }
   
   public setProfile(profile: User) {
-    this.profile = profile;
-  }
-
-  public getProfile(): User {
-    return this.profile;
+    this.profileSubject.next(profile);
   }
 
 }

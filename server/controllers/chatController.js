@@ -84,7 +84,6 @@ exports.getUserInfo = function ({ userId, socketId = false }) {
     queryProjection = {
       name: true,
       status: true,
-      avatar: true,
       _id: false,
       id: "$_id",
     };
@@ -111,45 +110,6 @@ exports.getUserInfo = function ({ userId, socketId = false }) {
             reject(err);
           }
           socketId ? resolve(result[0]["socketId"]) : resolve(result);
-        });
-    } catch (error) {
-      reject(error);
-    }
-  });
-};
-
-exports.getChatlist = function (socketId, userId) {
-  return new Promise(async (resolve, reject) => {
-    try {
-      const [DB, ObjectID] = await Mongodb.onConnect();
-      var dbo = DB.db("chatwork");
-      dbo
-        .collection("users")
-        .aggregate([
-          {
-            $match: {
-              //$match chon document mong muon truy van
-              socketId: { $ne: socketId }, //$ne chon cac document co cac gia tri cua truong khong bang gia tri chi dinh
-              _id: { $ne: userId}
-            },
-          },
-          {
-            $project: {
-              //$project chi dinh cac file mong muon truy van
-              name: true,
-              status: true,
-              avatar: true,
-              _id: false,
-              id: "$_id",
-            },
-          },
-        ])
-        .toArray((err, result) => {
-          DB.close();
-          if (err) {
-            reject(err);
-          }
-          resolve(result);
         });
     } catch (error) {
       reject(error);
