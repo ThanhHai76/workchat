@@ -11,12 +11,11 @@
         </button>
       </div>
 
-      <div class="modal-body">
+      <div *ngFor="let user of profileUsers" class="modal-body">
 
         <div class="text-center">
-          <img class="rounded-circle" id="img-profile" [src]="profileUsers ? profileUsers.avatar : ''"/>
-          <!-- [src]="avatarUrl || avatar" -->
-          <h4>{{profileUsers ? profileUsers.name : ''}}</h4>
+          <img class="rounded-circle" id="img-profile" [src]="user.avatar"/>
+          <h4>{{user.name}}</h4>
           <p style="font-size: 12px;">Last seen : Today</p>
         </div>
 
@@ -26,22 +25,22 @@
           <!-- About -->
           <div class="tab-pane active" id="about" role="tabpanel" aria-labelledby="about-tab">
             <div>
-              <p>{{profileUsers ? profileUsers.about : ''}}</p>
+              <p>{{user.about}}</p>
             </div>
 
             <ul class="list-group">
               <h6>Email</h6>
-              <li class="list-group text-muted">{{ profileUsers ? profileUsers.email : '' }}</li><br>
+              <li class="list-group text-muted">{{ user.email }}</li><br>
               <h6>Date of birth</h6>
-              <li class="list-group text-muted">{{ profileUsers ? (profileUsers.date_of_birth | date) : '' }}</li><br>
+              <li class="list-group text-muted">{{user.date_of_birth | date }}</li><br>
               <h6>Gender</h6>
-              <li class="list-group text-muted">{{ profileUsers ? profileUsers.gender : '' }}</li><br>
+              <li class="list-group text-muted">{{user.gender }}</li><br>
               <h6>Phone</h6>
-              <li class="list-group text-muted">{{ profileUsers ? profileUsers.phone : '' }}</li><br>
+              <li class="list-group text-muted">{{ user.phone }}</li><br>
               <h6>City</h6>
-              <li class="list-group text-muted">{{ profileUsers ? profileUsers.address : '' }}</li><br>
+              <li class="list-group text-muted">{{ user.address}}</li><br>
               <h6>Website</h6>
-              <li class="list-group text-muted">{{ profileUsers ? profileUsers.website : '' }}</li><br>
+              <li class="list-group text-muted">{{ user.website }}</li><br>
             </ul>
           </div>
 

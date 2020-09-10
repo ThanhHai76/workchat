@@ -18,7 +18,8 @@ import { User } from 'src/app/commons/model/user.model';
 })
 export class ChatLeftComponent implements OnInit {
   @Input() UserId: string;
-  public profileUsers: User;
+  public profile: User;
+  public profileUsers: ListUsers[] = [];
   public selectedUserId: string = null;
 
   destroy$: Subject<boolean> = new Subject<boolean>();
@@ -34,6 +35,9 @@ export class ChatLeftComponent implements OnInit {
 
   ngOnInit() {
     this.getChatLeft();
+    this.chatleftLogin();
+    this.chatleftLogout();
+    this.dataService.profile$.subscribe((profile)=>{this.profile = profile})
   }
 
   getChatLeft() {
@@ -41,23 +45,37 @@ export class ChatLeftComponent implements OnInit {
       .sendGetRequest(Common.API.userList)
       .pipe(takeUntil(this.destroy$))
       .subscribe((dataResponse: CustomeResponse) => {
-        this.chatLists = this.chatLists.concat(dataResponse.data);
-        // this.getAvatarUsers();
+          this.chatLists = this.chatLists.concat(dataResponse.data);
       });
   }
 
+  chatleftLogin(){
+    this.socketService
+    .chatleftLogin()
+    .subscribe((response: ListUsers) => {
+      this.chatLists = this.chatLists.filter((obj:ListUsers)=>{
+        return obj._id !== response._id;
+      });
+      this.chatLists = this.chatLists.concat(response);
+      console.log(this.chatLists);
+    });
+  } 
+  
+  chatleftLogout(){
+    this.socketService
+    .chatleftLogout()
+    .subscribe((response: ListUsers) => {
+      this.chatLists = this.chatLists.filter((obj:ListUsers)=>{
+        return obj._id !== response._id;
+      });
+      this.chatLists = this.chatLists.concat(response);
+    });
+  } 
 
   ProfileUsers() {
-    const dataBody = {
-      id: this.selectedUserId,
-    };
-    //get Profile
-    this.apiService
-      .sendPostRequestAuth(Common.API.usersProfile, dataBody)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((dataResponse: CustomeResponse) => {
-        this.profileUsers = dataResponse.data;
-      });
+    this.profileUsers = this.chatLists.filter((obj:ListUsers)=>{
+      return obj._id === this.selectedUserId
+    });
   }
 
   isUserSelected(userId: string): boolean {
@@ -68,7 +86,6 @@ export class ChatLeftComponent implements OnInit {
   }
 
   selectedUser(user: ListUsers): void {
-    // alert("da chon");
     this.selectedUserId = user._id;
     this.dataService.changeSelectedUser(user);
   }

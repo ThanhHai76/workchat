@@ -26,21 +26,17 @@ exports.addSocketId = function ({ userId, socketId }) {
   }
 };
 
-exports.logout = function (userId, isSocketId) {
+exports.logout = function (userId) {
   // console.log(userId);
   const data = {
     $set: {
       socketId: "",
-      status: "invisible",
+      status: "offline",
     },
   };
   try {
     let condition = {};
-    if (isSocketId) {
-      condition.socketId = userId;
-    } else {
-      condition._id = userId;
-    }
+    condition._id = userId;
     Users.update(condition, data, (err, res) => {
       if (err) {
         res.status(500).send(err);
@@ -56,7 +52,7 @@ exports.disconnected = function (socketId) {
   const data = {
     $set: {
       socketId: "",
-      status: "invisible",
+      status: "offline",
     },
   };
   try {
@@ -188,7 +184,7 @@ exports.getMessagesHandler = async function (request, response) {
   if (senderId == "") {
     response.status(412).json({
       error: true,
-      message: 'UserId not found',
+      message: "UserId not found",
     });
   } else {
     try {
@@ -203,7 +199,7 @@ exports.getMessagesHandler = async function (request, response) {
     } catch (error) {
       response.status(503).json({
         error: true,
-        messages: 'User not login',
+        messages: "User not login",
       });
     }
   }

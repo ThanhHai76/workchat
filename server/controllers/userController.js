@@ -308,22 +308,31 @@ exports.uploadFile = (req, res, next) => {
   }
 };
 
-exports.insertNewestMessages = function (receiverId, message) {
+exports.insertNewestMessages = function (message) {
   const data = {
     $set: {
-      newestMessage: message,
+      senderId: message.senderId,
+      newestMessage: message.message,
+      sendtime: message.sendtime,
     },
   };
   MongoClient.connect(url, function (err, db) {
     try {
       var dbo = db.db("chatwork");
-      let query = { _id: ObjectId(receiverId) };
-      dbo.collection("users").update(query, data, (err, result) => {
+      let query = { _id: ObjectId(message.receiverId) };
+      dbo.collection("users").updateOne(query, data, (err, result) => {
         db.close();
         if (err) {
           console.log(err);
         }
       });
+      // let query2 = { _id: ObjectId(message.senderId) };
+      // dbo.collection("users").updateOne(query2, data, (err, result) => {
+      //   db.close();
+      //   if (err) {
+      //     console.log(err);
+      //   }
+      // });
     } catch (error) {
       console.log(error);
     }

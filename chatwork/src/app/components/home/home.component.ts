@@ -3,10 +3,7 @@ import { Router, NavigationEnd } from '@angular/router';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import {
-  SocialAuthService,
-  SocialUser
-} from 'angularx-social-login';
+import { SocialAuthService, SocialUser } from 'angularx-social-login';
 
 import { ApiService } from '../../services/api/api.service';
 import { AuthService } from 'src/app/services/auth/auth.service';
@@ -21,7 +18,7 @@ import { User } from 'src/app/commons/model/user.model';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit, OnDestroy {
   profile: User;
@@ -42,21 +39,11 @@ export class HomeComponent implements OnInit, OnDestroy {
     private authSocialService: SocialAuthService,
     private socketService: SocketService,
     private dataService: DataService
-  ) {
-    // this.router.routeReuseStrategy.shouldReuseRoute = function () {
-    //   return false;
-    // };
-    // this.mySubscription = this.router.events.subscribe((event) => {
-    //   if (event instanceof NavigationEnd) {
-    //     // Trick the Router into believing it's last link wasn't previously loaded
-    //     this.router.navigated = false;
-    //   }
-    // });
-   }
+  ) {}
 
-   ngOnInit() {
-    this.user = this.authService.getProfile();
-    this.dataService.profile$.subscribe((profile)=>(this.profile = profile))
+  ngOnInit() {
+    // this.user = this.authService.getProfile();
+    this.dataService.profile$.subscribe((profile) => (this.profile = profile));
     this.getProfile();
   }
 
@@ -71,10 +58,11 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.about = dataResponse.data.about;
         this.avatar = dataResponse.data.avatar;
 
+        this.dataService.setUserId(this.userId);
         this.dataService.setProfile(this.profile);
         this.dataService.setAbout(this.about);
         this.dataService.setAvatar(this.avatar);
-  
+
         //socket connection
         this.establishSocketConnection();
       });
@@ -113,13 +101,16 @@ export class HomeComponent implements OnInit, OnDestroy {
           if (this.authService.isNotRefresh) {
             this.authSocialService.signOut();
           } else {
-            this.authService.removeToken();
-            this.router.navigate([Common.PATHS.login]);
-
             //remove socketId
-            this.socketService
-              .logout(this.userId)
-              .subscribe((response: Auth) => {});
+            this.dataService.userId$.subscribe((userId) => {
+              this.socketService
+                .logout(userId)
+                .subscribe((response: Auth) => {});
+            });
+            this.authService.removeToken();
+            setTimeout(()=>{
+              this.router.navigate([Common.PATHS.login]);
+            },200)
           }
         } else {
           console.error(data.status);

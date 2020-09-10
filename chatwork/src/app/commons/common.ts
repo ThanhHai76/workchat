@@ -26,7 +26,6 @@ export class Common {
     logout: '/api/logout',
     //------------------------
     profile: '/api/profile',
-    usersProfile: '/api/users',
     update: '/api/update',
     updateSocialUser: '/api/updateSocialUser',
     updateSocialLink: '/api/updateSocialLink',

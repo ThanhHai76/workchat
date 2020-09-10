@@ -20,10 +20,14 @@
 							<h6 class="mb-0">
 								{{user.name}}
 							</h6>
-							<small class="small font-weight">Dec 25</small>
+							<small class="small font-weight">{{(user.sendtime | date:'shortTime')}}</small>
 						</div>
 						<div class="d-flex align-items-center justify-content-between mb-1">
-							<p class="font-italic text-small">Lorem ipsum dolor sit amet</p>
+							<div *ngIf="UserId === user.senderId">
+								<p *ngIf="user.sendtime > profile.sendtime" class="font text-small">You: {{user.newestMessage}}</p>
+								<p *ngIf="user.sendtime < profile.sendtime" class="font text-small">{{user.name}}: {{profile.newestMessage}}</p>
+							</div>
+							<div></div>
 							<div class="dropdown">
 								<button class="btn dropdown-toggle" type="button" id="dropdownMenuButton"
 									data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

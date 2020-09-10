@@ -6,6 +6,7 @@ import { Auth } from './../../commons/interfaces/auth';
 import { Socket } from 'ngx-socket-io';
 import { Message } from 'src/app/commons/interfaces/message';
 import { MessageSocketEvent } from 'src/app/commons/interfaces/message-socket-event';
+import { ListUsers } from 'src/app/commons/interfaces/list-users';
 /* importing interfaces ends */
 
 @Injectable({
@@ -25,6 +26,7 @@ export class SocketService {
    * Method to emit the logout event.
    */
   logout(userId: string): Observable<Auth> {
+    // console.log(userId);
     this.socket.emit('logout', {userId: userId});
     this.socket.emit('disconnect', {userId: userId});
     return new Observable((observer) => {
@@ -35,6 +37,28 @@ export class SocketService {
         this.socket.disconnect();
       };
     });
+  }
+
+  chatleftLogin() : Observable<ListUsers> {
+    return new Observable((observer) => {
+      this.socket.on('user-login', (data: ListUsers) => {
+        observer.next(data);
+      })
+      return() => {
+        this.socket.disconnect();
+      }
+    })
+  }
+
+  chatleftLogout() : Observable<ListUsers> {
+    return new Observable((observer) => {
+      this.socket.on('user-logout', (data: ListUsers) => {
+        observer.next(data);
+      });
+      return() => {
+        this.socket.disconnect();
+      }
+    })
   }
 
     /*
@@ -49,10 +73,9 @@ export class SocketService {
    */
   receiveMessages(): Observable<Message> {
     return new Observable((observer) => {
-      this.socket.on('add-message-response', (data) => {
+      this.socket.on('add-message-response', (data: Message) => {
         observer.next(data);
       });
-
       return () => {
         this.socket.disconnect();
       };

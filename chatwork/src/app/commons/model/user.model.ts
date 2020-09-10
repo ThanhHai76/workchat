@@ -10,8 +10,7 @@ export class User {
         public address: string,
         public website: string,
         public about: string,
-        public facebook: string,
-        public google: string,
-        public youtube: string
+        public newestMessage: string,
+        public sendtime: number
     ){}
 }

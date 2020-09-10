@@ -3,45 +3,44 @@ const path = require("path");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const dotenv = require("dotenv");
-const favicon = require('serve-favicon');
+const favicon = require("serve-favicon");
 const apiRouter = require("./routes/api/api-routes");
 const webRouter = require("./routes/web/web-routes");
 const config = require("./config/config");
-const https = require('https');
-const fs = require('fs');
+const https = require("https");
+const fs = require("fs");
 const cors = require("cors");
 
 const app = express();
 dotenv.config();
 app.use(express.static("public"));
-app.use(express.static('files'))
-app.use('/static', express.static(path.join(__dirname, 'public')))
+app.use(express.static("files"));
+app.use("/static", express.static(path.join(__dirname, "public")));
 
-app.use(bodyParser.json({limit: '10mb', extended: true }));
-app.use(bodyParser.urlencoded({limit: '10mb', extended: true }));
+app.use(bodyParser.json({ limit: "10mb", extended: true }));
+app.use(bodyParser.urlencoded({ limit: "10mb", extended: true }));
 app.use("/api", apiRouter);
 app.use("/", webRouter);
 app.set("view engine", "ejs");
 app.set("views", "./views");
-app.use(favicon('public/images/favicon.ico'));
+app.use(favicon("public/images/favicon.ico"));
 // app.use(cors({ origin: "*" }));
 
 const httpsOptions = {
-    key: fs.readFileSync('../ssl/localhost.key'),
-    cert: fs.readFileSync('../ssl/localhost.crt')
-}
+  key: fs.readFileSync("../ssl/localhost.key"),
+  cert: fs.readFileSync("../ssl/localhost.crt"),
+};
 const server = https.createServer(httpsOptions, app);
 // const server = require("http").Server(app);
 const io = require("socket.io")(server);
 const port = process.env.PORT || 3000;
 
-
 mongoose.connect(config.dbUri, { useNewUrlParser: true });
 const db = mongoose.connection;
 if (!db) {
-    console.log("Error connecting db");
+  console.log("Error connecting db");
 } else {
-    console.log("Db connected successfully");
+  console.log("Db connected successfully");
 }
 
 //--------------------------------------
@@ -49,21 +48,31 @@ if (!db) {
 
 const chatController = require("./controllers/chatController");
 const userController = require("./controllers/userController");
+const Users = require("./models/users");
 
 io.on("connection", (socket) => {
   console.log("Socket connected: " + socket.id);
-  
-  socket.on("connection",(data)=>{
-    try {
-      chatController.addSocketId({
-        userId: data.userId,
-        socketId: socket.id,
+
+  socket.on("connection", (data) => {
+    chatController.addSocketId({
+      userId: data.userId,
+      socketId: socket.id,
+    });
+    setTimeout(()=>{
+      Users.findById(data.userId, function (err, users) {
+        socket.broadcast.emit("user-login", {
+          // sending to all clients except sender
+          _id: users._id,
+          name: users.name,
+          avatar: users.avatar,
+          status: users.status,
+          newestMessage: users.newestMessage,
+          sendtime: users.sendtime,
+          message: "User login",
+        });
       });
-    } catch (error) {
-      // Error
-      console.error(error);
-    }
-  })
+    },400)
+  });
 
   //disconnect
   socket.on("disconnect", function (data) {
@@ -84,8 +93,6 @@ io.on("connection", (socket) => {
    */
   socket.on("logout", (data) => {
     console.log(data.userId + " logout");
-    chatController.disconnected(socket.id);
-
     const userId = data.userId;
     try {
       chatController.logout(userId);
@@ -95,13 +102,20 @@ io.on("connection", (socket) => {
         message: "User logged out",
         userId: userId,
       });
-
-      socket.broadcast.emit("chat-left-response", {
-        // sending to all clients except sender
-        error: false,
-        userDisconnected: true,
-        userid: userId,
-      });
+      setTimeout(()=>{
+        Users.findById(userId, function (err, users) {
+          socket.broadcast.emit("user-logout", {
+            // sending to all clients except sender
+            _id: users._id,
+            name: users.name,
+            avatar: users.avatar,
+            status: users.status,
+            newestMessage: users.newestMessage,
+            sendtime: users.sendtime,
+            message: "User logout",
+          });
+        });
+      },400);
     } catch (error) {
       io.to(socket.id).emit("logout-response", {
         error: true,
@@ -111,25 +125,25 @@ io.on("connection", (socket) => {
     }
   });
 
-    /**
+  /**
    * send the messages to the user
    */
-  socket.on('add-message', async (data) => {
+  socket.on("add-message", async (data) => {
     if (data.message === "") {
-      io.to(socket.id).emit('add-message-response', {
-         //sending to individual socketid (private message)
+      io.to(socket.id).emit("add-message-response", {
+        //sending to individual socketid (private message)
         error: true,
-        message: 'Message not found',
+        message: "Message not found",
       });
     } else if (data.senderId === "") {
-      io.to(socket.id).emit('add-message-response', {
+      io.to(socket.id).emit("add-message-response", {
         error: true,
-        message: 'Error message, no sender',
+        message: "Error message, no sender",
       });
     } else if (data.receiverId === "") {
-      io.to(socket.id).emit('add-message-response', {
+      io.to(socket.id).emit("add-message-response", {
         error: true,
-        message: 'Select a user to chat',
+        message: "Select a user to chat",
       });
     } else {
       try {
@@ -140,21 +154,21 @@ io.on("connection", (socket) => {
           }),
           chatController.insertMessages(data),
         ]);
-        // userController.insertNewestMessages(data.receiverId, data.message);
-        io.to(receiverSocketId).emit('add-message-response', data);
+        userController.insertNewestMessages(data);
+        io.to(receiverSocketId).emit("add-message-response", data);
       } catch (error) {
-        io.to(socket.id).emit('add-message-response', {
+        io.to(socket.id).emit("add-message-response", {
           error: true,
-          message: 'Could not store message, server error',
+          message: "Could not store message, server error",
         });
       }
     }
   });
-
 });
-
 
 //---------------------------
 server.listen(port, () => {
-  console.log(`Server listening on: https://localhost:${server.address().port}`);
+  console.log(
+    `Server listening on: https://localhost:${server.address().port}`
+  );
 });

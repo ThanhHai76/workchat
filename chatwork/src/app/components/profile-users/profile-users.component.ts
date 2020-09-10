@@ -5,6 +5,7 @@ import { Common } from 'src/app/commons/common';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { User } from 'src/app/commons/model/user.model';
+import { ListUsers } from 'src/app/commons/interfaces/list-users';
 
 @Component({
   selector: 'app-profile-users',
@@ -13,7 +14,7 @@ import { User } from 'src/app/commons/model/user.model';
 })
 export class ProfileUsersComponent implements OnInit {
   @Input() selectedUserId: string;
-  @Input() profileUsers: User;
+  @Input() profileUsers : ListUsers[] = [];
 
   destroy$: Subject<boolean> = new Subject<boolean>();
 

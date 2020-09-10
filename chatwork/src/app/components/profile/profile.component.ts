@@ -23,10 +23,9 @@ import { DataService } from 'src/app/services/data/data.service';
   styleUrls: ['./profile.component.css'],
 })
 export class ProfileComponent implements OnInit, OnDestroy {
-  @Input() userId: string;
+  public userId: string;
   profile:User;
   user: SocialUser;
-  mySubscription: any;
 
   public image: Blob = null;
   public viewAbout: boolean = true;
@@ -47,6 +46,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this.dataService.profile$.subscribe((profile) => {
       this.profile = profile;
     });
+    this.dataService.userId$.subscribe((userId)=>{this.userId = userId});
   }
 
   ngOnDestroy() {

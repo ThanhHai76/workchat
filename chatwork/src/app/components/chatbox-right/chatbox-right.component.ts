@@ -109,22 +109,14 @@ export class ChatboxRightComponent implements OnInit {
       alert(`Message can't be empty.`);
     } else if (this.userId === '') {
       this.router.navigate([Common.PATHS.home]);
-<<<<<<< HEAD
     } else if (this.selectedUser._id === '') {
-=======
-    } else if (this.selectedUser.id === '') {
->>>>>>> b32b00f905671e0038824f5c97c6f7795dd1ceb2
       alert(`Select a user to chat.`);
     } else {
       this.sendAndUpdateMessages({
         senderId: this.userId,
         username: this.username,
         message: message.trim(),
-<<<<<<< HEAD
         receiverId: this.selectedUser._id,
-=======
-        receiverId: this.selectedUser.id,
->>>>>>> b32b00f905671e0038824f5c97c6f7795dd1ceb2
         sendtime: this.today,
       });
       this.messageEmoji = "";
