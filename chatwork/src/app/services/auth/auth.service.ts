@@ -3,15 +3,14 @@ import { Injectable } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { HttpHeaders } from '@angular/common/http';
 
-import { SocialUser } from 'angularx-social-login';
-
 // Commons
 import { Common } from './../../commons/common';
+import { UserModel } from '../../commons/models/UserModel';
 
 @Injectable()
 export class AuthService {
 
-  private profile: SocialUser;
+  private profile: UserModel;
   public isNotRefresh: boolean;
   constructor(public jwtHelper: JwtHelperService) { }
 
@@ -40,29 +39,41 @@ export class AuthService {
     return headers;
   }
 
-
   public setToken(token: string) {
-    localStorage.setItem(Common.KEYS.token, token);
+    sessionStorage.setItem(Common.KEYS.token, token);
   }
 
   public getToken(): string {
-    return localStorage.getItem(Common.KEYS.token);
+    return sessionStorage.getItem(Common.KEYS.token);
   }
 
   public removeToken() {
-    localStorage.removeItem(Common.KEYS.token);
-    localStorage.removeItem(Common.KEYS.profile);
+    sessionStorage.removeItem(Common.KEYS.token);
+    sessionStorage.removeItem(Common.KEYS.profile);
+    localStorage.removeItem(Common.KEYS.refreshToken);
   }
 
-  public setProfile(profile: SocialUser) {
-    localStorage.setItem(Common.KEYS.profile, JSON.stringify(profile));
+  public setProfile(profile: UserModel) {
+    sessionStorage.setItem(Common.KEYS.profile, JSON.stringify(profile));
     this.profile = profile;
   }
 
-  public getProfile(): SocialUser {
-    if (!this.profile) {
-      this.profile = JSON.parse(localStorage.getItem(Common.KEYS.profile));
+  public getProfile(): UserModel {
+    if (!this.profile && sessionStorage.getItem(Common.KEYS.profile) != null) {
+      this.profile = JSON.parse(sessionStorage.getItem(Common.KEYS.profile));
     }
     return this.profile;
+  }
+
+  public setRefreshToken(token: string) {
+    localStorage.setItem(Common.KEYS.refreshToken, token);
+  }
+
+  public getRefreshToken(): string {
+    return localStorage.getItem(Common.KEYS.refreshToken);
+  }
+
+  public removeRefreshToken() {
+    localStorage.removeItem(Common.KEYS.refreshToken);
   }
 }

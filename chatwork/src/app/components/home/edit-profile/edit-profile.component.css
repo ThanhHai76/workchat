@@ -1,0 +1,47 @@
+#img-small {
+    /*position: absolute;*/
+    margin-bottom: -11px;
+    margin-left: auto;
+    margin-right: auto;
+    /*width: 50%;*/
+    width: 40px !important;
+    height: 40px !important;
+    background-color: rgb(255, 255, 255);
+    padding: 2px;
+  }
+  
+  .modal-content{
+    margin-top: 55px !important;
+    padding: 10px;
+  }
+  .tab-content {
+    margin-top: 30px !important;
+    padding: 10px;
+  }
+  
+  .btn-primary {
+    float: right !important;
+    margin-top: 40px;
+    background-color: #26a69a !important;
+    border-radius: 10px;
+  }
+  .nav-tabs {
+    border-bottom: none;
+  }
+  .nav-tabs .nav-link {
+    border: none;
+  }
+  .nav-tabs .nav-link.active {
+    color: #409cff;
+    border-bottom: 2px solid #409cff;
+  }
+  .nav-tabs .nav-link {
+    color: #212529;
+  }
+  
+  .help-block {
+    text-align: left;
+    color: #DF4A32;
+    font-size: 12px;
+    padding: 0px 10px 10px;
+  }

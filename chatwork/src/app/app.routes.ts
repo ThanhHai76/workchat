@@ -6,7 +6,7 @@ import { AuthGuardService as AuthGuard } from './services/auth/auth-guard.servic
 import { RoleGuardService as RoleGuard } from './services/auth/role-guard.service';
 
 // Components
-import { ProfileComponent } from './components/profile/profile.component';
+import { ProfileComponent } from './components/home/profile/profile.component';
 import { HomeComponent } from './components/home/home.component';
 import { RegisterComponent } from './components/register/register.component';
 import { LoginComponent } from './components/login/login.component';

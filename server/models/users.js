@@ -18,13 +18,13 @@ const UserSchema = new Schema({
     date_of_birth: Date,
     address: String,
     avatar: String,
+    about: String,
     website: String,
-    about: String, 
+    status: String,
+    socketId: String,
     token: String,
     social_id: String,
     social_provider: String,
-    socketId: String,
-    status: String,
     created_date: {
         type: Date,
         default: Date.now

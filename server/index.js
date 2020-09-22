@@ -1,5 +1,4 @@
 const express = require("express");
-const path = require("path");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const dotenv = require("dotenv");
@@ -9,7 +8,7 @@ const webRouter = require("./routes/web/web-routes");
 const config = require("./config/config");
 const https = require("https");
 const fs = require("fs");
-const cors = require("cors");
+const path = require("path");
 
 const app = express();
 dotenv.config();
@@ -24,7 +23,6 @@ app.use("/", webRouter);
 app.set("view engine", "ejs");
 app.set("views", "./views");
 app.use(favicon("public/images/favicon.ico"));
-// app.use(cors({ origin: "*" }));
 
 const httpsOptions = {
   key: fs.readFileSync("../ssl/localhost.key"),
@@ -35,30 +33,22 @@ const server = https.createServer(httpsOptions, app);
 const io = require("socket.io")(server);
 const port = process.env.PORT || 3000;
 
-mongoose.connect(config.dbUri, { useNewUrlParser: true });
-const db = mongoose.connection;
-if (!db) {
-  console.log("Error connecting db");
-} else {
-  console.log("Db connected successfully");
-}
-
 //--------------------------------------
 //Socket.io
 
 const chatController = require("./controllers/chatController");
-const userController = require("./controllers/userController");
 const Users = require("./models/users");
 
 io.on("connection", (socket) => {
   console.log("Socket connected: " + socket.id);
 
   socket.on("connection", (data) => {
+    // console.log(data.userId)
     chatController.addSocketId({
       userId: data.userId,
       socketId: socket.id,
     });
-    setTimeout(()=>{
+    setTimeout(() => {
       Users.findById(data.userId, function (err, users) {
         socket.broadcast.emit("user-login", {
           // sending to all clients except sender
@@ -66,12 +56,12 @@ io.on("connection", (socket) => {
           name: users.name,
           avatar: users.avatar,
           status: users.status,
-          newestMessage: users.newestMessage,
-          sendtime: users.sendtime,
+          // newestMessage: users.newestMessage,
+          // sendtime: users.sendtime,
           message: "User login",
         });
       });
-    },400)
+    }, 200);
   });
 
   //disconnect
@@ -102,7 +92,7 @@ io.on("connection", (socket) => {
         message: "User logged out",
         userId: userId,
       });
-      setTimeout(()=>{
+      setTimeout(() => {
         Users.findById(userId, function (err, users) {
           socket.broadcast.emit("user-logout", {
             // sending to all clients except sender
@@ -110,12 +100,12 @@ io.on("connection", (socket) => {
             name: users.name,
             avatar: users.avatar,
             status: users.status,
-            newestMessage: users.newestMessage,
-            sendtime: users.sendtime,
+            // newestMessage: users.newestMessage,
+            // sendtime: users.sendtime,
             message: "User logout",
           });
         });
-      },400);
+      }, 200);
     } catch (error) {
       io.to(socket.id).emit("logout-response", {
         error: true,
@@ -154,7 +144,7 @@ io.on("connection", (socket) => {
           }),
           chatController.insertMessages(data),
         ]);
-        userController.insertNewestMessages(data);
+        // userController.insertNewestMessages(data);
         io.to(receiverSocketId).emit("add-message-response", data);
       } catch (error) {
         io.to(socket.id).emit("add-message-response", {
@@ -164,9 +154,41 @@ io.on("connection", (socket) => {
       }
     }
   });
+
+  socket.on("joinRoom", ({ username, groupname, description }) => {
+    let room = groupname;
+    socket.join(room);
+    socket.phong = room;
+
+    const rooms = [];
+    for(r in socket.adapter.rooms){
+      rooms.push(r);
+    }
+
+    // Send group info
+    io.to(socket.id).emit("group-info", {groupname, description});
+    // io.sockets.emit("server-send-rooms", rooms);
+    // socket.emit("server-send-room-socket", room);
+
+    // Broadcast when a user connects
+    socket.broadcast
+      .to(room)
+      .emit("inform-user-join", `${username} has joined the group`);
+
+    socket.on("chat-group", function({username,avatar,message,sendtime}){
+      io.sockets.in(socket.phong).emit("server-chat", {username,avatar,message,sendtime});
+    })
+  });
 });
 
-//---------------------------
+mongoose.connect(config.dbUri, { useNewUrlParser: true });
+const db = mongoose.connection;
+if (!db) {
+  console.log("Error connecting db");
+} else {
+  console.log("Db connected successfully");
+}
+
 server.listen(port, () => {
   console.log(
     `Server listening on: https://localhost:${server.address().port}`

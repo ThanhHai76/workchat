@@ -1,7 +1,12 @@
 const Users = require("../models/users");
 const Mongodb = require("./../config/db");
+var MongoClient = require("mongodb").MongoClient;
+const config = require("../config/config");
+var url = config.dbUri;
+const { ObjectId } = require("bson");
 
 exports.addSocketId = function ({ userId, socketId }) {
+  // console.log(userId);
   const data = {
     id: userId,
     value: {
@@ -12,15 +17,13 @@ exports.addSocketId = function ({ userId, socketId }) {
     },
   };
   try {
-    let condition = {};
-    condition._id = data.id;
+    MongoClient.connect(url,(err,db)=>{
+      var dbo = db.db("chatwork");
+      let query = { _id: ObjectId(data.id) };
+      dbo.collection('users').updateOne(query, data.value, (err)=>{
 
-    Users.update(condition, data.value, (err, res) => {
-      if (err) {
-        // res.status(500).send(err);
-      } else {
-      }
-    });
+      })
+    })
   } catch (error) {
     res.status(500).send(error);
   }
@@ -35,14 +38,12 @@ exports.logout = function (userId) {
     },
   };
   try {
-    let condition = {};
-    condition._id = userId;
-    Users.update(condition, data, (err, res) => {
-      if (err) {
-        res.status(500).send(err);
-      } else {
-      }
-    });
+    MongoClient.connect(url,(err,db)=>{
+      var dbo = db.db("chatwork");
+      let query = { _id: ObjectId(userId) };
+      dbo.collection('users').updateOne(query, data, (err)=>{
+      })
+    })
   } catch (error) {
     res.status(500).send(error);
   }
@@ -56,15 +57,12 @@ exports.disconnected = function (socketId) {
     },
   };
   try {
-    let condition = {};
-    condition.socketId = socketId;
-
-    Users.update(condition, data, (err, res) => {
-      if (err) {
-        res.status(500).send(err);
-      } else {
-      }
-    });
+    MongoClient.connect(url,(err,db)=>{
+      var dbo = db.db("chatwork");
+      let query = { socketId: socketId };
+      dbo.collection('users').updateOne(query, data, (err)=>{
+      })
+    })
   } catch (error) {
     res.status(500).send(error);
   }

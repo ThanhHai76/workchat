@@ -18,13 +18,6 @@ import { Common } from 'src/app/commons/common';
 })
 export class ChatService {
 
-  private BASE_URL = environment.apiUrl;
-	private httpOptions = {
-		headers: new HttpHeaders({
-			'Content-Type': 'application/json',
-		})
-	};
-
 	constructor(
 		private apiService: ApiService,
 		private http: HttpClient,

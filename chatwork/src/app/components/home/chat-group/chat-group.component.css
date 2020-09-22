@@ -1,0 +1,63 @@
+.modal-dialog {
+  margin-top: 60px;
+}
+#btn-primary {
+  background-color: #26a69a !important;
+  color: white;
+  border-radius: 10px;
+  margin: 10px 0px 0px !important;
+  height: 50px;
+}
+.dropup .dropdown-toggle::after {
+  display: none;
+}
+.form-control {
+  border: 1px solid #dddddd !important;
+  margin: 15px 0px;
+  padding: 10px !important;
+  width: 100%;
+}
+
+.text-muted {
+  text-align: right;
+}
+
+.bg-primary {
+  background-color: #c8f5f1 !important;
+}
+
+.btn-light,
+.btn-info {
+  margin: 10px 10px 10px !important;
+  height: 50px;
+  width: 50px;
+}
+
+.emoji-mart {
+  z-index: 9999;
+  position: fixed;
+  margin-left: 5px;
+  margin-top: -420px !important;
+}
+
+.chat-box {
+  height: 300px;
+  background-color: #dddddd;
+  overflow-y: scroll;
+  padding: 10px !important;
+}
+
+.rounded-circle {
+  margin-top: 20px;
+}
+.msg {
+  clear: both;
+  float: left;
+}
+.align-right {
+  clear: both;
+  float: right !important;
+}
+.namemsg {
+  padding: 0px 10px 0px 10px;
+}

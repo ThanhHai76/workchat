@@ -23,19 +23,15 @@ import {
   GoogleLoginProvider,
   FacebookLoginProvider,
 } from 'angularx-social-login';
-
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxPopper } from 'angular-popper';
-import { SocketService } from './services/socket/socket.service';
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { environment } from 'src/environments/environment';
-import { DataService } from './services/data/data.service';
-import { SharedModule } from './components/shared.module';
-import { ProfileModule } from './components/profile/profile.module';
 
 // Datepicker module
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 const config: SocketIoConfig = { url: environment.socketUrl, options: {} };
 @NgModule({
@@ -48,8 +44,6 @@ const config: SocketIoConfig = { url: environment.socketUrl, options: {} };
     HomeModule,
     LoginModule,
     RegisterModule,
-    ProfileModule,
-    SharedModule,
     ResetPasswordModule,
     FontAwesomeModule,
     HttpClientModule,
@@ -59,13 +53,12 @@ const config: SocketIoConfig = { url: environment.socketUrl, options: {} };
     NgxPopper,
     SocketIoModule.forRoot(config),
     BrowserAnimationsModule,
-    BsDatepickerModule.forRoot()
+    BsDatepickerModule.forRoot(),
+    Ng2SearchPipeModule
   ],
   providers: [
     AuthGuardService,
     AuthService,
-    SocketService,
-    DataService,
     RoleGuardService,
     { provide: JWT_OPTIONS, useValue: JWT_OPTIONS },
     JwtHelperService,

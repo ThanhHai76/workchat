@@ -1,0 +1,61 @@
+<header class="main-header">
+  <nav class="navbar navbar-expand-lg navbar-light w-100">
+    <div id="logo">
+      <a href="#">
+        <img src="../../../assets/images/logo_hz.png" alt="logo">
+      </a>
+    </div>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mx-auto">
+        <li class="nav-item active">
+          <a class="nav-link text-white" data-toggle="modal" data-target="#myModalProfile" href="#">Profile<span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link text-white" data-toggle="modal" data-target="#myModalFriend" href="#">Friends</a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link text-white" data-toggle="modal" data-target="#myModalFavorites" href="#">Favorites</a>
+        </li>
+      </ul>
+
+      <ul class="navbar-nav mx-auto">
+        <li class="nav-item active">
+          <a class="nav-link text-white" href="#">
+            <i class="fa fa-video-camera" data-toggle="modal" data-target="#ModalCenter-Video" aria-hidden="true"></i>
+          </a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link text-white" href="#">
+            <i class="fa fa-phone" data-toggle="modal" data-target="#ModalCenter-Call" aria-hidden="true"></i>
+          </a>
+        </li>
+      </ul>
+
+      <div class="header mt-3">
+        <div class="dropdown ml-auto">
+          <a href="#" data-toggle="dropdown">
+            <span class="mr-2 d-none d-xl-inline-block text-white">{{user ? user.name : ''}}</span>
+            <figure class="avatar">
+              <img [src]="user && (user.photoUrl || user.avatar) ? user.photoUrl || user.avatar: '../../../assets/images/avatar3.png'" class="rounded-circle" alt="image">
+            </figure>
+            <span class="ml-2 d-xl-none d-lg-inline-block text-white">{{user ? user.name : ''}}</span>
+          </a>
+          <div class="dropdown-menu">
+            <a href="#" class="dropdown-item" data-navigation-target="contact-information" data-toggle="modal" data-target="#myModalProfile">Profile</a>
+            <a href="#" class="dropdown-item" data-toggle="modal" data-target="#ModalCenterSetting">Settings</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item cursor-pointer text-primary" (click)="logout()">Logout</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<app-profile></app-profile>

@@ -27,18 +27,17 @@ export class ApiService {
       // Server-side errors
       errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
     }
-    window.alert(errorMessage);
+    // window.alert(errorMessage);
+    // console.error(errorMessage);
     if (error.status === ApiStatus.AUTH_FAIL) {
-      localStorage.clear();
+      sessionStorage.clear();
       location.href = '/' + Common.PATHS.login;
     }
     return throwError(errorMessage);
   }
 
   public sendGetRequest(url: string) {
-    return this.httpClient
-      .get(url, { headers: this.authService.authHeaders() })
-      .pipe(catchError(this.handleError));
+    return this.httpClient.get(url,{ headers: this.authService.authHeaders() }).pipe(catchError(this.handleError));
   }
 
   public sendPostRequest(url: string, requesData: any) {

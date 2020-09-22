@@ -1,0 +1,37 @@
+.modal-content {
+  margin-top: 60px !important;
+}
+.tab-content{
+  margin: 20px 15px;
+}
+
+.btn-primary {
+  float: right !important;
+  margin-top: 40px;
+  background-color: #26a69a !important;
+  border-radius: 10px;
+}
+.custom-control {
+  padding: 10px 30px 10px;
+}
+.btn-secondary {
+  color: #06988a;
+  background-color: #c8c8c8 !important;
+}
+.custom-control-input:checked ~ .custom-control-label::before {
+  background-color: #26a69a !important;
+}
+
+.nav-tabs {
+  border-bottom: none;
+}
+.nav-tabs .nav-link {
+  border: none;
+}
+.nav-tabs .nav-link.active {
+  color: #409cff;
+  border-bottom: 2px solid #409cff;
+}
+.nav-tabs .nav-link {
+  color: #212529;
+}

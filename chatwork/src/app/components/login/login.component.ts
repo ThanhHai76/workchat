@@ -1,13 +1,8 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
-import {
-  SocialAuthService,
-  FacebookLoginProvider,
-  SocialUser,
-  GoogleLoginProvider,
-} from 'angularx-social-login';
+import { SocialAuthService, FacebookLoginProvider, GoogleLoginProvider } from 'angularx-social-login';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -19,14 +14,14 @@ import { AuthGuardService } from './../../services/auth/auth-guard.service';
 import { Common } from './../../commons/common';
 import { ApiStatus } from './../../commons/enum/api-status.enum';
 import { CustomeResponse } from './../../commons/interfaces/custome-response';
+import { UserModel } from 'src/app/commons/models/UserModel';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css'],
+  styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit, OnDestroy {
-  isLogin: boolean;
   destroy$: Subject<boolean> = new Subject<boolean>();
   loginForm: FormGroup;
   signUpForm: FormGroup;
@@ -39,11 +34,11 @@ export class LoginComponent implements OnInit, OnDestroy {
     private authGuardService: AuthGuardService,
     private router: Router,
     private authSocialService: SocialAuthService
-  ) {}
+  ) { }
 
   ngOnInit() {
+    this.refreshToken();
     this.authGuardService.checkAuthOut();
-    this.isLogin = true;
     this.initLoginForm();
     this.initSignUpForm();
     this.loginWithSocialNetwork();
@@ -53,15 +48,6 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.destroy$.next(true);
     // Unsubscribe from the subject
     this.destroy$.unsubscribe();
-  }
-
-  /**
-   * changeAction
-   * Event when change action login <-> sign up
-   * @memberof LoginComponent
-   */
-  public changeAction() {
-    this.isLogin = !this.isLogin;
   }
 
   /**
@@ -79,17 +65,17 @@ export class LoginComponent implements OnInit, OnDestroy {
     // Setting data body to request API
     const dataBody = {
       email: this.loginForm.get(Common.KEYS.email).value,
-      password: this.loginForm.get(Common.KEYS.password).value,
+      password: this.loginForm.get(Common.KEYS.password).value
     };
 
     // Call login API
-    this.apiService
-      .sendPostRequest(Common.API.login, dataBody)
+    this.apiService.sendPostRequest(Common.API.login, dataBody)
       .pipe(takeUntil(this.destroy$))
       .subscribe((data: CustomeResponse) => {
         if (data.status === ApiStatus.SUCCESS) {
           // Save token and redirect to Home
           this.authService.setToken(data.token);
+          this.authService.setRefreshToken(data.refreshToken);
           this.router.navigate([Common.PATHS.home]);
         } else {
           // Show error message
@@ -104,30 +90,32 @@ export class LoginComponent implements OnInit, OnDestroy {
    * @memberof LoginComponent
    */
   public signUp() {
-        // stop here if form is invalid
-        if (this.signUpForm.invalid) {
-          return;
+    // Check form validate
+    if (this.signUpForm.invalid) {
+      return;
+    }
+
+    // Setting data body to request API
+    const dataBody = {
+      name: this.signUpForm.get(Common.KEYS.name).value,
+      email: this.signUpForm.get(Common.KEYS.email).value,
+      password: this.signUpForm.get(Common.KEYS.password).value
+    };
+
+    // Call login API
+    this.apiService.sendPostRequest(Common.API.signup, dataBody)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((data: CustomeResponse) => {
+        if (data.status === ApiStatus.SUCCESS) {
+          // Show success message
+          const element: HTMLElement = document.getElementById('loginTab') as HTMLElement;
+          element.click();
+          this.successMsg = data.message;
+        } else {
+          // Show error message
+          this.errorMsg = data.message;
         }
-        // Setting data body to request API
-        const dataSignup = {
-          name: this.signUpForm.get(Common.KEYS.name).value,
-          email: this.signUpForm.get(Common.KEYS.email).value,
-          password: this.signUpForm.get(Common.KEYS.password).value,
-          confirm: this.signUpForm.get(Common.KEYS.confirm).value,
-        };
-        // Call signup API
-        this.apiService
-          .sendPostRequest(Common.API.signup, dataSignup)
-          .pipe(takeUntil(this.destroy$))
-          .subscribe((data: CustomeResponse) => {
-            if (data.status === ApiStatus.SUCCESS) {
-              this.router.navigate([Common.PATHS.login]);
-              this.successMsg = data.message; 
-            } else {
-              // Show error message
-              this.errorMsg = data.message;
-            }
-          });
+      });
   }
 
   /**
@@ -156,8 +144,8 @@ export class LoginComponent implements OnInit, OnDestroy {
    */
   private initLoginForm() {
     this.loginForm = new FormGroup({
-      email: new FormControl('', [Validators.required, Validators.email]),
-      password: new FormControl('', [Validators.required,  Validators.minLength(8)]),
+      email: new FormControl(null, [Validators.required, Validators.email]),
+      password: new FormControl(null, [Validators.required])
     });
   }
 
@@ -168,24 +156,12 @@ export class LoginComponent implements OnInit, OnDestroy {
    * @memberof LoginComponent
    */
   private initSignUpForm() {
-    this.signUpForm = new FormGroup(
-      {
-        name: new FormControl('', [
-          Validators.required,
-          Validators.minLength(6),
-        ]),
-        email: new FormControl('', [Validators.required, Validators.email]),
-        password: new FormControl('', [
-          Validators.required,
-          Validators.minLength(8),
-        ]),
-        confirm: new FormControl('', [
-          Validators.required,
-          Validators.minLength(8),
-        ]),
-      },
-      { validators: this.checkPasswords }
-    );
+    this.signUpForm = new FormGroup({
+      name: new FormControl(null, [Validators.required, Validators.minLength(6)]),
+      email: new FormControl(null, [Validators.required, Validators.email]),
+      password: new FormControl(null, [Validators.required, Validators.minLength(8)]),
+      confirm: new FormControl(null)
+    }, { validators: this.checkPasswords });
   }
 
   /**
@@ -209,23 +185,24 @@ export class LoginComponent implements OnInit, OnDestroy {
    * @memberof LoginComponent
    */
   private loginWithSocialNetwork() {
-    this.authSocialService.authState.subscribe((user: SocialUser) => {
+    this.authSocialService.authState.subscribe((user) => {
       if (user) {
-        this.authService.setProfile(user);
+        const userData = new UserModel(user);
+        this.authService.setProfile(userData);
         let url: string;
         if (user.provider === GoogleLoginProvider.PROVIDER_ID) {
           url = Common.API.googleLogin;
         } else {
           url = Common.API.facebookLogin;
         }
-        this.apiService
-          .sendPostRequest(url, { access_token: user.authToken })
+        this.apiService.sendPostRequest(url, { access_token: user.authToken })
           .pipe(takeUntil(this.destroy$))
           .subscribe((data: CustomeResponse) => {
             if (data.status === ApiStatus.SUCCESS) {
               // Save token and redirect to Home
               this.authService.setToken(data.token);
               this.authService.isNotRefresh = true;
+              this.authService.setRefreshToken(data.refreshToken);
               this.router.navigate([Common.PATHS.home]);
             } else {
               // Show error message
@@ -236,16 +213,35 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.authService.setProfile(null);
         this.authService.removeToken();
         this.router.navigate([Common.PATHS.login]);
-        // location.href = '/' + Common.PATHS.login;
       }
     });
   }
 
-  public get formLoginControls() {
-    return this.loginForm.controls;
+  /**
+   * refreshToken
+   * Refresh token
+   * @private
+   * @returns
+   * @memberof LoginComponent
+   */
+  private refreshToken() {
+    if (this.authService.getRefreshToken() == null) {
+      return;
+    }
+
+    // Call login API
+    this.apiService.sendPostRequest(Common.API.refreshToken, { refreshToken: this.authService.getRefreshToken() })
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((data: CustomeResponse) => {
+        if (data.status === ApiStatus.SUCCESS) {
+          // Save token and redirect to Home
+          this.authService.setToken(data.token);
+          this.router.navigate([Common.PATHS.home]);
+        }
+      });
   }
 
-  public get formSignUpControls() {
-    return this.signUpForm.controls;
-  }
+  public get formLoginControls() { return this.loginForm.controls; }
+
+  public get formSignUpControls() { return this.signUpForm.controls; }
 }

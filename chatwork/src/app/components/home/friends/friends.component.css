@@ -1,0 +1,83 @@
+/* ----- Modal Right ------ */
+
+.modal.right .modal-dialog {
+    float: right !important;
+    width: 25%;
+    -webkit-transform: translate3d(0%, 0, 0);
+    -ms-transform: translate3d(0%, 0, 0);
+    -o-transform: translate3d(0%, 0, 0);
+    transform: translate3d(0%, 0, 0);
+  }
+  
+  .modal.right .modal-content {
+    overflow-y: auto;
+    margin-top: 55px;
+    height: 600px;
+  }
+  
+  .modal.right .modal-body {
+    padding: 15px 15px 20px;
+  }
+  
+  /*Right*/
+  .modal.right.fade .modal-dialog {
+    /* right: -320px; */
+    -webkit-transition: opacity 0.3s linear, right 0.3s ease-out;
+    -moz-transition: opacity 0.3s linear, right 0.3s ease-out;
+    -o-transition: opacity 0.3s linear, right 0.3s ease-out;
+    transition: opacity 0.3s linear, right 0.3s ease-out;
+  }
+  
+  .modal.right.fade.in .modal-dialog {
+    right: 0;
+  }
+  
+  .fa-times {
+    background-color: #fd397a !important ;
+    color: white !important;
+    border-radius: 5px;
+    border: none !important;
+    font-size: 20px !important;
+  }
+  .fa-times:hover {
+    font-size: 22px !important;
+  }
+  
+  /* --------  */
+  .search-input {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 10px !important;
+    width: 100%;
+  }
+  
+  .search-container {
+    /* border: 1px solid #ddd; */
+    display: flex;
+    font-size: 14px;
+    margin: 0px 20px 10px;
+  }
+  .btn-primary {
+    float: right !important;
+    margin-top: 50px;
+    border: 1px solid #ddd;
+    background-color: #26a69a;
+    color: white;
+    border-radius: 10px;
+  }
+  
+  #dropdownMenuButton::after {
+    display: none;
+  }
+  #dropdownMenuButton {
+    color: white;
+  }
+  #dropdownMenuButton:hover {
+    color: #26a69a;
+  }
+  
+  .modal-open .modal{
+    overflow-y: hidden !important;
+  }
+  

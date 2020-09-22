@@ -3,4 +3,5 @@ export interface CustomeResponse {
   data?: any;
   message?: string;
   token?: string;
+  refreshToken?: string;
 }

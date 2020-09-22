@@ -1,0 +1,97 @@
+<!-- Modal Right Profile -->
+<div class="modal right fade" style=" overflow-y: scroll" id="myModalProfile" tabindex="-1" role="dialog"
+  aria-labelledby="myModalLabel2">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header my-2">
+        <h4 class="modal-weight" style="padding-left: 10px;">Profile</h4>
+
+        <i class="fa fa-pencil" data-toggle="modal" data-target="#EditModalCenter" aria-hidden="true"></i>
+
+        <button type="button" class="fa fa-times" data-dismiss="modal" aria-label="Close">
+        </button>
+      </div>
+
+      <div class="modal-body">
+
+        <div class="text-center">
+          <img class="rounded-circle" id="img-profile" [src]="profile ? profile.avatar : ''" />
+          <h4>{{profile ? profile.name : ''}}</h4>
+        </div>
+
+        <ul class="nav nav-tabs justify-content-center">
+          <li class="nav-item">
+            <a class="nav-link active" id="about-tab" data-toggle="tab" href="#about" role="tab" aria-controls="home"
+              aria-selected="true">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="media-tab" data-toggle="tab" href="#media" role="tab" aria-controls="profile"
+              aria-selected="false">Media</a>
+          </li>
+        </ul>
+
+        <div class="tab-content" id="myTabContent">
+
+          <!-- About -->
+          <div class="tab-pane active" id="about" role="tabpanel" aria-labelledby="about-tab">
+            <div *ngIf="viewAbout===true">
+              <p>{{profile ? profile.about : ''}}</p>
+            </div>
+
+            <ul class="list-group">
+              <h6>Phone</h6>
+              <li class="list-group text-muted">{{ profile ? profile.phone : '' }}</li><br>
+              <h6>Date of birth</h6>
+              <li class="list-group text-muted">{{ profile ? (profile.date_of_birth | date:'fullDate') : '' }}</li><br>
+              <h6>Gender</h6>
+              <li class="list-group text-muted">{{ profile ? profile.gender : '' }}</li><br>
+              <h6>City</h6>
+              <li class="list-group text-muted">{{ profile ? profile.address : '' }}</li><br>
+              <h6>Website</h6>
+              <li class="list-group text-muted">{{ profile ? profile.website : '' }}</li><br>
+            </ul>
+          </div>
+
+          <!-- Media -->
+          <div class="tab-pane fade" id="media" role="tabpanel" aria-labelledby="media-tab">
+            <div>
+              <ul class="nav">
+                <li class="col" style="text-align: left;">
+                  <h6>Recent Files</h6>
+                </li>
+                <li class="col" style="color:#409cff; text-align: right;">
+                  <i class="fa fa-upload" aria-hidden="true"> Upload</i>
+                </li>
+              </ul>
+            </div>
+
+            <div>
+              <ul class="list-group">
+                <li class="list-group-item">
+                  <i class="fa fa-file" aria-hidden="true"></i> <label>Report</label>
+                </li>
+                <li class="list-group-item">
+                  <i class="fa fa-file-image-o" aria-hidden="true"></i>
+                  <label>Image</label>
+                </li>
+                <li class="list-group-item">
+                  <i class="fa fa-file-word-o" aria-hidden="true"></i>
+                  <label>Word</label>
+                </li>
+                <li class="list-group-item">
+                  <i class="fa fa-file-excel-o" aria-hidden="true"></i>
+                  <label>Excel</label>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-edit-profile [profile]="profile" (OnCheckViewProfile)="ViewProfile($event)"
+  (OnAboutContent)="ViewAboutContent($event)"></app-edit-profile>

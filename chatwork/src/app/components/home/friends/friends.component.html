@@ -1,0 +1,129 @@
+<!-- Friends  -->
+<div class="container">
+    <!-- Modal Right -->
+    <div class="modal right fade" style=" overflow-y: hidden !important;" id="myModalFriend" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+  
+          <div class="modal-header">
+            <h4 class="modal-weight">Friends</h4>
+  
+            <button type="button" class="btn btn-outline-secondary" style="margin-left: 100px"><i class="fa fa-user-plus"
+                data-toggle="modal" data-target="#Modal-addfriends" aria-hidden="true"></i></button>
+  
+            <button type="button" class="fa fa-times" data-dismiss="modal" aria-label="Close">
+            </button>
+          </div>
+  
+          <div>
+            <input class="search-input" placeholder="Search" type="text">
+          </div>
+  
+          <div class="modal-body">
+            <div><label> 137 Friends </label></div>
+            <div class="list-group-item list-group-item-action list-group-item-light rounded-0">
+              <div class="media"><img src="https://res.cloudinary.com/mhmd/image/upload/v1564960395/avatar_usae7z.svg"
+                  alt="user" width="40" class="rounded-circle">
+                <span></span>
+                <div class="media-body ml-4">
+                  <div class="d-flex align-items-center justify-content-between mb-1">
+                    <h6 class="mb-0">
+                      Thanh Hai
+                    </h6>
+                    <div class="dropdown">
+                      <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        ...
+                      </button>
+                      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="#">New chat</a>
+                        <a class="dropdown-item" href="#">Profile</a>
+                        <a class="dropdown-item" href="#" style="color: red;border-top:1px solid #ddd">Block</a>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="d-flex align-items-center justify-content-between mb-1">
+                    <p class="font-italic text-small">Lorem ipsum dolor sit amet</p>
+                  </div>
+  
+                </div>
+              </div>
+            </div>
+  
+            <div class="list-group-item list-group-item-action list-group-item-light rounded-0">
+              <div class="media"><img src="https://res.cloudinary.com/mhmd/image/upload/v1564960395/avatar_usae7z.svg"
+                  alt="user" width="40" class="rounded-circle">
+                <span></span>
+                <div class="media-body ml-4">
+                  <div class="d-flex align-items-center justify-content-between mb-1">
+                    <h6 class="mb-0">
+                      Thanh Hai
+                    </h6>
+                    <div class="dropdown">
+                      <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        ...
+                      </button>
+                      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="#">New chat</a>
+                        <a class="dropdown-item" href="#">Profile</a>
+                        <a class="dropdown-item" href="#" style="color: red;border-top:1px solid #ddd">Block</a>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="d-flex align-items-center justify-content-between mb-1">
+                    <p class="font-italic text-small">Lorem ipsum dolor sit amet</p>
+                  </div>
+  
+                </div>
+              </div>
+            </div>
+  
+          </div>
+  
+        </div><!-- modal-content -->
+      </div><!-- modal-dialog -->
+    </div><!-- modal -->
+  </div>
+  
+  <!-- Modal Add Friend -->
+  <div class="modal fade" id="Modal-addfriends" tabindex="-1" role="dialog" aria-labelledby="Modal-addfriends"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalCenterTitle">
+            <i class="fa fa-user-plus" aria-hidden="true"></i>Add Friends</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <div class="alert alert-info" role="alert">
+              Send invitations to friends
+            </div>
+  
+            <div class="u-form-group">
+              <span>Email addresses</span>
+              <div class="input-group mb-3">
+                <input type="email" formControlName="group-name" class="form-control" placeholder=''
+                  aria-label="group-name">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="addon-wrapping"><i class="fa fa-smile-o"
+                      aria-hidden="true"></i></span>
+                </div>
+              </div>
+            </div>
+  
+            <div class="u-form-group">
+              <label>Invitation messages</label>
+              <input type="text" class="form-control" style="height: 60px !important; margin-bottom: 10px;">
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+        </div>
+  
+      </div>
+    </div>
+  </div>

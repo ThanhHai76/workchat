@@ -1,4 +1,74 @@
 /* You can add global styles to this file, and also import other style files */
+body {
+  overflow: hidden;
+}
+
 .cursor-pointer {
   cursor: pointer;
+}
+
+.base-color {
+  color: #26a69a;
+}
+
+.base-bg-color {
+  background-color: #26a69a;
+}
+
+.text-gray {
+  color: #696969;
+}
+
+.font-size-small {
+  font-size: 0.8rem;
+}
+
+.font-size-medium {
+  font-size: 1rem;
+}
+
+.font-size-lager {
+  font-size: 1.5rem;
+}
+
+/* PC */
+@media (min-width: 1200px) {
+  body {
+    font-size: 16px;
+  }
+}
+
+/* IPAD Pro */
+@media (max-width: 1199px) {
+  body {
+    font-size: 14px;
+  }
+}
+
+/* IPAD */
+@media (max-width: 1023px) {
+  body {
+    font-size: 12px;
+  }
+}
+
+/* Mobile Big */
+@media (max-width: 767px) {
+  body {
+    font-size: 14px;
+  }
+}
+
+/* Mobile medium */
+@media (max-width: 480px) {
+  body {
+    font-size: 14px;
+  }
+}
+
+/* Mobile small */
+@media (max-width: 350px) {
+  body {
+    font-size: 10px;
+  }
 }

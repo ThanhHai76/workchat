@@ -1,0 +1,91 @@
+<!-- Chat Group -->
+<div class="modal fade" style="overflow-y: hidden !important;" id="ModalCenter-chatgroup" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalCenterTitle">
+                    <i class="fa fa-users" aria-hidden="true"></i> Chat group</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h5>Group name: {{groupname}}</h5>
+                Description: {{description}}
+                <div class="chat-box">
+                    <div #messageThread>
+                        <div *ngFor="let msg of messageChat">
+
+                            <div *ngIf="user.name !== msg.username">
+                                <div class="media w-100 mb-3">
+                                    <img [src]="msg.avatar" alt="user" width="40" height="40" class="rounded-circle">
+                                    <div class="media-body">
+                                        <span class="namemsg">{{msg.username}}</span>
+                                        <div class="bg-light w-50 rounded py-2 px-3 mb-2">
+                                            <p class="text-small mb-0 text-black"> {{msg.message}}</p>
+                                        </div>
+                                        <p class="small text-muted"> {{msg.sendtime | date:'shortTime'}}</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Sender Message-->
+                            <div *ngIf="user.name === msg.username" class="align-right">
+                                <div class="media w-100 mb-3">
+                                    <div class="media-body">
+                                        <span class="namemsg">{{msg.username}} </span>
+                                        <div class="bg-primary w-100 rounded py-2 px-3 mb-2">
+                                            <p class="text-small mb-0 text-black">{{msg.message}}</p>
+                                        </div>
+                                        <p class="small text-muted">{{msg.sendtime | date:'shortTime' }}</p>
+                                    </div>
+                                    <img [src]="user ? user.avatar : ''" alt="user" width="40" height="40"
+                                        class="rounded-circle">
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="u-form-group">
+                    <span>Send messages to group</span>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <div class="btn-group dropup">
+                                <button type="button" (click)="toggleEmojiPicker()"
+                                    class="btn btn-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                                    aria-expanded="false">
+                                    <i class="fa fa-smile-o" aria-hidden="true"> </i>
+                                </button>
+                            </div>
+                        </div>
+                        <emoji-mart [darkMode]="darkMode" class="emoji-mart" set="{{set}}" *ngIf="showEmojiPicker2"
+                            (emojiSelect)="addEmoji($event)" title="Pick your emoji…" emoji="point_up">
+                        </emoji-mart>
+                        <div class="input-group-prepend">
+                            <input #message type="text" class="form-control" placeholder='Write a message'
+                                [(ngModel)]="messageEmoji" aria-label="group-name"
+                                (keyup.enter)="SendMsgToChatGroup(message.value)">
+                        </div>
+                        <div class="input-group-append">
+                            <button class="btn btn-light">
+                                <i class="btn fa fa-paperclip text-center pr-1"></i>
+                            </button>
+                        </div>
+                        <div class="input-group-append">
+                            <button class="btn btn-light">
+                                <i class="fa fa-microphone" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                        <div class="input-group-prepend">
+                            <button type="submit" id="btn-primary" (click)="SendMsgToChatGroup(message.value)"
+                                class="btn">Send</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

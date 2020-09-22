@@ -5,10 +5,14 @@
     </div>
 
     <!-- Tab -->
-    <div class="lb-header">
-      <a class="{{ isLogin ? 'active' : '' }}" id="login-box-link" (click)="changeAction()">Login</a>
-      <a class="{{ !isLogin ? 'active' : '' }}" id="signup-box-link" (click)="changeAction()">Sign Up</a>
-    </div>
+    <ul class="nav nav-tabs" role="tablist">
+      <li class="nav-item">
+        <a class="nav-link active" id="loginTab" data-toggle="tab" href="#tabs-1" role="tab">Login</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab" (click)="errorMsg = null; successMsg = null;">Sign Up</a>
+      </li>
+    </ul>
 
     <!-- Login with social network -->
     <div class="social-login">
@@ -22,74 +26,76 @@
       </a>
     </div>
 
-    <!-- Login form -->
-    <form [formGroup]="loginForm" class="email-login" [hidden]="!isLogin" (ngSubmit)="login()">
-      <!-- Error message -->
-      <div *ngIf="errorMsg" class="alert alert-danger" role="alert">{{errorMsg}}</div>
+    <div class="tab-content">
+      <div class="tab-pane active" id="tabs-1" role="tabpanel">
+        <!-- Login form -->
+        <form [formGroup]="loginForm" class="email-login" (ngSubmit)="login()">
+          <!-- Error message -->
+          <div *ngIf="errorMsg || successMsg" class="alert {{errorMsg? 'alert-danger' : 'alert-success'}}" role="alert">{{errorMsg || successMsg}}</div>
 
-      <div class="u-form-group">
-        <input formControlName="email" type="email" placeholder="Email" id="login_email" />
-        <div *ngIf="formLoginControls.email.errors" class="row help-block ml-2">
-          <div *ngIf="formLoginControls.email.errors.required">Email is required &</div>
-          <div class="ml-1" *ngIf="formLoginControls.email.invalid">Invalid email address</div>        
-        </div>
-      </div>
-      <div class="u-form-group">
-        <input formControlName="password" type="password" placeholder="Password" id="login-pass" />
-        <div *ngIf="formLoginControls.password.errors" class="row help-block ml-2">
-          <div *ngIf="formLoginControls.password.errors.required">Password is required &</div>
-          <div class="ml-1" *ngIf="formLoginControls.password.invalid">Least 8 alphanumeric characters
+          <div class="u-form-group">
+            <input formControlName="email" type="email" placeholder="Email" id="login_email" name="email"/>
+            <div *ngIf="formLoginControls.email.errors && (formLoginControls.email.dirty || formLoginControls.email.touched)" class="help-block">
+              <div *ngIf="formLoginControls.email.errors.required">This field is required</div>
+              <div *ngIf="formLoginControls.email.errors.email">Invalid email address</div>
+            </div>
           </div>
-        </div>
-      </div>
-      <div class="u-form-group">
-        <button [disabled]="!loginForm.valid" type="submit" class="btn btn-success">Log in</button>
-      </div>
-      <div class="u-form-group">
-        <a [routerLink]="['/reset-password']" class="forgot-password">Forgot password?</a>
-      </div>
-    </form>
-
-    <!-- Sign Up form -->
-    <form [formGroup]="signUpForm" class="email-signup" [hidden]="isLogin" (ngSubmit)="signUp()">
-      <!-- Error message -->
-      <div *ngIf="errorMsg" class="alert alert-danger" role="alert">{{errorMsg}}</div>
-      <div *ngIf="successMsg" class="alert alert-info" role="alert">
-        {{ successMsg }}
-      </div>
-
-      <div class="u-form-group">
-        <input formControlName="name" type="text" placeholder="Username" />
-        <div *ngIf="formSignUpControls.name.errors" class="row help-block ml-2">
-          <div *ngIf="formSignUpControls.name.errors.required">
-            Username is required &
+          <div class="u-form-group">
+            <input formControlName="password" type="password" placeholder="Password" id="login-pass"/>
+            <div *ngIf="formLoginControls.password.errors && (formLoginControls.password.dirty || formLoginControls.password.touched)" class="help-block">
+              <div *ngIf="formLoginControls.password.errors.required">This field is required</div>
+            </div>
           </div>
-          <div class="ml-1" *ngIf="formSignUpControls.name.invalid">Least 6 characters</div>
-        </div>
+          <div class="u-form-group">
+            <button type="submit" class="btn btn-success">Log in</button>
+          </div>
+          <div class="u-form-group">
+            <a [routerLink]="['/reset-password']" class="forgot-password">Forgot password?</a>
+          </div>
+        </form>
       </div>
 
-      <div class="u-form-group">
-        <input formControlName="email" type="email" placeholder="Email" />
-        <div *ngIf="formSignUpControls.email.errors" class="row help-block ml-2">
-          <div *ngIf="formSignUpControls.email.errors.required">Email is required &</div>
-          <div class="ml-1" *ngIf="formSignUpControls.email.invalid">Invalid email address</div>        
-        </div>
-      </div>
-      <div class="u-form-group">
-        <input formControlName="password" type="password" placeholder="Password" />
-        <div *ngIf="formSignUpControls.password.errors" class="row help-block ml-2">
-          <div *ngIf="formSignUpControls.password.errors.required">Password is required &</div>
-          <div class="ml-1" *ngIf="formSignUpControls.password.invalid">Least 8 alphanumeric characters
+      <div class="tab-pane" id="tabs-2" role="tabpanel">
+        <!-- Sign Up form -->
+        <form [formGroup]="signUpForm" class="email-signup" (ngSubmit)="signUp()">
+          <!-- Error message -->
+          <div *ngIf="errorMsg || successMsg" class="alert {{errorMsg? 'alert-danger' : 'alert-success'}}" role="alert">{{errorMsg || successMsg}}</div>
+
+          <div class="u-form-group">
+            <input formControlName="name" type="text" placeholder="Username" />
+            <div *ngIf="formSignUpControls.name.errors && (formSignUpControls.email.dirty || formSignUpControls.name.touched)" class="help-block">
+              <div *ngIf="formSignUpControls.name.errors.required">This field is required</div>
+              <div *ngIf="formSignUpControls.name.errors.name">Invalid username</div>
+            </div>
           </div>
-        </div>
+          <div class="u-form-group">
+            <input formControlName="email" type="email" placeholder="Email" />
+            <div *ngIf="formSignUpControls.email.errors && (formSignUpControls.email.dirty || formSignUpControls.email.touched)" class="help-block">
+              <div *ngIf="formSignUpControls.email.errors.required">This field is required</div>
+              <div *ngIf="formSignUpControls.email.errors.email">Invalid email address</div>
+            </div>
+          </div>
+          <div class="u-form-group">
+            <input formControlName="password" type="password" placeholder="Password" minlength="8"/>
+            <div *ngIf="formSignUpControls.password.errors && (formSignUpControls.password.dirty || formSignUpControls.password.touched)" class="help-block">
+              <div *ngIf="formSignUpControls.password.errors.required">This field is required</div>
+              <div *ngIf="formSignUpControls.password.errors.minlength">Password requires at least 8 alphanumeric
+                characters
+              </div>
+            </div>
+          </div>
+          <div class="u-form-group">
+            <input formControlName="confirm" type="password" placeholder="Confirm Password"/>
+            <div *ngIf="signUpForm.hasError('notSame') && (formSignUpControls.confirm.dirty || formSignUpControls.confirm.touched)" class="help-block">
+              <div>The comfirm password not match!</div>
+            </div>
+          </div>
+          <div class="u-form-group">
+            <button type="submit" class="btn btn-success">Sign Up</button>
+          </div>
+        </form>
       </div>
-      <div class="u-form-group">
-        <input formControlName="confirm" type="password" placeholder="Confirm Password" />
-      </div>
-      <div class="u-form-group">
-        <button [disabled]="!signUpForm.valid" type="submit" class="btn btn-success">Sign Up</button>
-      </div>
-    </form>
+    </div>
 
   </div>
 </div>

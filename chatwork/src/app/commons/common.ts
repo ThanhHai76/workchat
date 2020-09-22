@@ -10,6 +10,7 @@ export class Common {
 
   public static KEYS = {
     token: 'token',
+    refreshToken: 'refreshToken',
     name: 'name',
     email: 'email',
     password: 'password',
@@ -20,17 +21,15 @@ export class Common {
   public static API = {
     login: '/api/login',
     signup: '/api/signup',
-    userList: '/api/userList',
+    userList: '/api/user',
     facebookLogin: '/api/social-signin/facebook',
     googleLogin: '/api/social-signin/google',
     logout: '/api/logout',
-    //------------------------
+    refreshToken: '/api/refreshToken',
     profile: '/api/profile',
     update: '/api/update',
-    updateSocialUser: '/api/updateSocialUser',
     updateSocialLink: '/api/updateSocialLink',
     upload: '/api/upload',
-    getAvatar:'/api/getAvatar',
-    getMsg: '/api/getMessages',
+    getMsg: '/api/getMessages'
   };
 }

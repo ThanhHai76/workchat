@@ -10,11 +10,11 @@ exports.isAuthenticated = function (req, res, next) {
         const jwtToken = req.headers.authorization.split(' ')[1];
         jwt.verify(jwtToken, config.jwtSecret, function (err, payload) {
             if (err) {
-                res.status(401).json({ message: 'Unauthorized user!' });
+                res.status(401).json({ message: err });
             } else {
                 // find
                 Users.findOne({
-                    'email': payload.email,
+                    'email': payload.data.email,
                     'token': jwtToken
                 }, function (err, user) {
                     if (user) {

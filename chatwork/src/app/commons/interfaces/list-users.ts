@@ -2,6 +2,7 @@ export interface ListUsers {
   _id: string;
   name: string;
   avatar: string;
+  status: string;
   about: string;
   email: string;
   date_of_birth: string;
@@ -9,12 +10,9 @@ export interface ListUsers {
   phone: string;
   address: string;
   website: string;
-  status: string;
   
   senderId: string;
   receiverId: string;
-  newestMessage: string;
-  sendtime: number;
   selectedUser: string;
 }
 
