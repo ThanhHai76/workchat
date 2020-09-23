@@ -1,5 +1,5 @@
 // Import Users model
-Users = require("../models/users");
+const Users = require("../models/users");
 const config = require("../config/config");
 const jwt = require("jsonwebtoken");
 const mail = require("../config/mail");
@@ -196,6 +196,7 @@ exports.login = function (req, res) {
 
 // SignUp
 exports.signup = function (req, res) {
+  console.log(req.body.password);
   if (!req.body.email) {
     res.status(500).send(err);
   }
