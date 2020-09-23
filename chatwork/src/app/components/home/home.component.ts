@@ -9,6 +9,7 @@ import { Subject } from 'rxjs';
 })
 export class HomeComponent implements OnInit, OnDestroy {
 
+  testmerge: string;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor() { }
