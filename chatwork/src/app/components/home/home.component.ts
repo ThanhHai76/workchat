@@ -8,8 +8,6 @@ import { Subject } from 'rxjs';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit, OnDestroy {
-  profilemerge: string;
-  testmerge: string;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor() { }
